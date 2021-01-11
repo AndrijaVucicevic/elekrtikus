@@ -41,32 +41,82 @@ class IndexModels
             ->orderBy('subcategory_id','asc')
             ->get();
     }
-    public function trending($cat)
+    public function trending($cat,$col)
     {
         $promotion=1;
         $end=time()+150;
-        return DB::table('oglas')
-            ->select('id_oglas','name','price','src','title','alt','currency')
-            ->distinct()
-            ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
-            ->join('picture','oglas.id_oglas','=','picture.oglas_id')
-            ->join('ppk','ppk_id','=','ppk.id_ppk')
-            ->join('subcategory','subcategory_id','=','subcategory.id_subcategory')
-            ->join('category','category_id','=','category.id_category')
-            ->where([
-                [
-                    'name_category',$cat
-                ],
-                [
-                    'promotion',$promotion
-                ],
-                [
-                    'end_one','>',$end
-                ]
+        if($cat=='naziv')
+        {
+            $data= DB::table('oglas')
+                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt', 'currency')
+                ->distinct()
+                ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
+                ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
+                ->join('ppk', 'ppk_id', '=', 'ppk.id_ppk')
+                ->join('subcategory', 'subcategory_id', '=', 'subcategory.id_subcategory')
+                ->join('category', 'category_id', '=', 'category.id_category')
+                ->where([
+                    [
+                        'promotion', $promotion
+                    ],
+                    [
+                        'end_one', '>', $end
+                    ]
 
-            ])
-            ->get();
+                ])
+                ->get();
+        }
+        if($cat!='naziv' && $col=='shop') {
 
+            $data= DB::table('oglas')
+                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt', 'currency')
+                ->distinct()
+                ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
+                ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
+                ->join('ppk', 'ppk_id', '=', 'ppk.id_ppk')
+                ->join('subcategory', 'subcategory_id', '=', 'subcategory.id_subcategory')
+                ->join('category', 'category_id', '=', 'category.id_category')
+                ->where([
+                    [
+                    'name_ppk', $cat
+                    ],
+                    [
+                        'promotion', $promotion
+                    ],
+                    [
+                        'end_one', '>', $end
+                    ]
+
+                ])
+                ->get();
+
+        }
+        if($cat!='naziv' && $col!='shop')
+        {
+            $data= DB::table('oglas')
+                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt', 'currency')
+                ->distinct()
+                ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
+                ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
+                ->join('ppk', 'ppk_id', '=', 'ppk.id_ppk')
+                ->join('subcategory', 'subcategory_id', '=', 'subcategory.id_subcategory')
+                ->join('category', 'category_id', '=', 'category.id_category')
+                ->where([
+                    [
+                        'name_category', $cat
+                    ],
+                    [
+                        'promotion', $promotion
+                    ],
+                    [
+                        'end_one', '>', $end
+                    ]
+
+                ])
+                ->get();
+        }
+
+        return $data;
     }
 
     public function hot()

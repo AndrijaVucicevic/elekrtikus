@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
             $categories=$this->model->category();
             $subcategories=$this->model->subcategory();
             $ppk=$this->model->ppk();
-            $trendingProducts=$this->model->trending($cat='naziv');
+            $trendingProducts=$this->model->trending($cat='naziv',$col='');
             $hotItem=$this->model->hot();
             $blog=$this->model->blog();
             $take=3;
@@ -49,7 +49,7 @@ use Illuminate\Http\Request;
 
     $category=explode('#',$request->category);
 //dd($request->category);
-    $trendingProducts=$this->model->trending($category[1]);
+    $trendingProducts=$this->model->trending($category[1],$col='');
 
     if(count($trendingProducts)>0) {
         return view('ajax.trending_ajax', [

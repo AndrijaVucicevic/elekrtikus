@@ -189,9 +189,9 @@
 
                       {{--  @include('inc.productShop') --}}
                         @if(isset($products))
-                            @foreach($products as $item)
+                            @foreach($products as $pr)
 
-                                @shop(['product'=>$item])@endshop
+                                @shop(['product'=>$pr])@endshop
 
                             @endforeach
                         @endif

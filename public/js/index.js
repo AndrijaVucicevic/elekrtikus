@@ -51,10 +51,16 @@ window.onload=function(){
 
 
 
-$("#myTab .trending_cat a").on('click',function (e) {
+$("#myTab .nav-item a").on('click',function (e) {
     e.preventDefault();
 
-    var tab=$(this).attr('href');
+    var href=$(this).attr('href');
+
+    var string=href.split('_');
+
+
+
+console.log(string[0]);
 
 //alert(tab);
     //ajax change category trending
@@ -64,18 +70,26 @@ $("#myTab .trending_cat a").on('click',function (e) {
         method:'POST',
         data:{
             _token: csrf,
-            category:tab,
+            category:string[0],
             send:true
         },
         success:function (data) {
             //
             //alert('ok');
             if(data!=404) {
+
+                if (string[1]=='second')
+                {
+
+                    $("#trending_change_second").html(data);
+                }
+                else{
                 $("#trending_change").html(data);
-//error
+ }
             }
 
-
+//error
+//
             if (data == 404) {
                 $("#modalBody-alert").html('Doslo je do greske');
 

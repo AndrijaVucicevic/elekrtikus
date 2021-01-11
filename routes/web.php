@@ -34,7 +34,7 @@ Route::post('/subcategory',[IndexController::class, 'search_subcategory']);
 
 
 
-Route::get('/shop/{category}',[ShopController::class,'index'])->name('store');
+Route::get('/shop',[ShopController::class,'index'])->name('store');
 Route::post('/shop/{category}',[ShopController::class,'index']);
 
 Route::post('/change_price_filter',[ShopController::class,'change_price_filter']);

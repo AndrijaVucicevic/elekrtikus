@@ -24,10 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::component('inc.productArea', 'trending');
-        Blade::component('inc.mostPopular', 'hot');
-        Blade::component('inc.blog', 'blog');
-        Blade::component('inc.shopHomeList', 'advert');
-        Blade::component('inc.productShop', 'shop');
+        Blade::aliasComponent('inc.productArea', 'trending');
+        Blade::aliasComponent('inc.mostPopular', 'hot');
+        Blade::aliasComponent('inc.productShop', 'shop');
+        Blade::aliasComponent('inc.shopHomeList', 'advert');
+        Blade::aliasComponent('inc.blog', 'blog');
     }
 }

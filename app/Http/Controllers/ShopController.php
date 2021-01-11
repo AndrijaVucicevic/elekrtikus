@@ -25,13 +25,13 @@ class ShopController extends Controller
     }
 
 
-    public function index($category, Request $request)
+    public function index(Request $request)
     {
 
 //dd($request);
-        $cat = $category;
-
-        $hotItemCategory = $this->model1->trending($cat);
+        //$cat = $category;
+        $cat = $request->get('category');
+        $hotItemCategory = $this->model1->trending($cat,$col='shop');
         $products = $this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search);
         $categoryList = $this->model1->subcategory();
         $ppk = $this->model1->ppk();
