@@ -1,0 +1,262 @@
+@extends('layout.index')
+
+@section('content')
+<style>
+    .subcategory_list{
+        display:none;
+    }
+
+
+</style>
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="bread-inner">
+                        <ul class="bread-list">
+                            <li><a href="{{route('welcome')}}">Home<i class="ti-arrow-right"></i></a></li>
+                            <li class="active"><a href="blog-single.html">Shop Grid</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Start Most Popular -->
+    <div class="product-area most-popular section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <h2>Hot Item</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+
+                        <!-- Start Single Product most popular -->
+
+                        <!-- most popular kategorije te i te
+                       -->
+
+
+
+                        @if(isset($hotItem))
+                            @foreach($hotItem as $item)
+
+                                @hot(['product'=>$item])@endhot
+
+                        @endforeach
+                    @endif
+
+
+                    <!-- End Single Product -->
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+    <!-- End Most Popular Area -->
+
+
+    <!-- Product Style -->
+
+    <section class="product-area shop-sidebar shop section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-12">
+                    <div class="shop-sidebar">
+                        <!-- Single Widget -->
+                        <div class="single-widget category">
+                            <h3 class="title">Categories</h3>
+                            <ul class="categor-list" id="categoryShopList">
+
+                                @if(isset($categoryList))
+                                @for($i=0;$i<count($categoryList);$i++)
+
+                                        <li class="category_list_shop collapsible" data-target="{{$categoryList[$i]->subcategory_name}}">{{$categoryList[$i]->subcategory_name}}
+                                            <ul class="subcategory_list">
+                                      @for($a=0;$a<count($ppk);$a++)
+
+@if($ppk[$a]->subcategory_id==$categoryList[$i]->id_subcategory)
+
+                                                        <li id="list_{{$ppk[$a]->name_ppk}}">{{$ppk[$a]->name_ppk}}</li>
+
+                                                    @endif
+
+
+
+                                       @endfor
+                                            </ul>
+                                        </li>
+                                    @endfor
+
+                                 @endif
+
+
+
+                            </ul>
+                        </div>
+                        <!--/ End Single Widget -->
+
+                        <!-- Shop By Price -->
+                        <div class="single-widget range">
+                            <h3 class="title">Shop by Price</h3>
+                            <div class="price-filter">
+<input type="number" id="min_price_filter" name="min_price_filter" min="1" value="1" placeholder="Min"  max="1000000"/>
+                                <input type="number" id="max_price_filter" min="2" value="100000" placeholder="Max" name="max_price_filter"  max="1000000"/>
+
+                      <button id="priceBtn" name="priceBtn"><i class='fas fa-arrow-right'></i> </button>
+                                <!-- show number of products -->
+
+                                    <p>Broj proizvoda: <span id="demo"></span></p>
+
+
+                            </div>
+                            <ul class="check-box-list">
+                                <li>
+                                    <label class="checkbox-inline" for="1"><input name="news" id="1" type="checkbox">$20 - $50<span class="count">(3)</span></label>
+                                </li>
+                                <li>
+                                    <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">$50 - $100<span class="count">(5)</span></label>
+                                </li>
+                                <li>
+                                    <label class="checkbox-inline" for="3"><input name="news" id="3" type="checkbox">$100 - $250<span class="count">(8)</span></label>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--/ End Shop By Price -->
+                        <!-- Single Widget -->
+                        <div class="single-widget recent-post">
+                            <h3 class="title">Recent post</h3>
+
+                            @include('inc.recentPost')
+
+
+                        </div>
+                        <!--/ End Single Widget -->
+
+                    </div>
+                </div>
+
+                <div class="col-lg-9 col-md-8 col-12">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <!-- Shop Top -->
+                            <div class="shop-top">
+                                <div class="shop-shorter">
+                                    <div class="single-shorter">
+                                        <label>Show :</label>
+                                        <select id="select_take">
+                                            <option>09</option>
+                                            <option value="15">15</option>
+                                            <option value="21">21</option>
+                                            <option value="30">30</option>
+                                        </select>
+                                    </div>
+                                    <div class="single-shorter">
+                                        <label>Sort By :</label>
+                                        <select id="select_sort">
+                                            <option selected="selected">Name</option>
+                                            <option>Price</option>
+                                            <option>Size</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <ul class="view-mode">
+                                    <li class="active"><a href="shop-grid.html"><i class="fa fa-th-large"></i></a></li>
+                                    <li><a href="shop-list.html"><i class="fa fa-th-list"></i></a></li>
+                                </ul>
+                            </div>
+                            <!--/ End Shop Top -->
+                        </div>
+
+                    </div>
+
+                    <div class="row" id="products_rowShop">
+
+                      {{--  @include('inc.productShop') --}}
+                        @if(isset($products))
+                            @foreach($products as $item)
+
+                                @shop(['product'=>$item])@endshop
+
+                            @endforeach
+                        @endif
+
+                    </div>
+                    <div class="shop-top">
+                        <div class="shop-shorter">
+
+
+                        </div>
+                        <ul class="view-mode" id="pagination_view">
+
+@if(isset($pages))
+
+
+
+
+                                <li><span class="previous">Page: </span></li>
+                                <li class="active pagination_click" value="-1">Sponzorisani</li>
+
+
+                                @if($pages>6)
+
+                                    <li value="0" class="pagination_click">1</li>
+                                    <li value="1" class="pagination_click">2</li>
+                                    <li value="2" class="pagination_click">3</li>
+
+                                    <li>&nbsp&nbsp...&nbsp&nbsp</li>
+                                    <li value="{{($pages-1)}}" class="pagination_click">{{$pages}}</li>
+
+
+
+
+                                    <li value="1" class="pagination_click">Next</li>
+                                @endif
+                                @if($pages<6)
+
+                                    @for($i=1;$i<=$pages;$i++)
+
+                                        <li value="{{($i-1)}}" class="pagination_click">{{$i}}</li>
+                                    @endfor
+                                @endif
+
+
+                            @endif
+
+                        </ul>
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+<script src="{{asset('js/shop.js')}}" type="text/javascript"></script>
+
+@endsection
