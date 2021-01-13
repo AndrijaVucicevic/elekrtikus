@@ -5112,5 +5112,12 @@ input[type=number]::-webkit-outer-spin-button {
 	border-color: red;
 	color: red;
 }
+.active_page{
+	color:#F7941D;
+}
+.product-price span{
+    color:#F7941D;
+}
+.shop-shorter .sort_products{
 
-
+}

@@ -35,13 +35,16 @@ Route::post('/subcategory',[IndexController::class, 'search_subcategory']);
 
 
 Route::get('/shop',[ShopController::class,'index'])->name('store');
-Route::post('/shop/{category}',[ShopController::class,'index']);
+//Route::post('/shop/{category}',[ShopController::class,'index']);
 
 Route::post('/change_price_filter',[ShopController::class,'change_price_filter']);
 Route::post('/price_filter_shop',[ShopController::class,'price_filter_shop']);
 
 Route::post('/pagination',[ShopController::class,'pagination']);
 Route::post('/new_page',[ShopController::class,'new_page']);
+Route::post('/sponsored_category',[ShopController::class,'sponsored']);
+
+
 
 
 Route::get('/registracija',function (){

@@ -91,7 +91,7 @@
 
 @if($ppk[$a]->subcategory_id==$categoryList[$i]->id_subcategory)
 
-                                                        <li id="list_{{$ppk[$a]->name_ppk}}">{{$ppk[$a]->name_ppk}}</li>
+                                                        <li id="list_http://localhost/elektrikus/public/shop?{{$categoryList[$i]->subcategory_name}}&category={{$ppk[$a]->name_ppk}}">{{$ppk[$a]->name_ppk}}</li>
 
                                                     @endif
 
@@ -159,19 +159,20 @@
                                 <div class="shop-shorter">
                                     <div class="single-shorter">
                                         <label>Show :</label>
-                                        <select id="select_take">
-                                            <option>09</option>
-                                            <option value="15">15</option>
-                                            <option value="21">21</option>
-                                            <option value="30">30</option>
+                                        <select id="ddl_take" class="show_take">
+                                            <option value="t_2">2</option>
+                                            <option value="t_3">3</option>
+                                            <option value="t_21">21</option>
+                                            <option value="t_30">30</option>
                                         </select>
                                     </div>
                                     <div class="single-shorter">
                                         <label>Sort By :</label>
-                                        <select id="select_sort">
-                                            <option selected="selected">Name</option>
-                                            <option>Price</option>
-                                            <option>Size</option>
+                                        <select id="ddl_sort" class="sort_products">
+                                            <option value="s_0">Najnoviji</option>
+                                            <option value="s_1">Najstariji</option>
+                                            <option value="s_2">Cena-najjeftiniji</option>
+                                            <option value="s_3">Cena-najskuplji</option>
                                         </select>
                                     </div>
                                 </div>
@@ -200,22 +201,21 @@
                     <div class="shop-top">
                         <div class="shop-shorter">
 
-
+                            <i class='fas fa-bullhorn' style="cursor: pointer;">Sponzorisani</i>
                         </div>
                         <ul class="view-mode" id="pagination_view">
 
 @if(isset($pages))
-
+<!-- active i or page 1-->
 
 
 
                                 <li><span class="previous">Page: </span></li>
-                                <li class="active pagination_click" value="-1">Sponzorisani</li>
+                                <li value="0" class="pagination_click active_page">1</li>
 
 
                                 @if($pages>6)
 
-                                    <li value="0" class="pagination_click">1</li>
                                     <li value="1" class="pagination_click">2</li>
                                     <li value="2" class="pagination_click">3</li>
 
@@ -229,9 +229,10 @@
                                 @endif
                                 @if($pages<6)
 
-                                    @for($i=1;$i<=$pages;$i++)
+                                    @for($i=2;$i<=$pages;$i++)
 
                                         <li value="{{($i-1)}}" class="pagination_click">{{$i}}</li>
+
                                     @endfor
                                 @endif
 

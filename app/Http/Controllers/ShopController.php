@@ -11,7 +11,7 @@ class ShopController extends Controller
     private $model;
     private $model1;
    private $start=0;
-   private $take=9;
+   private $take=2;
    private $min=null;
    private $max=null;
    private $search=null;
@@ -31,11 +31,17 @@ class ShopController extends Controller
 //dd($request);
         //$cat = $category;
         $cat = $request->get('category');
+      //first in main plan
         $hotItemCategory = $this->model1->trending($cat,$col='shop');
-        $products = $this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search);
+        $sort=$this->sorted($sort='default');
+        $products = $this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort);
+        //first sponsored iphone
+
         $categoryList = $this->model1->subcategory();
         $ppk = $this->model1->ppk();
-        $number_page=$this->model->pages($this->start,$this->take,$cat,$this->min,$this->max,$this->search);
+        $count_product=$this->model->pages($cat,$this->min,$this->max,$this->search);
+       //number_pages/take
+        $pages=ceil($count_product/$this->take);
         if (isset($request->change)) {
            // dd($request->change);
             //ajax
@@ -51,7 +57,7 @@ class ShopController extends Controller
                     'products' => $products,
                     'categoryList' => $categoryList,
                     'ppk' => $ppk,
-                    "pages"=>$number_page
+                    "pages"=>$pages
 
                 ]);
 
@@ -66,7 +72,7 @@ class ShopController extends Controller
 
 
         $count=$this->model->countAds($this->min,$this->max,$cat,$this->search);
-
+//dd($count);
         if (!$count>0)
         {
             $count=404;
@@ -84,8 +90,9 @@ return($count);
 $this->start=$request->start;
 $this->take=$request->take;
 
+$sort=$this->sorted($sort='default');
 
-        $products=$this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search);
+        $products=$this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort);
 
 //dd(count($products));
 
@@ -102,11 +109,22 @@ public function pagination(Request $request)
     $this->start=$request->start;
     $this->take=$request->take;
 
-    $number_page=$this->model->pages($this->start,$this->take,$cat,$this->min,$this->max,$this->search);
+    if(strpos($cat,'#'))
+    {
+        $string=explode('#',$cat);
+        $cat=$string[0];
+
+    }
+
+
+    $number_page=$this->model->pages($cat,$this->min,$this->max,$this->search);
 
     if(!$number_page>0)
     {
         $number_page=404;
+    }
+    else{
+        $number_page=ceil($number_page/$request->take);
     }
 
 return ($number_page);
@@ -121,17 +139,67 @@ public function new_page(Request $request)
     $this->take=$request->take;
 
 
+if(strpos($cat,'#'))
+{
+    $string=explode('#',$cat);
+    $cat=$string[0];
+    //dd($cat);
+}
+$sort=$this->sorted($request->sort);
 
-    $products=$this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search);
+    $products=$this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort);
 
-//dd(count($products));
+//dd($products);
 
     return  count($products)>0 ?  view('ajax.shop_ajax', ["products" => $products]) : ($data=404) ;
 
 
 }
 
+public function sponsored(Request $request)
+{
+
+    $cat=$request->category;
+
+    if(strpos($cat,'#'))
+    {
+        $string=explode('#',$cat);
+        $cat=$string[0];
+
+    }
+
+    $products = $this->model1->trending($cat,$col='shop');
+
+    return  count($products)>0 ?  view('ajax.shop_ajax', ["products" => $products]) : ($data=404) ;
+}
 
 
+public function sorted($sort)
+{
+    $sorted=[];
+    switch ($sort)
+    {
+        case 0:
+            array_push($sorted,'id_oglas');
+            array_push($sorted,'desc');
+            break;
+        case 1:
+            array_push($sorted,'id_oglas');
+            array_push($sorted,'asc');
+            break;
+        case 2:
+            array_push($sorted,'price');
+            array_push($sorted,'asc');
+            break;
+        case 3:
+            array_push($sorted,'price');
+            array_push($sorted,'desc');
+            break;
+        default:
+            array_push($sorted,'id_oglas');
+            array_push($sorted,'desc');
+    }
+    return $sorted;
+}
 
 }

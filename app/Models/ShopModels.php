@@ -16,8 +16,9 @@ class ShopModels
 
 
 
-public function oglasi($start,$take,$cat,$min,$max,$search)
+public function oglasi($start,$take,$cat,$min,$max,$search,$sort)
 {
+    //dd($sort[0]);
     $data='';
     if($max!=null && $min!=null && $search!=null)
     {
@@ -28,7 +29,7 @@ public function oglasi($start,$take,$cat,$min,$max,$search)
         $data= DB::table('oglas')
             ->select('id_oglas','name','price','src','title','alt','currency')
             ->distinct()
-            ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
+            //->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
             ->join('picture','oglas.id_oglas','=','picture.oglas_id')
             ->join('ppk','ppk_id','=','ppk.id_ppk')
             //  ->join('subcategory','subcategory_id','=','subcategory.id_subcategory')
@@ -47,6 +48,7 @@ public function oglasi($start,$take,$cat,$min,$max,$search)
             ])
             ->offset($start)
             ->limit($take)
+            ->orderBy($sort[0],$sort[1])
             ->get();
     }
     if ($max==null || $min==null && $search!=null)
@@ -72,6 +74,7 @@ public function oglasi($start,$take,$cat,$min,$max,$search)
             ])
             ->offset($start)
             ->limit($take)
+           ->orderBy($sort[0],$sort[1])
             ->get();
     }
 
@@ -81,7 +84,7 @@ public function oglasi($start,$take,$cat,$min,$max,$search)
 
 
 }
-public function pages($start,$take,$cat,$min,$max,$search)
+public function pages($cat,$min,$max,$search)
 {
     $pages='';
     if($max!=null && $min!=null && $search!=null)
@@ -118,8 +121,7 @@ public function pages($start,$take,$cat,$min,$max,$search)
                 ]
 
             ])
-            ->offset($start)
-            ->limit($take)
+
             ->count();
 
 
@@ -141,8 +143,7 @@ public function pages($start,$take,$cat,$min,$max,$search)
                     ]
 
                 ])
-                ->offset($start)
-                ->limit($take)
+
                 ->count();
 
 
@@ -172,6 +173,8 @@ public function countAds($min,$max,$cat,$search)
         ])
     ->count();
 }
+
+
 
 
 }

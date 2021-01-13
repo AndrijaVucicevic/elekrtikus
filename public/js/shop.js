@@ -7,6 +7,30 @@ $("input[type=number]").on("focus", function() {
     });
 });
 
+
+//sort
+$(document).on('click','.nice-select ul li',function(e)
+{
+
+let string=this.getAttribute('data-value').split('_');
+var page=0;
+
+    string[0]=='s' ?   page=0 :   page=$("#pagination_view .active_page").val();
+    let route='new_page';
+
+    //console.log(page);
+    string[0]=='s'? getAds(route,page,this.getAttribute('data-value'),'take'):getAds(route,page,'sort',this.getAttribute('data-value'));
+
+
+});
+
+//show on page
+
+
+
+
+
+
 $("#min_price_filter").on('blur',function (e) {
     var min=this.value;
     var reMin=/^[1-9][0-9]+$/;
@@ -42,8 +66,10 @@ $("#categoryShopList li").on('click',function (e) {
     else{
         //console.log(this);
         var category=this.id.split("_");
-
-        $.ajax({
+        if(location.href!=category[1]) {
+            window.location.href = category[1];
+        }
+/*       $.ajax({
             url:base_Url+"shop/"+category[1],
             method:'post',
             data:{
@@ -78,7 +104,7 @@ $("#categoryShopList li").on('click',function (e) {
 
 
         });
-
+*/
 
 
 
@@ -108,8 +134,8 @@ function changePriceSlider() {
 
     var href=location.href;
 
-    var category=href.split(base_Url+'shop/');
-   // console.log(category[1]);
+    var category=href.split('=');
+  //  console.log(category[1]);
     if(min<max && min>=0 && max>0 && min!=null && max!=null && min!='' && max!='') {
 
 
@@ -170,8 +196,8 @@ $("#priceBtn").on('click',function (e) {
         //alert('a');
 
         let route='price_filter_shop';
-        let page=null;
-        getAds(route,page);
+        let page=0;
+        getAds(route,page,'sort','take');
     }
     else{
         //
@@ -188,30 +214,50 @@ $(document).on('click','.pagination_click',function (e) {
 
 var route='new_page';
 let page=this.value;
-getAds(route,page);
+getAds(route,page,'sort','take');
 
 
 });
 //get ads
-function getAds(route,page) {
+function getAds(route,page,sortt,takee) {
 
     var rout=route;
+
     var start=parseInt(page);
+
     var new_page=parseInt(page);
+  //  var take = document.getElementById("ddl_take").value.split('_');
+if(sortt=='sort')
+{
+    var sort = document.getElementById("ddl_sort").value.split('_');
+}
+else{
+     var sort=sortt.split('_');
+}
+if(takee=='take')
+{
+      var take = document.getElementById("ddl_take").value.split('_');
+}
+else{
+    var take=takee.split('_');
+}
+
+
+
+
     if(start!=-1)
     {
-        start=start*9;
+        start=start*parseInt(take[1]);
     }
-
+    //console.log(start);
     var max=parseInt($("#max_price_filter").val());
     var min=parseInt($("#min_price_filter").val());
 
     var href=location.href;
 
-    var category=href.split(base_Url+'shop/');
-    var take = document.getElementById("select_take").value;
-    //console.log(take);
-    var sort = document.getElementById("select_sort").value;
+    var category=href.split('=');
+
+
 
     //alert('a');
     $.ajax({
@@ -223,8 +269,8 @@ function getAds(route,page) {
             max: max,
             cat: category[1],
             start:start,
-            take:take,
-            sort:sort,
+            take:take[1],
+            sort:sort[1],
             send: true
         },
         success: function (data) {
@@ -234,6 +280,7 @@ function getAds(route,page) {
                 //console.log(data);
                 getPagination(new_page);
 
+                $(".fa-bullhorn").removeClass('active_page');
                 $("#products_rowShop").html(data);
 
             }
@@ -267,13 +314,16 @@ function getPagination(new_page)
 
     var href=location.href;
 
-    var category=href.split(base_Url+'shop/');
+    var category=href.split('=');
 
 
-    var take = document.getElementById("select_take").value;
-    var sort = document.getElementById("select_sort").value;
 
-    var strr=new_page;
+    var take = document.getElementById("ddl_take").value.split('_');
+    var sort = document.getElementById("ddl_sort").value.split('_');
+
+    var strr=parseInt(new_page);
+
+  //  console.log(new_page);
 
     $.ajax({
         url: base_Url + 'pagination',
@@ -283,27 +333,26 @@ function getPagination(new_page)
             min: min,
             max: max,
             cat:category[1],
-            take:take,
-            sort:sort,
+            take:take[1],
+            sort:sort[1],
             send: true
         },
         success: function (data1) {
 
 
             if (data1!=404) {
-var novaPaginacinja='';
 
-                 novaPaginacinja='<li><span class="previous">Page: </span></li>';
+                $('.pagination_click').removeClass('active_page');
 
-                if(strr!=-1) {
-                    novaPaginacinja+='<li value="-1" class="pagination_click"  >Sponzorisani</li>' ;
-                }
+                var novaPaginacinja='<li><span class="previous">Page: </span></li>';
+
+
 
                 if (data1>6)
                 {
                     if (strr==-1)
                     {
-                        novaPaginacinja+='<li class="active pagination_click" value="-1" >Sponzorisani</li>';
+
                         novaPaginacinja+='<li value="0" class="pagination_click"    >1</li>';
                         novaPaginacinja+='<li value="1" class="pagination_click"    >2</li>';
                         novaPaginacinja+='<li value="2" class="pagination_click"    >3</li>';
@@ -316,7 +365,7 @@ var novaPaginacinja='';
                     if (strr==0)
                     {
                         // alert("1")
-                        novaPaginacinja+='<li class="active pagination_click" value="0">1</li>';
+                        novaPaginacinja+='<li class="active_page pagination_click" value="0">1</li>';
                         for (let str=2;str<=(strr+3);str++)
                         {
                             novaPaginacinja+='<li value="'+(str-1)+'" class="pagination_click"    >'+str+'</li>';
@@ -332,7 +381,7 @@ var novaPaginacinja='';
                     {
                         //alert("2");
                         novaPaginacinja+='<li value="0" class="pagination_click"    >1</li>';
-                        novaPaginacinja+='<li class="active pagination_click" value="1">2</li>';
+                        novaPaginacinja+='<li class="active_page pagination_click" value="1">2</li>';
                         for (let str=3;str<5;str++)
                         {
                             novaPaginacinja+='<li value="'+(str-1)+'" class="pagination_click"    >'+str+'</li>';
@@ -348,9 +397,9 @@ var novaPaginacinja='';
                         //alert(stranica)
                         novaPaginacinja+='<li value="0" class="pagination_click"    >1</li>';
                         novaPaginacinja+='<li>&nbsp&nbsp...&nbsp&nbsp</li>';
-                        novaPaginacinja+='<li value="'+(strr -2)+'"class="pagination_click"    >'+(strr-1)+'</li>';
+                        novaPaginacinja+='<li value="'+(strr -2)+'" class="pagination_click"    >'+(strr-1)+'</li>';
                         novaPaginacinja+='<li value="'+(strr-1)+'" class="pagination_click"    >'+strr+'</li>';
-                        novaPaginacinja+='<li class="active pagination_click" value="'+(data1-2)+'">'+(data1-1)+'</li>';
+                        novaPaginacinja+='<li class="active_page pagination_click" value="'+(data1-2)+'">'+(data1-1)+'</li>';
                         novaPaginacinja+='<li value="'+(data1-1)+'" class="pagination_click"    >'+data1+'</li>';
 
 
@@ -363,7 +412,7 @@ var novaPaginacinja='';
                         novaPaginacinja+='<li value="0" class="pagination_click"    >1</li>'+
                             '<li>&nbsp&nbsp...&nbsp&nbsp</li>'+ '<li value="'+(data1-3)+'" class="pagination_click"    >'+(data1-2)+'</li>'+
                             '<li value="'+(data1-2)+'" class="pagination_click"    >'+(data1-1)+'</li>'+
-                            '<li class="active pagination_click" value="'+(data1-1)+'"     >'+data1+'</li>';
+                            '<li class="active_page pagination_click" value="'+(data1-1)+'"     >'+data1+'</li>';
 
                     }
 
@@ -371,7 +420,7 @@ var novaPaginacinja='';
                     {
                         novaPaginacinja+='<li value="0" class="pagination_click"    >1</li>'+
                             '<li value="1" class="pagination_click">2</li>'+
-                            '<li class="active pagination_click" value="2">3</li>'+
+                            '<li class="active_page pagination_click" value="2">3</li>'+
                             '<li value="3" class="pagination_click"    >4</li>'+
                             '<li value="4" class="pagination_click"    >5</li>'+
                             '<li>&nbsp&nbsp...&nbsp&nbsp</li>'+
@@ -385,7 +434,7 @@ var novaPaginacinja='';
                             '<li>&nbsp&nbsp...&nbsp&nbsp</li>'+
                             '<li  value="'+(strr-2)+'" class="pagination_click">'+(strr-1)+'</li>'+
                             '<li  value="'+(strr-1)+'" class="pagination_click">'+strr+'</li>'+
-                            '<li class="active pagination_click" value="'+strr+'">'+(strr+1)+'</li>'+
+                            '<li class="active_page pagination_click" value="'+strr+'">'+(strr+1)+'</li>'+
                             '<li value="'+(strr+1)+'" class="pagination_click"    >'+(strr+2)+'</li>'+
 
                             '<li value="'+(data1-1)+'" class="pagination_click"    >'+data1+'</li>';
@@ -412,7 +461,7 @@ var novaPaginacinja='';
                         }
 
 
-                        novaPaginacinja+= '<li class="active pagination_click" value="'+strr+'">'+(strr+1)+'</li>';
+                        novaPaginacinja+= '<li class="active_page pagination_click" value="'+strr+'">'+(strr+1)+'</li>';
                         novaPaginacinja+='<li value="'+(strr+1)+'" class="pagination_click"    >'+(strr+2)+'</li>'+
                             '<li value="'+(strr+2)+'" class="pagination_click"    >'+(strr+3)+'</li>';
 
@@ -433,22 +482,18 @@ var novaPaginacinja='';
 
                 if(data1<=6)
                 {
-                    if (strr==-1)
+
+                    //console.log(strr);
+                    for (let pg=0;pg<data1;pg++)
                     {
 
-                        novaPaginacinja+='<li class="active pagination_click" value="-1"     >Preporuceni</li>';
-
-
-                    }
-                    for (var a=0;a<data1;a++)
-                    {
-
-                        if (stranica==a)
+                        if (strr==pg)
                         {
-                            novaPaginacinja+='<li class="active pagination_click" value="'+a+'">'+(a+1)+'</li>';
+//console.log(strr);
+                            novaPaginacinja+='<li class="pagination_click active_page" value="'+pg+'">'+(pg+1)+'</li>';
                         }
                         else
-                            novaPaginacinja+='<li value="'+a+'" class="pagination_click"    >'+(a+1)+'</li>';
+                            novaPaginacinja+='<li value="'+pg+'" class="pagination_click"    >'+(pg+1)+'</li>';
 
 
 
@@ -462,7 +507,7 @@ var novaPaginacinja='';
 
                 }
 
-
+$("#pagination_view").html(novaPaginacinja);
 
             }
 //error
@@ -487,3 +532,54 @@ var novaPaginacinja='';
 
 
 }
+//sponsored click
+$(".fa-bullhorn").on('click',function(e){
+   e.preventDefault();
+
+    var href=location.href;
+
+    var category=href.split('=');
+
+    $.ajax({
+       url:base_Url+'sponsored_category',
+        method:'post',
+        data:{
+           category:category[1],
+           send:true
+        },
+        success:function (data) {
+
+            if (data != 404) {
+
+                //console.log(data);
+
+                  $(".fa-bullhorn").addClass('active_page');
+                  $(".pagination_click").removeClass('active_page');
+                $("#products_rowShop").html(data);
+
+            }
+//error
+            if (data == 404) {
+                //pagination--greska strana
+
+                $("#modalBody-alert").html('Trenutno nema sponzorisanih oglase iz navedene kategorije');
+
+                $("#alertButtonModal").click();
+
+
+            }
+
+
+        },
+        error: function (xhr, status, error) {
+            //error
+        }
+
+
+
+    });
+
+
+
+});
+

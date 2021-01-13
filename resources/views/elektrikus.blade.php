@@ -25,7 +25,7 @@
                                                 @if($ppk[$p]->subcategory_id==$subcategories[$s]->id_subcategory)
 
 
-                                        <a href="http://localhost/elektrikus/public/shop?{{$categories[$i]->name_category}}&category={{$ppk[$p]->name_ppk}}">{{$ppk[$p]->name_ppk}}</a>
+                                        <a href="http://localhost/elektrikus/public/shop?{{$subcategories[$s]->subcategory_name}}&category={{$ppk[$p]->name_ppk}}">{{$ppk[$p]->name_ppk}}</a>
 
 
                                                 @endif

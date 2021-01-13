@@ -11,7 +11,7 @@
                             </a>
                             <div class="button-head">
                                 <div class="product-action">
-                                    <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"><i class=" ti-eye"></i><span>Brz pregled</span></a>
+                                    <a data-toggle="modal" data-target="#exampleModal" title="Brz pregled" href="#"><i class=" ti-eye"></i><span>Brz pregled</span></a>
 
                                     <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Prati</span></a>
                                     <!-- kad se uradi login da se stavi da se provera user i da li prati oglase-->
@@ -26,7 +26,13 @@
                             <h3><a href="{{ route("product", ["product_id" => $product->name.'_el_'.$product->id_oglas])}}">{{$product->name}}</a></h3>
                             <div class="product-price">
                               <!--  <span class="old">$60.00</span>-->
-                                <span>{{$product->price}} {{$product->currency}}</span>
+                                <span>{{$product->price}} @if($product->currency==0)
+                                        RSD
+                                        @endif
+                                        @if($product->currency==1)
+                                        &euro;
+                                    @endif
+                                </span>
                             </div>
                         </div>
                     </div>
