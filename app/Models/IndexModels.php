@@ -48,7 +48,8 @@ class IndexModels
         if($cat=='naziv')
         {
             $data= DB::table('oglas')
-                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt', 'currency')
+                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt'
+                    ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
                 ->distinct()
                 ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
                 ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
@@ -69,7 +70,8 @@ class IndexModels
         if($cat!='naziv' && $col=='shop') {
 
             $data= DB::table('oglas')
-                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt', 'currency')
+                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt'
+                    ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
                 ->distinct()
                 ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
                 ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
@@ -94,7 +96,8 @@ class IndexModels
         if($cat!='naziv' && $col!='shop')
         {
             $data= DB::table('oglas')
-                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt', 'currency')
+                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt'
+                    ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
                 ->distinct()
                 ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
                 ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
@@ -122,7 +125,7 @@ class IndexModels
     public function hot()
     {
         return DB::table('oglas')
-            ->select('id_oglas','name','price','alt','title','src','currency')
+            ->select('id_oglas','name','price','alt','title','src'  ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
             ->distinct()
             ->join('picture','id_oglas','=','oglas_id')
             ->orderBy('id_oglas','desc')

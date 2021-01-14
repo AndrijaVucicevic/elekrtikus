@@ -115,26 +115,53 @@
                             <h3 class="title">Shop by Price</h3>
                             <div class="price-filter">
 <input type="number" id="min_price_filter" name="min_price_filter" min="1" value="1" placeholder="Min"  max="1000000"/>
-                                <input type="number" id="max_price_filter" min="2" value="100000" placeholder="Max" name="max_price_filter"  max="1000000"/>
+                                <input type="number" id="max_price_filter" min="2" value="1000000" placeholder="Max" name="max_price_filter"  max="1000000"/>
 
                       <button id="priceBtn" name="priceBtn"><i class='fas fa-arrow-right'></i> </button>
                                 <!-- show number of products -->
 
-                                    <p>Broj proizvoda: <span id="demo"></span></p>
+                                    <p>Ukupno proizvoda: <span id="demo"></span></p>
 
 
                             </div>
+@if(isset($count))
                             <ul class="check-box-list">
+                               <li> <label class="active_page">Stanje:</label></li>
                                 <li>
-                                    <label class="checkbox-inline" for="1"><input name="news" id="1" type="checkbox">$20 - $50<span class="count">(3)</span></label>
+                                    <label class="checkbox-inline" for="1"><input name="condition" class="check_filt condition-filter" value="1" type="checkbox">Novo<span class="count">({{$count[0][0]->novo}})</span></label>
                                 </li>
                                 <li>
-                                    <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">$50 - $100<span class="count">(5)</span></label>
+                                    <label class="checkbox-inline" for="2"><input name="condition" class="check_filt condition-filter" value="2" type="checkbox">Kao novo<span class="count">({{$count[0][0]->kao}})</span></label>
                                 </li>
-                                <li>
-                                    <label class="checkbox-inline" for="3"><input name="news" id="3" type="checkbox">$100 - $250<span class="count">(8)</span></label>
+                                <li style="border-bottom: 1px solid; padding-bottom: 10px;">
+                                    <label class="checkbox-inline" for="3"><input name="condition" class="check_filt condition-filter" value="4" type="checkbox">Polovno<span class="count">({{$count[0][0]->polovno}})</span></label>
                                 </li>
                             </ul>
+
+                            <ul class="check-box-list">
+                              <li>  <label class="active_page">Prema ceni:</label></li>
+                                <li>
+                                    <label class="checkbox-inline" for="1"><input name="price-filter" class="check_filt price-filter" value="1" type="checkbox">Fiksno<span class="count">({{$count[1][0]->fiksno}})</span></label>
+                                </li>
+                                <li>
+                                    <label class="checkbox-inline" for="2"><input name="price-filter" class="check_filt price-filter" value="2" type="checkbox">Zamena<span class="count">({{$count[1][0]->zamena}})</span></label>
+                                </li>
+                                <li style="border-bottom: 1px solid; padding-bottom: 10px;">
+                                    <label class="checkbox-inline" for="3"><input name="price-filter" class="check_filt price-filter" value="4" type="checkbox">Dogovor<span class="count">{{$count[1][0]->dogovor}}</span></label>
+                                </li>
+                            </ul>
+                            <ul class="check-box-list">
+                                <li>  <label class="active_page">Valuta:</label></li>
+                                <li>
+                                    <label class="checkbox-inline" for="1"><input name="price-currency" class="check_filt price-currency" value="1" type="checkbox">RSD<span class="count">({{$count[2][0]->rsd}})</span></label>
+                                </li>
+                                <li>
+                                    <label class="checkbox-inline" for="2"><input name="price-currency" class="check_filt price-currency" value="2" type="checkbox"> &euro;<span class="count">({{$count[2][0]->euro}})</span></label>
+                                </li>
+
+                            </ul>
+<button id="filt-btn">Primeni filtere</button>
+@endif
                         </div>
                         <!--/ End Shop By Price -->
                         <!-- Single Widget -->

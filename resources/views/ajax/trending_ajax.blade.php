@@ -24,7 +24,7 @@
         <div class="product-content">
             <h3><a href="{{ route("product", ["product_id" => $product->name.'_el_'.$product->id_oglas])}}">{{$product->name}}</a></h3>
             <div class="product-price">
-                <span>{{$product->price}} {{$product->currency}}</span>
+                <span>{{$product->price}} {{$product->currency_text}}</span>
             </div>
         </div>
     </div>

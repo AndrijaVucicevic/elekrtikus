@@ -31,12 +31,13 @@ var page=0;
 
 
 
+
 $("#min_price_filter").on('blur',function (e) {
     var min=this.value;
     var reMin=/^[1-9][0-9]+$/;
     if(!reMin.test(min))
     {
-      this.value=0;
+      this.value=1;
     }
 
 });
@@ -45,7 +46,7 @@ $("#max_price_filter").on('blur',function (e) {
     var reMin=/^[1-9][0-9]+$/;
     if(!reMin.test(max))
     {
-        this.value=0;
+        this.value=1000000;
     }
 
 });
@@ -128,16 +129,19 @@ $("#max_price_filter").on('keyup',function () {
 });
 
 function changePriceSlider() {
-    
+
     var max=parseInt($("#max_price_filter").val());
     var min=parseInt($("#min_price_filter").val());
-
+//filt_new
     var href=location.href;
 
     var category=href.split('=');
   //  console.log(category[1]);
     if(min<max && min>=0 && max>0 && min!=null && max!=null && min!='' && max!='') {
 
+ var check=checkbox_filt();
+
+ //console.log(check);
 
         $.ajax({
             url: base_Url + 'change_price_filter',
@@ -147,6 +151,9 @@ function changePriceSlider() {
                 min: min,
                 max: max,
                 cat:category[1],
+                condition:check[0],
+                price_status:check[1],
+                currency:check[2],
                 send: true
             },
             success: function (data) {
@@ -582,4 +589,48 @@ $(".fa-bullhorn").on('click',function(e){
 
 
 });
+//filt checkbox
 
+
+function checkbox_filt()
+{
+    var array_filt=[];
+    var condition_array=$('.checkbox-inline .condition-filter');
+    var condition=0;
+    for (let i=0;i<condition_array.length;i++)
+    {
+        if(condition_array[i].checked)
+        {
+           condition+=parseInt(condition_array[i].value);
+        }
+
+    }
+    var price_array=$('.checkbox-inline .price-filter');
+    var price_status=0;
+    for (let i=0;i<price_array.length;i++)
+    {
+        if(price_array[i].checked)
+        {
+            price_status+=parseInt(price_array[i].value);
+        }
+
+    }
+    var currency_array=$('.checkbox-inline .price-currency');
+    var currency=0;
+    for (let i=0;i<currency_array.length;i++)
+    {
+        if(currency_array[i].checked)
+        {
+            currency+=parseInt(currency_array[i].value);
+        }
+
+    }
+
+    array_filt.push(condition);
+    array_filt.push(price_status);
+    array_filt.push(currency);
+
+    return array_filt;
+
+
+}

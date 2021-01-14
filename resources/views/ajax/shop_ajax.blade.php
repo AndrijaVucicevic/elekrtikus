@@ -26,12 +26,7 @@
             <div class="product-price">
                 <!--  <span class="old">$60.00</span>-->
                 <span>{{$product->price}}
-                @if($product->currency==0)
-                 RSD
-                    @endif
-                    @if($product->currency==1)
-                    &euro;
-                    @endif
+                    {{$product->currency_text}}
                 </span>
             </div>
         </div>

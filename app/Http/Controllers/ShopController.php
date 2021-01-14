@@ -34,12 +34,26 @@ class ShopController extends Controller
       //first in main plan
         $hotItemCategory = $this->model1->trending($cat,$col='shop');
         $sort=$this->sorted($sort='default');
+      //  dd($this->min);
         $products = $this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort);
         //first sponsored iphone
-
+        $count=[];
         $categoryList = $this->model1->subcategory();
         $ppk = $this->model1->ppk();
         $count_product=$this->model->pages($cat,$this->min,$this->max,$this->search);
+
+
+        $count_condition=$this->model->condition();
+        $count_price=$this->model->price();
+        $count_currency=$this->model->currency();
+
+
+        array_push($count,$count_condition);
+        array_push($count,$count_price);
+
+        array_push($count,$count_currency);
+
+       // dd($count[1][0]->novo);
        //number_pages/take
         $pages=ceil($count_product/$this->take);
         if (isset($request->change)) {
@@ -57,7 +71,8 @@ class ShopController extends Controller
                     'products' => $products,
                     'categoryList' => $categoryList,
                     'ppk' => $ppk,
-                    "pages"=>$pages
+                    'pages'=>$pages,
+                    'count'=>$count
 
                 ]);
 
@@ -69,9 +84,22 @@ class ShopController extends Controller
         $this->min=$request->min;
         $this->max=$request->max;
         $cat=$request->cat;
+        $condition=$request->condition;
+        $price_status=$request->price_status;
+        $currency=$request->condition;
+
+        if($condition==0&&$price_status==0&&$currency==0)
+        {
+            $count=$this->model->countAds($this->min,$this->max,$cat,$this->search);
+    // dd($count);
+        }
+        else{
+            //$count=$this->model->countFiltAds($this->min,$this->max,$cat,$this->search,$condition,$price_status,$currency);
+//sutraa nastaviti
+        }
 
 
-        $count=$this->model->countAds($this->min,$this->max,$cat,$this->search);
+
 //dd($count);
         if (!$count>0)
         {

@@ -5113,11 +5113,20 @@ input[type=number]::-webkit-outer-spin-button {
 	color: red;
 }
 .active_page{
-	color:#F7941D;
+	color: #f7941d!important;
 }
 .product-price span{
     color:#F7941D;
 }
-.shop-shorter .sort_products{
-
+.check-box-list li:last-child{
+	border-bottom: 1px solid;
+	padding-bottom: 10px;
+}
+#filt-btn{
+	margin-top: 10px;
+	width: 100%;
+	font-size: 18px;
+	padding: 5px;
+	color: #f7941d;
+	font-family: cursive;
 }

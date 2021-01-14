@@ -19,22 +19,24 @@ class ShopModels
 public function oglasi($start,$take,$cat,$min,$max,$search,$sort)
 {
     //dd($sort[0]);
-    $data='';
+     $data= DB::table('oglas')
+        ->select('id_oglas','name','price','src','title','alt'
+            ,DB::raw('case when currency=0 then "rsd" else "€" end as "currency_text"'))
+        ->distinct()
+        ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
+        ->join('picture','oglas.id_oglas','=','picture.oglas_id')
+        ->join('ppk','ppk_id','=','ppk.id_ppk');
+
     if($max!=null && $min!=null && $search!=null)
     {
         //definisi search
     }
     if($max!=null && $min!=null && $search==null)
     {
-        $data= DB::table('oglas')
-            ->select('id_oglas','name','price','src','title','alt','currency')
-            ->distinct()
-            //->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
-            ->join('picture','oglas.id_oglas','=','picture.oglas_id')
-            ->join('ppk','ppk_id','=','ppk.id_ppk')
+
             //  ->join('subcategory','subcategory_id','=','subcategory.id_subcategory')
             // ->join('category','category_id','=','category.id_category')
-            ->where([
+            $data=$data->where([
                 [
                     'name_ppk',$cat
                 ],
@@ -45,11 +47,9 @@ public function oglasi($start,$take,$cat,$min,$max,$search,$sort)
                     'price','>=',$min
                 ]
 
-            ])
-            ->offset($start)
-            ->limit($take)
-            ->orderBy($sort[0],$sort[1])
-            ->get();
+            ]);
+
+
     }
     if ($max==null || $min==null && $search!=null)
     {
@@ -58,27 +58,22 @@ public function oglasi($start,$take,$cat,$min,$max,$search,$sort)
     }
     if ($max==null || $min==null && $search==null)
     {
-       $data= DB::table('oglas')
-            ->select('id_oglas','name','price','src','title','alt','currency')
-            ->distinct()
-            ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
-            ->join('picture','oglas.id_oglas','=','picture.oglas_id')
-            ->join('ppk','ppk_id','=','ppk.id_ppk')
+
             //  ->join('subcategory','subcategory_id','=','subcategory.id_subcategory')
             // ->join('category','category_id','=','category.id_category')
-            ->where([
+          $data=$data->where([
                 [
                     'name_ppk',$cat
                 ]
 
-            ])
-            ->offset($start)
-            ->limit($take)
-           ->orderBy($sort[0],$sort[1])
-            ->get();
+            ]);
+
     }
 
-    return $data;
+    return $data->offset($start)
+        ->limit($take)
+        ->orderBy($sort[0],$sort[1])
+        ->get();
 
 
 
@@ -86,30 +81,31 @@ public function oglasi($start,$take,$cat,$min,$max,$search,$sort)
 }
 public function pages($cat,$min,$max,$search)
 {
-    $pages='';
+    $pages= DB::table('oglas')
+        ->select('id_oglas')
+        ->distinct()
+        ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
+        ->join('picture','oglas.id_oglas','=','picture.oglas_id')
+        ->join('ppk','ppk_id','=','ppk.id_ppk');
+
     if($max!=null && $min!=null && $search!=null)
     {
         //definisi search
-        $pages='sve';
+       //
 
     }
     if($max==null || $min==null && $search!=null)
     {
-        $pages='search';
+       //
     }
 
 
     if($min!=null && $max!=null && $search==null)
     {
-        $pages= DB::table('oglas')
-            ->select('id_oglas')
-            ->distinct()
-            ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
-            ->join('picture','oglas.id_oglas','=','picture.oglas_id')
-            ->join('ppk','ppk_id','=','ppk.id_ppk')
+
             //  ->join('subcategory','subcategory_id','=','subcategory.id_subcategory')
             // ->join('category','category_id','=','category.id_category')
-            ->where([
+          $pages=$pages->where([
                 [
                     'name_ppk',$cat
                 ],
@@ -120,36 +116,25 @@ public function pages($cat,$min,$max,$search)
                     'price','>=',$min
                 ]
 
-            ])
+            ]);
 
-            ->count();
+
 
 
 
     }
     if ($min==null || $max==null && $search==null)
         {
-            $pages= DB::table('oglas')
-                ->select('id_oglas')
-                ->distinct()
-                ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
-                ->join('picture','oglas.id_oglas','=','picture.oglas_id')
-                ->join('ppk','ppk_id','=','ppk.id_ppk')
+
                 //  ->join('subcategory','subcategory_id','=','subcategory.id_subcategory')
                 // ->join('category','category_id','=','category.id_category')
-                ->where([
-                    [
-                        'name_ppk',$cat
-                    ]
+               $pages=$pages->where('name_ppk',$cat);
 
-                ])
-
-                ->count();
 
 
     }
     //dd($pages);
-return $pages;
+return $pages->count();
 
 
 
@@ -162,7 +147,7 @@ return $pages;
 
 public function countAds($min,$max,$cat,$search)
 {
-    return DB::table('oglas')
+    $data= DB::table('oglas')
     ->select('id_oglas')
     ->join('picture','oglas.id_oglas','=','picture.oglas_id')
         ->join('ppk','ppk_id','=','ppk.id_ppk')
@@ -170,10 +155,45 @@ public function countAds($min,$max,$cat,$search)
             ['name_ppk',$cat],
             ['price','>=',$min],
             ['price','<=',$max]
-        ])
-    ->count();
+        ]);
+
+  $data=$data->where(
+      'currency','=','1'
+  );
+  //TOOOOOO
+  return $data->count();
+
+  //  $data1=$data->where([]);
 }
 
+public function countFiltAds($min,$max,$cat,$search,$condition,$price_status,$currency)
+{
+//
+
+}
+
+
+public function condition()
+{
+    return DB::table('oglas')
+        ->select(DB::raw('count(CASE WHEN condition_status=1 then 1 end)as novo'),DB::raw('count(CASE WHEN condition_status=2 then 1 end)as kao'),DB::raw('count(CASE WHEN condition_status=3 then 1 end)as polovno'))
+        ->get();
+
+}
+public function price()
+{
+    return DB::table('oglas')
+        ->select(DB::raw('count(CASE WHEN price_status=1 then 1 end)as fiksno'),DB::raw('count(CASE WHEN price_status=2 then 1 end)as zamena'),DB::raw('count(CASE WHEN price_status=3 then 1 end)as dogovor'))
+        ->get();
+
+}
+public function currency()
+{
+    return DB::table('oglas')
+        ->select(DB::raw('count(CASE WHEN currency=0 then 1 end)as rsd'),DB::raw('count(CASE WHEN currency=1 then 1 end)as euro'))
+        ->get();
+
+}
 
 
 
