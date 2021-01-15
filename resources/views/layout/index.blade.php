@@ -202,13 +202,17 @@
 
 
 @yield('content')
-
+@include('inc.chat')
 @if(\Request::route()->getName()!='register')
 @include('inc.subscrbie')
 <button type="button" style="visibility: hidden;" id="alertButtonModal" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
 </button>
 
+
+
 @endif
+
+
 @include("inc.footer")
 
 
@@ -218,6 +222,7 @@
 <script src="{{asset('js/jquery.min.js')}}"></script>
 <script src="{{asset('js/jquery-migrate-3.0.0.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+<script src="{{asset('js/chat.js')}}"></script>
 
 <script>
 
