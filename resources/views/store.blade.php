@@ -114,13 +114,14 @@
                         <div class="single-widget range">
                             <h3 class="title">Shop by Price</h3>
                             <div class="price-filter">
+                                <label class="active_page">Cena:</label><br>
 <input type="number" id="min_price_filter" name="min_price_filter" min="1" value="1" placeholder="Min"  max="1000000"/>
                                 <input type="number" id="max_price_filter" min="2" value="1000000" placeholder="Max" name="max_price_filter"  max="1000000"/>
 
-                      <button id="priceBtn" name="priceBtn"><i class='fas fa-arrow-right'></i> </button>
+                      <!--<button id="priceBtn" name="priceBtn"><i class='fas fa-arrow-right'></i> </button>-->
                                 <!-- show number of products -->
 
-                                    <p>Ukupno proizvoda: <span id="demo"></span></p>
+                                    <p><!--ukupno--> <span id="demo"></span></p>
 
 
                             </div>

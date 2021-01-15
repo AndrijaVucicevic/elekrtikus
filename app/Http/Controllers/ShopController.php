@@ -12,6 +12,9 @@ class ShopController extends Controller
     private $model1;
    private $start=0;
    private $take=2;
+   private $condition=0;
+   private $price_status=0;
+   private $currency=0;
    private $min=null;
    private $max=null;
    private $search=null;
@@ -35,12 +38,12 @@ class ShopController extends Controller
         $hotItemCategory = $this->model1->trending($cat,$col='shop');
         $sort=$this->sorted($sort='default');
       //  dd($this->min);
-        $products = $this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort);
+        $products = $this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort,$this->condition,$this->price_status,$this->currency);
         //first sponsored iphone
         $count=[];
         $categoryList = $this->model1->subcategory();
         $ppk = $this->model1->ppk();
-        $count_product=$this->model->pages($cat,$this->min,$this->max,$this->search);
+        $count_product=$this->model->pages($cat,$this->min,$this->max,$this->search,$this->condition,$this->price_status,$this->currency);
 
 
         $count_condition=$this->model->condition();
@@ -79,7 +82,7 @@ class ShopController extends Controller
         }
 
     }
-    public function change_price_filter(Request $request)
+  /*  public function change_price_filter(Request $request)
     {
         $this->min=$request->min;
         $this->max=$request->max;
@@ -109,7 +112,7 @@ class ShopController extends Controller
 return($count);
 
     }
-
+*/
     public function price_filter_shop(Request $request)
     {
         $this->min=$request->min;
@@ -117,10 +120,17 @@ return($count);
         $cat=$request->cat;
 $this->start=$request->start;
 $this->take=$request->take;
+        $this->condition=$request->condition;
+        $this->price_status=$request->price_status;
+        $this->currency=$request->currency;
 
 $sort=$this->sorted($sort='default');
 
-        $products=$this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort);
+
+
+    $products = $this->model->oglasi($this->start, $this->take, $cat, $this->min, $this->max, $this->search, $sort,$this->condition,$this->price_status,$this->currency);
+
+
 
 //dd(count($products));
 
@@ -136,7 +146,9 @@ public function pagination(Request $request)
     $cat=$request->cat;
     $this->start=$request->start;
     $this->take=$request->take;
-
+    $this->condition=$request->condition;
+    $this->price_status=$request->price_status;
+    $this->currency=$request->currency;
     if(strpos($cat,'#'))
     {
         $string=explode('#',$cat);
@@ -145,7 +157,7 @@ public function pagination(Request $request)
     }
 
 
-    $number_page=$this->model->pages($cat,$this->min,$this->max,$this->search);
+    $number_page=$this->model->pages($cat,$this->min,$this->max,$this->search,$this->condition,$this->price_status,$this->currency);
 
     if(!$number_page>0)
     {
@@ -166,6 +178,9 @@ public function new_page(Request $request)
     $this->start=$request->start;
     $this->take=$request->take;
 
+    $this->condition=$request->condition;
+    $this->price_status=$request->price_status;
+    $this->currency=$request->currency;
 
 if(strpos($cat,'#'))
 {
@@ -175,7 +190,7 @@ if(strpos($cat,'#'))
 }
 $sort=$this->sorted($request->sort);
 
-    $products=$this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort);
+    $products=$this->model->oglasi($this->start,$this->take,$cat,$this->min,$this->max,$this->search,$sort,$this->condition,$this->price_status,$this->currency);
 
 //dd($products);
 

@@ -4,14 +4,9 @@
     <list default="true" id="d56f7d0b-e5f3-4cb6-8741-9c32ba65681a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/ShopController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/ShopController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/IndexModels.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/IndexModels.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/ShopModels.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/ShopModels.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/shop.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/shop.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/ajax/shop_ajax.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/ajax/shop_ajax.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/ajax/trending_ajax.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/ajax/trending_ajax.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inc/productArea.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inc/productArea.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inc/productShop.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inc/productShop.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/store.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/store.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/web.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="39" column="33" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="33" />
+            <state relative-caret-position="561">
+              <caret line="40" column="31" selection-start-line="40" selection-start-column="14" selection-end-line="40" selection-end-column="31" />
               <folding>
                 <element signature="e#7#47#0#PHP" expanded="true" />
               </folding>
@@ -54,20 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="87091">
-              <caret line="5123" column="1" selection-start-line="5123" selection-start-column="1" selection-end-line="5123" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ShopController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1201">
-              <caret line="93" column="16" selection-start-line="93" selection-start-column="16" selection-end-line="93" selection-end-column="16" />
-              <folding>
-                <element signature="e#40#67#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="84133">
+              <caret line="4949" column="19" selection-start-line="4949" selection-start-column="19" selection-end-line="4949" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -75,8 +58,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/store.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2686">
-              <caret line="158" column="136" selection-start-line="158" selection-start-column="122" selection-end-line="158" selection-end-column="136" />
+            <state relative-caret-position="-472">
+              <caret line="116" column="57" selection-start-line="116" selection-start-column="57" selection-end-line="116" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -84,17 +67,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/shop.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2635">
-              <caret line="155" column="24" selection-start-line="155" selection-start-column="16" selection-end-line="155" selection-end-column="24" />
+            <state relative-caret-position="874">
+              <caret line="576" column="26" selection-start-line="576" selection-start-column="9" selection-end-line="576" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Models/ShopModels.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="128" column="53" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="53" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Models/ShopModels.php">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ShopController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="93" column="9" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="9" />
+            <state relative-caret-position="3094">
+              <caret line="182" column="39" selection-start-line="182" selection-start-column="39" selection-end-line="182" selection-end-column="39" />
+              <folding>
+                <element signature="e#40#67#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -112,9 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>most</find>
-      <find>section</find>
-      <find>modal</find>
       <find>trending</find>
       <find>slider</find>
       <find>&lt;li &gt;&lt;button id</find>
@@ -129,7 +121,6 @@
       <find>pagination_click</find>
       <find>sponsored</find>
       <find>active</find>
-      <find>pages</find>
       <find>countAds</find>
       <find>console.log</find>
       <find>price-filter</find>
@@ -142,6 +133,10 @@
       <find>ul</find>
       <find>getA</find>
       <find>change_price_filter</find>
+      <find>price_filter_shop</find>
+      <find>price</find>
+      <find>.price-filter input</find>
+      <find>pages</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;li value=</replace>
@@ -199,9 +194,9 @@
         <option value="$PROJECT_DIR$/app/Models/IndexModels.php" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
         <option value="$PROJECT_DIR$/resources/views/store.blade.php" />
+        <option value="$PROJECT_DIR$/app/Models/ShopModels.php" />
         <option value="$PROJECT_DIR$/public/js/shop.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ShopController.php" />
-        <option value="$PROJECT_DIR$/app/Models/ShopModels.php" />
       </list>
     </option>
   </component>
@@ -325,7 +320,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -434,6 +428,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -601,7 +596,12 @@
       <workItem from="1610644753225" duration="1762000" />
       <workItem from="1610646588173" duration="1768000" />
       <workItem from="1610648409317" duration="1769000" />
-      <workItem from="1610650227792" duration="542000" />
+      <workItem from="1610650227792" duration="727000" />
+      <workItem from="1610717427101" duration="1768000" />
+      <workItem from="1610719258553" duration="1772000" />
+      <workItem from="1610721085752" duration="1597000" />
+      <workItem from="1610723426151" duration="233000" />
+      <workItem from="1610730578496" duration="1019000" />
     </task>
     <task id="LOCAL-00001" summary="second commit">
       <created>1610389174480</created>
@@ -617,11 +617,18 @@
       <option name="project" value="LOCAL" />
       <updated>1610561717206</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="filt_sort commit">
+      <created>1610650931645</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1610650931645</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="202714000" />
+    <option name="totallyTimeSpent" value="209288000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -633,10 +640,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.42813918" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.46293494" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -690,7 +697,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="second commit" />
     <MESSAGE value="shop commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="shop commit" />
+    <MESSAGE value="filt_sort commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="filt_sort commit" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/public/css/responsive.css">
@@ -992,8 +1000,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="39" column="33" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="33" />
+        <state relative-caret-position="561">
+          <caret line="40" column="31" selection-start-line="40" selection-start-column="14" selection-end-line="40" selection-end-column="31" />
           <folding>
             <element signature="e#7#47#0#PHP" expanded="true" />
           </folding>
@@ -1002,39 +1010,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87091">
-          <caret line="5123" column="1" selection-start-line="5123" selection-start-column="1" selection-end-line="5123" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/store.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2686">
-          <caret line="158" column="136" selection-start-line="158" selection-start-column="122" selection-end-line="158" selection-end-column="136" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/shop.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2635">
-          <caret line="155" column="24" selection-start-line="155" selection-start-column="16" selection-end-line="155" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ShopController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1201">
-          <caret line="93" column="16" selection-start-line="93" selection-start-column="16" selection-end-line="93" selection-end-column="16" />
-          <folding>
-            <element signature="e#40#67#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="84133">
+          <caret line="4949" column="19" selection-start-line="4949" selection-start-column="19" selection-end-line="4949" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/ShopModels.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="93" column="9" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="9" />
+        <state relative-caret-position="206">
+          <caret line="128" column="53" selection-start-line="128" selection-start-column="49" selection-end-line="128" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/store.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-472">
+          <caret line="116" column="57" selection-start-line="116" selection-start-column="57" selection-end-line="116" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/shop.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="874">
+          <caret line="576" column="26" selection-start-line="576" selection-start-column="9" selection-end-line="576" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ShopController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3094">
+          <caret line="182" column="39" selection-start-line="182" selection-start-column="39" selection-end-line="182" selection-end-column="39" />
+          <folding>
+            <element signature="e#40#67#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

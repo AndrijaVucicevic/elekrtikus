@@ -116,7 +116,7 @@ $("#categoryShopList li").on('click',function (e) {
 
 
 
-
+/*
 //price filter
 $("#min_price_filter").on('keyup',function () {
 
@@ -186,32 +186,17 @@ if(data!=404)
 
     }
 }
-
+*/
 // sort price
-$("#priceBtn").on('click',function (e) {
+$("#filt-btn").on('click',function (e) {
 
     e.preventDefault();
 
-    var max=parseInt($("#max_price_filter").val());
-    var min=parseInt($("#min_price_filter").val());
-
-
-
-
-
-    if(min < max && min>=0 && max>0 && min!=null && max!=null && min!='' && max!='') {
-        //alert('a');
+    //alert('a');
 
         let route='price_filter_shop';
         let page=0;
         getAds(route,page,'sort','take');
-    }
-    else{
-        //
-        $("#modalBody-alert").html('Uslovi sortiranja prema ceni nisu ispunjeni');
-
-        $("#alertButtonModal").click();
-    }
 
 });
 //pagination new page
@@ -233,36 +218,34 @@ function getAds(route,page,sortt,takee) {
     var start=parseInt(page);
 
     var new_page=parseInt(page);
-  //  var take = document.getElementById("ddl_take").value.split('_');
-if(sortt=='sort')
+
+    var checkCondition=getCheckCondition();
+//console.log(checkCondition[0].min);
+
+
+
+if(sortt!='sort')
 {
-    var sort = document.getElementById("ddl_sort").value.split('_');
+    var sort=sortt.split('_');
+    checkCondition[0].sort=sort[1];
 }
-else{
-     var sort=sortt.split('_');
-}
-if(takee=='take')
+
+if(takee!='take')
 {
-      var take = document.getElementById("ddl_take").value.split('_');
-}
-else{
     var take=takee.split('_');
+    checkCondition[0].take=take[1];
 }
+
 
 
 
 
     if(start!=-1)
     {
-        start=start*parseInt(take[1]);
+        start=start*parseInt(checkCondition[0].take);
     }
     //console.log(start);
-    var max=parseInt($("#max_price_filter").val());
-    var min=parseInt($("#min_price_filter").val());
 
-    var href=location.href;
-
-    var category=href.split('=');
 
 
 
@@ -272,12 +255,15 @@ else{
         method: 'post',
         data: {
             _token: csrf,
-            min: min,
-            max: max,
-            cat: category[1],
+            min: checkCondition[0].min,
+            max: checkCondition[0].max,
+            cat: checkCondition[0].category,
             start:start,
-            take:take[1],
-            sort:sort[1],
+            take:checkCondition[0].take,
+            sort:checkCondition[0].sort,
+            condition:checkCondition[0].condition,
+            price_status:checkCondition[0].price_status,
+            currency:checkCondition[0].currency,
             send: true
         },
         success: function (data) {
@@ -316,18 +302,10 @@ else{
 }
 function getPagination(new_page)
 {
-    var max=parseInt($("#max_price_filter").val());
-    var min=parseInt($("#min_price_filter").val());
-
-    var href=location.href;
-
-    var category=href.split('=');
+  var checkCondition=getCheckCondition();
 
 
-
-    var take = document.getElementById("ddl_take").value.split('_');
-    var sort = document.getElementById("ddl_sort").value.split('_');
-
+  //console.log(checkCondition);
     var strr=parseInt(new_page);
 
   //  console.log(new_page);
@@ -337,11 +315,14 @@ function getPagination(new_page)
         method: 'post',
         data: {
             _token: csrf,
-            min: min,
-            max: max,
-            cat:category[1],
-            take:take[1],
-            sort:sort[1],
+            min: checkCondition[0].min,
+            max: checkCondition[0].max,
+            cat:checkCondition[0].category,
+            take:checkCondition[0].take,
+            sort:checkCondition[0].sort,
+            condition:checkCondition[0].condition,
+            price_status:checkCondition[0].price_status,
+            currency:checkCondition[0].currency,
             send: true
         },
         success: function (data1) {
@@ -589,19 +570,20 @@ $(".fa-bullhorn").on('click',function(e){
 
 
 });
-//filt checkbox
+
+//condition for filt and sort
 
 
-function checkbox_filt()
+function getCheckCondition()
 {
-    var array_filt=[];
+    var checkArray=[];
     var condition_array=$('.checkbox-inline .condition-filter');
     var condition=0;
     for (let i=0;i<condition_array.length;i++)
     {
         if(condition_array[i].checked)
         {
-           condition+=parseInt(condition_array[i].value);
+            condition+=parseInt(condition_array[i].value);
         }
 
     }
@@ -625,12 +607,21 @@ function checkbox_filt()
         }
 
     }
+    var max=parseInt($("#max_price_filter").val());
+    var min=parseInt($("#min_price_filter").val());
 
-    array_filt.push(condition);
-    array_filt.push(price_status);
-    array_filt.push(currency);
+    var href=location.href;
 
-    return array_filt;
+    var category=href.split('=');
 
+
+
+    var take = document.getElementById("ddl_take").value.split('_');
+    var sort = document.getElementById("ddl_sort").value.split('_');
+
+
+    checkArray.push({"max":max,"min":min,"category":category[1],"take":take[1],"sort":sort[1],"condition":condition,"price_status":price_status,"currency":currency});
+
+    return checkArray;
 
 }

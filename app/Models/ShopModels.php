@@ -14,11 +14,17 @@ use Illuminate\Support\Facades\DB;
 class ShopModels
 {
 
+private $zero=0;
+private $one=1;
+private $two=2;
+private $three=3;
 
 
-public function oglasi($start,$take,$cat,$min,$max,$search,$sort)
+public function oglasi($start,$take,$cat,$min,$max,$search,$sort,$condition,$price_status,$currency)
 {
     //dd($sort[0]);
+
+
      $data= DB::table('oglas')
         ->select('id_oglas','name','price','src','title','alt'
             ,DB::raw('case when currency=0 then "rsd" else "€" end as "currency_text"'))
@@ -69,6 +75,66 @@ public function oglasi($start,$take,$cat,$min,$max,$search,$sort)
             ]);
 
     }
+    switch($condition)
+    {
+        case 1:
+            $data=$data->where('condition_status',$this->one);
+        break;
+        case 2:
+            $data=$data->where('condition_status',$this->two);
+            break;
+        case 3:
+            $data=$data->where('condition_status',$this->one)
+                ->orWhere('condition_status',$this->two);
+            break;
+            case 4:
+            $data=$data->where('condition_status',$this->three);
+            break;
+        case 5:
+            $data=$data->where('condition_status',$this->one)
+                ->orWhere('condition_status',$this->three);
+            break;
+        case 6:
+            $data=$data->where('condition_status',$this->two)
+                ->orWhere('condition_status',$this->three);
+            break;
+    }
+    switch($price_status)
+    {
+        case 1:
+            $data=$data->where('price_status',$this->one);
+            break;
+        case 2:
+            $data=$data->where('price_status',$this->two);
+            break;
+        case 3:
+            $data=$data->where('price_status',$this->one)
+                ->orWhere('price_status',$this->two);
+            break;
+        case 4:
+            $data=$data->where('price_status',$this->three);
+            break;
+        case 5:
+            $data=$data->where('price_status',$this->one)
+                ->orWhere('price_status',$this->three);
+            break;
+        case 6:
+            $data=$data->where('price_status',$this->two)
+                ->orWhere('price_status',$this->three);
+            break;
+    }
+    switch ($currency)
+    {
+        case 1:
+            $data=$data->where('currency',$this->zero);
+            break;
+        case 2:
+            $data=$data->where('currency',$this->one);
+            break;
+
+    }
+
+
 
     return $data->offset($start)
         ->limit($take)
@@ -79,7 +145,11 @@ public function oglasi($start,$take,$cat,$min,$max,$search,$sort)
 
 
 }
-public function pages($cat,$min,$max,$search)
+
+
+
+
+public function pages($cat,$min,$max,$search,$condition,$price_status,$currency)
 {
     $pages= DB::table('oglas')
         ->select('id_oglas')
@@ -133,6 +203,67 @@ public function pages($cat,$min,$max,$search)
 
 
     }
+
+    switch($condition)
+    {
+        case 1:
+            $pages=$pages->where('condition_status',$this->one);
+            break;
+        case 2:
+            $pages=$pages->where('condition_status',$this->two);
+            break;
+        case 3:
+            $pages=$pages->where('condition_status',$this->one)
+                ->orWhere('condition_status',$this->two);
+            break;
+        case 4:
+            $pages=$pages->where('condition_status',$this->three);
+            break;
+        case 5:
+            $pages=$pages->where('condition_status',$this->one)
+                ->orWhere('condition_status',$this->three);
+            break;
+        case 6:
+            $pages=$pages->where('condition_status',$this->two)
+                ->orWhere('condition_status',$this->three);
+            break;
+    }
+    switch($price_status)
+    {
+        case 1:
+            $pages=$pages->where('price_status',$this->one);
+            break;
+        case 2:
+            $pages=$pages->where('price_status',$this->two);
+            break;
+        case 3:
+            $pages=$pages->where('price_status',$this->one)
+                ->orWhere('price_status',$this->two);
+            break;
+        case 4:
+            $pages=$pages->where('price_status',$this->three);
+            break;
+        case 5:
+            $pages=$pages->where('price_status',$this->one)
+                ->orWhere('price_status',$this->three);
+            break;
+        case 6:
+            $pages=$pages->where('price_status',$this->two)
+                ->orWhere('price_status',$this->three);
+            break;
+    }
+    switch ($currency)
+    {
+        case 1:
+            $pages=$pages->where('currency',$this->zero);
+            break;
+        case 2:
+            $pages=$pages->where('currency',$this->one);
+            break;
+
+    }
+
+
     //dd($pages);
 return $pages->count();
 
