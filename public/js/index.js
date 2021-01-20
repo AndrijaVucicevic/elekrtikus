@@ -328,6 +328,7 @@ $(".sinlge-bar i").on('mouseover',function () {
        url:base_Url+'user',
        method:'post',
         data:{
+            _token:csrf,
            code:i_class,
            send:true,
         },

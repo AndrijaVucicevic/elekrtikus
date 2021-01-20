@@ -63,6 +63,8 @@ Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::get('/user',[UserController::class,'index'])->name('user');
 
+Route::post('/more_products',[UserController::class,'more_products']);
+
 
 
 Route::get('/product/{product_id}',[ProductController::class,'index_product'])->name('product');

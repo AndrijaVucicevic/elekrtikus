@@ -14,7 +14,7 @@ class UserController extends Controller
     private $model1;
     private $modelUser;
     private $start=0;
-    private $limit=6;
+    private $limit=2;
 
     public function __construct()
     {
@@ -83,6 +83,27 @@ class UserController extends Controller
 
   }
 
+  public function more_products(Request $request)
+  {
+
+
+      $this->start=(int)$request->start*(int)$this->limit;
+      $category=$request->category;
+
+      if($category=='moji_oglasi')
+      {
+          $data=$this->modelUser->getMyAds(auth()->user()->id,$this->start,$this->limit);
+
+      }
+      else{
+          $data=$this->modelUser->getFollowAds(auth()->user()->id,$this->start,$this->limit);
+      }
+
+      return  count($data)>0 ?  view('ajax.shop_ajax', ["products" => $data]) : ($data=404) ;
+
+
+
+  }
 
 
 

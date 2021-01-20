@@ -9,7 +9,7 @@
                     <div class="bread-inner">
                         <ul class="bread-list">
                             <li><a href="{{route('welcome')}}">Home<i class="ti-arrow-right"></i></a></li>
-                            <li class="active"><a href="blog-single.html">Shop Grid</a></li>
+                            <li class="active"><a href="blog-single.html">Korisnik</a></li>
                         </ul>
                     </div>
                 </div>
@@ -76,7 +76,24 @@
                             @endforeach
                         @endif
 
-        @elseif($code=='obavestenja')
+                </div>
+                            <div class="shop-top search_more">
+
+
+                                <span class="more_products" data-value="more-products_0">UČITAJ VIŠE</span>
+
+
+
+
+
+
+                            </div>
+
+
+
+
+
+                        @elseif($code=='obavestenja')
 
                         <div class="notification_block">
 
@@ -89,6 +106,7 @@
 
                         </div>
 
+            </div>
 @endif
 
 
@@ -101,11 +119,12 @@
 
 
 
-    </div>
+
+
     </div>
             <div class="clear"></div>
         </div>
 
     </section>
-
+<script type="text/javascript" src="{{asset('js/users.js')}}"></script>
 @endsection

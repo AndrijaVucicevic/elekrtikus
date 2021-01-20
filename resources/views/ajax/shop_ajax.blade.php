@@ -10,13 +10,32 @@
             </a>
             <div class="button-head">
                 <div class="product-action">
-                    <a data-toggle="modal" data-target="#exampleModal" title="Brz pregled" href="#"><i class=" ti-eye"></i><span>Brz pregled</span></a>
-                    <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Prati</span></a>
-                    <!-- kad se uradi login da se stavi da se provera user i da li prati oglase-->
+
+                    @if(Route::current()->getName() == 'user')
+
+                        @if(isset($product->user_follow))
+                            <a title="Brisanje" href="#"><i class="fa fa-trash-o"></i><span>Brisanje</span></a>
+
+                            <a title="Izmeni" href="#"> <i class="fa fa-edit"></i><span>Izmeni</span></a>
+
+                        @else
+
+                            <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Otprati</span></a>
+                        @endif
+                    @endif
+
+                    @if(Route::current()->getName() != 'user')
+                        <a data-toggle="modal" data-target="#exampleModal" title="Brz pregled" href="#"><i class=" ti-eye"></i><span>Brz pregled</span></a>
+                        <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Prati</span></a>
+                        <!-- kad se uradi login da se stavi da se provera user i da li prati oglase-->
+                        <!--<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>-->
+                @endif
+
                     <!--<a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>-->
                 </div>
                 <div class="product-action-2">
                     <a title="Add to cart" href="#">Add to cart</a>
+                    <!-- posalji poruku korisniku -->
                 </div>
             </div>
         </div>

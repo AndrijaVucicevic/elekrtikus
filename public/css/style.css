@@ -5130,3 +5130,15 @@ input[type=number]::-webkit-outer-spin-button {
 	color: #f7941d;
 	font-family: cursive;
 }
+.more_products{
+cursor:pointer;
+color:white;
+}
+.search_more{
+	text-align: center!important;
+	padding: 15px!important;
+	cursor: pointer!important;
+	background-color:#F7941D!important;
+	margin-top: 10px;
+	border-radius: 0 0 30px 30px;
+}
