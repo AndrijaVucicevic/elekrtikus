@@ -229,14 +229,17 @@ $("#btnLogin").on('click',function () {
 
 
                 //alert("Login uspesno");
-                    $(".user_list").html('<i class="ti-user"></i>'+name);
-                    $(".login_list").html('<i class="ti-power-off"></i><a href="'+base_Url+'logout">Odjava</a></li>');
+                   // $(".user_list").html('<i class="ti-user"></i>'+name);
+                    //$(".login_list").html('<i class="ti-power-off"></i><a href="'+base_Url+'logout">Odjava</a></li>');
+
 
                     $("#myModal").css('display','none');
                     $("#closeLogin").click();
                   //  $('.modal-header1 .close').click();
                     // $(".modal-header1 .myClose").click();
 
+// window.location.href=location.href;
+location.reload();
                 }
                 else{
 
@@ -305,4 +308,44 @@ $('#login_form .form-group1 input').focus(function () {
     //greske
 });
 
+
+$(".list-main").on('mouseover','.loginUser',function() {
+  // alert("aa");
+});
+//get message
+$(".sinlge-bar i").on('mouseover',function () {
+   //console.log('messenger');
+
+    let i_class=this.className;
+
+
+    i_class=='fa fa-envelope-open-o' ? i_class='messages': i_class='likes';
+
+
+
+    console.log(i_class);
+    $.ajax({
+       url:base_Url+'user',
+       method:'post',
+        data:{
+           code:i_class,
+           send:true,
+        },
+        success:function (data) {
+
+        },
+        error:function(xhr,error,status)
+        {
+            // alert(xhr.status);
+
+
+        }
+
+
+
+    });
+
+
+
+});
 

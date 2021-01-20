@@ -26,12 +26,8 @@
                             <h3><a href="{{ route("product", ["product_id" => $product->name.'_el_'.$product->id_oglas])}}">{{$product->name}}</a></h3>
                             <div class="product-price">
                               <!--  <span class="old">$60.00</span>-->
-                                <span>{{$product->price}} @if($product->currency==0)
-                                        RSD
-                                        @endif
-                                        @if($product->currency==1)
-                                        &euro;
-                                    @endif
+                                <span>{{$product->price}}
+                                    {{$product->currency_text}}
                                 </span>
                             </div>
                         </div>

@@ -39,7 +39,7 @@
                             <li><i class="ti-location-pin"></i> Store location</li>
                             <li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li>
                           @if(\Illuminate\Support\Facades\Auth::check())
-                                <li class="user_list"><i class="ti-user"></i>{{auth()->user()->name}}</li>
+                                <li class="user_list loginUser"><i class="ti-user"></i>{{auth()->user()->name}}</li>
                                 <li class="login_list"><i class="ti-power-off"></i><a href="{{route('logout')}}">Odjava</a></li>
                        @endif
                             @if(!\Illuminate\Support\Facades\Auth::check())
@@ -59,6 +59,7 @@
     <div class="middle-inner">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-2 col-md-2 col-12">
                     <!-- Logo -->
                     <div class="logo">
@@ -94,14 +95,58 @@
                         </div>
                     </div>
                 </div>
+                @if(\Illuminate\Support\Facades\Auth::check())
                 <div class="col-lg-2 col-md-3 col-12">
                     <div class="right-bar">
                         <!-- Search Form -->
-                        <div class="sinlge-bar">
+                        <div class="sinlge-bar shopping">
                             <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+
+                            <div class="shopping-item">
+                                <div class="dropdown-cart-header">
+                                    <span>2 Items</span>
+                                    <a href="#">Svidjanja</a>
+                                </div>
+                                <ul class="shopping-list user-likes">
+                                   //svidjanja
+
+                                </ul>
+                                <div class="bottom">
+                                    <div class="total">
+                                        <span></span>
+                                        <span class="total-amount"></span>
+                                    </div>
+                                    <a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=svidjanja" class="btn animate">Pogledajte sve</a>
+                                </div>
+                            </div>
+
+
+
+
+
                         </div>
-                        <div class="sinlge-bar">
-                            <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+
+                        <div class="sinlge-bar shopping">
+                            <a href="#" class="single-icon"><i class="fa fa-envelope-open-o" aria-hidden="true"></i> <span class="total-count">2</span></a>
+                            <!-- Shopping Item -->
+                            <div class="shopping-item">
+                                <div class="dropdown-cart-header">
+                                    <span>2 Items</span>
+                                    <a href="#">Messenger</a>
+                                </div>
+                                <ul class="shopping-list user-messanger">
+
+                                    //messanger
+                                </ul>
+                                <div class="bottom">
+                                    <div class="total">
+                                        <span></span>
+                                        <span class="total-amount"></span>
+                                    </div>
+                                    <a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=poruke" class="btn animate">Pogledajte sve poruke</a>
+                                </div>
+                            </div>
+                            <!--/ End Shopping Item -->
                         </div>
                         <div class="sinlge-bar shopping">
                             <a href="#" class="single-icon"><i class="ti-bag"></i> <span class="total-count">2</span></a>
@@ -137,6 +182,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -160,20 +206,24 @@
                                             <li class="active"><a href="#">Home</a></li>
                                             <li><a href="#">Product</a></li>
                                             <li><a href="#">Service</a></li>
-                                            <li><a href="#">Shop<i class="ti-angle-down"></i><span class="new">New</span></a>
-                                                <ul class="dropdown">
-                                                    <li><a href="shop-grid.html">Shop Grid</a></li>
-                                                    <li><a href="cart.html">Cart</a></li>
-                                                    <li><a href="checkout.html">Checkout</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="#">Pages</a></li>
+
+
                                             <li><a href="#">Blog<i class="ti-angle-down"></i></a>
                                                 <ul class="dropdown">
                                                     <li><a href="blog-single-sidebar.html">Blog Single Sidebar</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="contact.html">Contact Us</a></li>
+                                         @if(\Illuminate\Support\Facades\Auth::check())
+                                            <li><a href="#">Korisničke stranice<i class="ti-angle-down"></i><span class="new">New</span></a>
+                                                <ul class="dropdown">
+                                                    <li><a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=moji_podaci">Korisnički podaci</a></li>
+                                                    <li><a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=moji_oglasi">Moji oglasi</a></li>
+                                                    <li><a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=pratim">Pratim</a></li>
+                                                    <li><a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=poruke">Poruke</a></li>
+                                                </ul>
+                                            </li>
+                                             @endif
                                         </ul>
                                     </div>
                                 </div>
