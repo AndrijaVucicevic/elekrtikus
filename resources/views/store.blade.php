@@ -2,9 +2,7 @@
 
 @section('content')
 <style>
-    .subcategory_list{
-        display:none;
-    }
+
 
 
 </style>

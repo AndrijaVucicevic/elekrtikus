@@ -63,7 +63,13 @@ Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
 Route::get('/user',[UserController::class,'index'])->name('user');
 
-Route::post('/more_products',[UserController::class,'more_products']);
+Route::post('/more_products',[UserController::class,'more_products'])->name('more_user');
+
+Route::post('/changeUserCategory',[UserController::class,'changeUserCategory'])->name('category_user');
+
+Route::post('/delete_product_user',[UserController::class,'delete_product'])->name('category_user');
+
+
 
 
 

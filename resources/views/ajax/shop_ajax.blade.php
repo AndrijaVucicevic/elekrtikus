@@ -11,12 +11,12 @@
             <div class="button-head">
                 <div class="product-action">
 
-                    @if(Route::current()->getName() == 'user')
+                    @if(Route::current()->getName() == 'user' || Route::current()->getName() == 'more_user' || Route::current()->getName() == 'category_user')
 
                         @if(isset($product->user_follow))
-                            <a title="Brisanje" href="#"><i class="fa fa-trash-o"></i><span>Brisanje</span></a>
+                            <a title="Brisanje" href="#"><i class="fa fa-trash-o" id="user_delete_{{$product->name}}_{{$product->id_oglas}}"></i><span>Brisanje</span></a>
 
-                            <a title="Izmeni" href="#"> <i class="fa fa-edit"></i><span>Izmeni</span></a>
+                            <a title="Izmeni" href="#"> <i class="fa fa-edit" id="user_edit_{{$product->name}}_{{$product->id_oglas}}"></i><span>Izmeni</span></a>
 
                         @else
 
@@ -24,7 +24,9 @@
                         @endif
                     @endif
 
-                    @if(Route::current()->getName() != 'user')
+                    @if(Route::current()->getName() != 'user' && Route::current()->getName() != 'more_user' && Route::current()->getName() != 'category_user')
+
+
                         <a data-toggle="modal" data-target="#exampleModal" title="Brz pregled" href="#"><i class=" ti-eye"></i><span>Brz pregled</span></a>
                         <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Prati</span></a>
                         <!-- kad se uradi login da se stavi da se provera user i da li prati oglase-->

@@ -20,14 +20,15 @@
     <section class="product-area shop-sidebar shop section">
 
         <div class="container">
-
+<div class="row">
                 <div class="col-lg-3 col-md-4 col-12">
-                    <div class="row" style="float: left;">
+
                     <div class="single-widget category">
                         <h3 class="title">Categories</h3>
                         <ul class="categor-list" id="categoryShopList">
 
-                     {{--      @if(isset($categoryList))
+                          @if(isset($categoryList)&&$categoryList!=null)
+
                                 @for($i=0;$i<count($categoryList);$i++)
 
                                     <li class="category_list_shop collapsible" data-target="{{$categoryList[$i]->subcategory_name}}">{{$categoryList[$i]->subcategory_name}}
@@ -36,7 +37,7 @@
 
                                                 @if($ppk[$a]->subcategory_id==$categoryList[$i]->id_subcategory)
 
-                                                    <li id="list_http://localhost/elektrikus/public/shop?{{$categoryList[$i]->subcategory_name}}&category={{$ppk[$a]->name_ppk}}">{{$ppk[$a]->name_ppk}}</li>
+                                                    <li id="list_category_{{$ppk[$a]->name_ppk}}">{{$ppk[$a]->name_ppk}}</li>
 
                                                 @endif
 
@@ -48,13 +49,13 @@
                                 @endfor
 
                             @endif
---}}
+
 
 
                         </ul>
                     </div>
 
-                </div>
+
             </div>
 
 
@@ -77,10 +78,10 @@
                         @endif
 
                 </div>
-                            <div class="shop-top search_more">
+                            <div class="shop-top search_more"data-max="0">
 
 
-                                <span class="more_products" data-value="more-products_0">UČITAJ VIŠE</span>
+                                <span class="more_products" data-value="more-products_1" data-max="0">UČITAJ VIŠE</span>
 
 
 
@@ -106,7 +107,7 @@
 
                         </div>
 
-            </div>
+
 @endif
 
 
@@ -116,7 +117,7 @@
 
 
 
-
+</div>
 
 
 

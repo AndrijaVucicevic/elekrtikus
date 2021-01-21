@@ -349,4 +349,8 @@ $(".sinlge-bar i").on('mouseover',function () {
 
 
 });
-
+//
+function buttonDisabled(id){
+    document.getElementById(id).disabled = true;
+    setTimeout(function(){document.getElementById(id).disabled = false;},5000);
+}

@@ -17,9 +17,9 @@
                                         @if(Route::current()->getName() == 'user')
 
                                             @if(isset($product->user_follow))
-                                            <a title="Brisanje" href="#"><i class="fa fa-trash-o"></i><span>Brisanje</span></a>
+                                            <a title="Brisanje" href="#"><i class="fa fa-trash-o" id="user_delete_{{$product->name}}#{{$product->id_oglas}}"></i><span>Brisanje</span></a>
 
-                                            <a title="Izmeni" href="#"> <i class="fa fa-edit"></i><span>Izmeni</span></a>
+                                            <a title="Izmeni" href="#"> <i class="fa fa-edit" id="user_delete_{{$product->name}}#{{$product->id_oglas}}"></i><span>Izmeni</span></a>
 
                                                 @else
 

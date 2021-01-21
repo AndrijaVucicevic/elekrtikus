@@ -4946,8 +4946,8 @@ Version:1.0
 	cursor: pointer;
 }
 .activeCategory{
-	font-weight: bold;
-	color: #F7941D;
+	font-weight: bold!important;
+	color: #F7941D!important;
 }
 .price-filter input {
 	width:48%;
@@ -5141,4 +5141,7 @@ color:white;
 	background-color:#F7941D!important;
 	margin-top: 10px;
 	border-radius: 0 0 30px 30px;
+}
+.subcategory_list{
+	display:none;
 }

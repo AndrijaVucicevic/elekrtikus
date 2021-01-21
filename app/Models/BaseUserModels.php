@@ -58,6 +58,17 @@ return $user;
 
     }
 
+  public function userPassword($id)
+  {
+      return DB::table('users')
+          ->select('password')
+          ->where([
+              ['is_Active','=','1'],
+              ['id',$id]
+          ])
+          ->first();
 
+
+  }
 
 }
