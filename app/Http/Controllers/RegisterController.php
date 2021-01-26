@@ -60,7 +60,7 @@ class RegisterController extends Controller
         $verication_code = $request->get('code');
         $user = User::where([
             ['email_verified_at', '=', $verication_code],
-            ['is_Active', '=', '0']
+            ['is_Active', '=', '1']
         ])
             ->first();
 

@@ -262,6 +262,8 @@
 
 @endif
 
+@include('inc.modalAlert')
+@include('inc.modalUser')
 
 @include("inc.footer")
 

@@ -17,7 +17,7 @@ class UserController extends Controller
     private $modelUser;
     private $modelIndex;
     private $start=0;
-    private $limit=2;
+    private $limit=1;
 
     public function __construct()
     {

@@ -39,18 +39,18 @@ return $user;
 
     public function login($email)
     {
-$jedan=0;
+$one=1;
         $user=DB::table('users')
             ->select('id','name','lastName','password')
             ->where([
               [
                   'email',$email
               ],
-              ['is_Active',$jedan]
+              ['is_Active',$one]
            ] )
             ->orWhere([
                 ['username',$email],
-                ['is_Active',$jedan]
+                ['is_Active',$one]
             ])
             ->first();
 

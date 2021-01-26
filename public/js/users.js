@@ -11,7 +11,7 @@ e.preventDefault();
         $("#alertButtonModal").click();
     }
     else {
-        loadMoreProducts();
+        loadMoreProducts('app');
     }
 });
 
@@ -23,14 +23,14 @@ $('.more_products').on('click',function (e) {
 
     if(code1==1||code2==1)
     {
-        normalModalButton();
+
         modalBody('Trenutno nemamo oglas iz trazene kategorije');
         modalAlert('Alert');
 
         $("#alertButtonModal").click();
     }
     else {
-        loadMoreProducts();
+        loadMoreProducts('app');
     }
 });
 
@@ -38,12 +38,12 @@ $('.more_products').on('click',function (e) {
 
 
 
-function loadMoreProducts() {
+function loadMoreProducts(htm) {
     //
    //alert("aa");
     var start=$(".more_products").attr('data-value').split('_');
 
-
+//console.log(start);
 
     let loc=location.href;
      let code=loc.split('=');
@@ -73,7 +73,8 @@ function loadMoreProducts() {
            if(data!=404)
            {
                let now=parseInt(start[1])+1;
-               $("#content_user").append(data);
+               htm=='app'?
+               $("#content_user").append(data): $("#content_user").html(data);
                $('.more_products').attr('data-value','more-products_'+now);
 
            }
@@ -84,7 +85,7 @@ function loadMoreProducts() {
 
                 modalBody('Trenutno nemao vise oglase za navedene parametre');
 
-                normalModalButton();
+
 
                 modalAlert('Alert');
 
@@ -171,12 +172,12 @@ $("#categoryShopList li").on('click',function (e) {
 
 });
 
-//$('.modal-footer').on('click','#btnUserAction',function () {
+function oop() {
 
-function opp() {
+
     console.log('aa');
-    var product = $("#btnUserAction").attr('data-value');
-    var pass=$("#userActionCheck").val();
+    var product = $(".btnUserAction").attr('data-value');
+    var pass = $("#userActionCheck").val();
     if (product != null && product != undefined) {
         $.ajax({
             url: base_Url + 'delete_product_user',
@@ -184,37 +185,41 @@ function opp() {
             data: {
                 _token: csrf,
                 id: product,
-                pass:pass,
+                pass: pass,
                 send: true
             },
             success: function (data) {
 
-                if (data ==201) {
+                if (data == 201) {
 
                     let more = $(".more_products").attr('data-value').split('_');
-                    $(".more_products").attr('data-value', parseInt(more[1]) - 1);
-                    loadMoreProducts();
-                    normalModalButton();
-                    modalAlert('Alert');
+                    let next = parseInt(more[1]) - 1;
+                    $(".more_products").attr('data-value', 'more-products_' + next);
+                    console.log($(".more_products").attr('data-value'));
+
+
+                    $("#user_check_body").html('<h4>Uspešno ste izbrisali proizvod</h4>');
+
+
+                    setTimeout(function () {
+                            $("#user_check .close").click();
+                            loadMoreProducts('delete');
+                        }
+                        , 5000);
+
 
                 }
                 //error
                 if (data != 201) {
 
 
-                    if(data==404) {
+                    if (data == 404) {
                         modalBody('Doslo je do greske prilikom brisanja');
                     }
-                    if(data==419)
-                    {
+                    if (data == 419) {
                         modalBody('Šifra se ne poklapa unesite ponovo šifru');
                     }
 
-
-
-                   // modalAlert('Alert');
-                    //normalModalButton();
-                   // $("#alertButtonModal").click();
 
                 }
             }
@@ -231,17 +236,14 @@ function opp() {
 
     }
 
-}//opp
+}
 
 
 
 
-//});
 
 
-
-
-$(".fa-trash-o").on('click',function (e) {
+$('#content_user').on('click','.fa-trash-o',function (e) {
 
 
    /* $(".btn-secondary").attr('id','btnUserAction');
@@ -251,22 +253,31 @@ $(".fa-trash-o").on('click',function (e) {
 
 */
 
-    var html='<span>Za izabranu akciju, potrebno je da unesete Vašu šifru </span>'+
+    var html='  <h4>Brisanje oglasa</h4><br><span>Za izabranu akciju, potrebno je da unesete Vašu šifru </span>'+
         '<input type="password" id="userActionCheck"/>';
 
-$(".modal-footer .btn-secondary").css('display','none');
-    $("#btnUserAction").remove();
+$("#user_check_body").html(html);
+//$("#user-modal-footer").html('<button id="btnUserAction" class="btn" data-value="'+this.id+'" onclick="opp()">Izvrši</button>');
+$(".modal-footer .btnUserAction").attr('data-value',this.id);
 
-$(".modal-footer").append('<button type="button" class="btn" id="btnUserAction" data-value="'+this.id+'" onclick="opp()">Izvrši</button>');
+    $("#user_change_check").modal('show');
 
-
-    modalAlert('Potvrdite šifru');
-
-    modalBody(html);
-
-    $("#alertButtonModal").click();
+//delete
 
 });
+
+$('#content_user').on('click','.fa-edit',function (e) {
+   //get data about product, put in modall
+
+    //but first how to insert
+
+
+
+});
+
+
+
+
 
 
 function modalAlert(value)
@@ -277,16 +288,4 @@ function modalAlert(value)
 function modalBody(value)
 {
     $("#modalBody-alert").html(value);
-}
-function normalModalButton()
-{
-    /* $("#btnUserAction").attr('data-dismiss','modal');
-     $("#btnUserAction").removeAttr('data-value');
-     $("#btnUserAction").html('Close');
-     $(".btn-secondary").removeAttr('id');
- */
-   // alert('modalButton');
-    $("#btnUserAction").remove();
-    $(".modal-footer .btn-secondary").css('display','inline-block');
-
 }

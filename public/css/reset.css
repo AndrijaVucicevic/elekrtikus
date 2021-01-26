@@ -1099,7 +1099,7 @@ object {
 .modal-dialog .modal-content .modal-header {
 	border: none;
 	padding: 0;
-	right: 10px;
+	/*right: 10px;*/
 	top: 10px;
 	position: absolute;
 	z-index: 9999;
