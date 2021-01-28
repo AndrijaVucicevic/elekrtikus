@@ -73,6 +73,11 @@ class UserController extends Controller
               $categoryList = $this->modelIndex->subcategory();
               $ppk = $this->modelIndex->ppk();
               break;
+          case 'noviUnos':
+              $code='novUnos';
+              $data=null;
+              $categoryList=$this->modelIndex->category();
+              break;
 
       }
      // dd($code);

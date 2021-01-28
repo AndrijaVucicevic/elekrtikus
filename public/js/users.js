@@ -289,3 +289,22 @@ function modalBody(value)
 {
     $("#modalBody-alert").html(value);
 }
+// PICTURE FORM INSERT UPDATE PRODUCT
+
+$(document).on('change','.slikaBlock', function () {
+
+    var id=this.id;
+    //alert(id);
+    var str =id;
+    var res = str.charAt(4);
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imgshow'+res).attr('src', e.target.result);
+
+        }
+        reader.readAsDataURL(this.files[0]);
+
+
+    }
+});

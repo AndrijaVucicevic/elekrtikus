@@ -27,7 +27,7 @@
                         <h3 class="title">Categories</h3>
                         <ul class="categor-list" id="categoryShopList">
 
-                          @if(isset($categoryList)&&$categoryList!=null)
+                          @if(isset($categoryList)&&$categoryList!=null && $data!=null)
 
                                 @for($i=0;$i<count($categoryList);$i++)
 
@@ -65,6 +65,8 @@
             <div class="col-lg-9 col-md-8 col-12" style="float: right;">
                 <div class="row" id="content_user">
         @if(isset($code))
+
+
      @if($code=='oglasi')
 
 
@@ -76,21 +78,26 @@
 
                             @endforeach
                         @endif
+                </div>
+                <div class="shop-top search_more"data-max="0">
+
+
+                    <span class="more_products" data-value="more-products_1" data-max="0">UČITAJ VIŠE</span>
+
+
+
+
+
 
                 </div>
-                            <div class="shop-top search_more"data-max="0">
+@elseif($code=='novUnos')
 
 
-                                <span class="more_products" data-value="more-products_1" data-max="0">UČITAJ VIŠE</span>
-
-
-
+                    @include('inc.new_product', ['category' => $categoryList])
 
 
 
-                            </div>
-
-
+</div>
 
 
 

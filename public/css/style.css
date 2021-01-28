@@ -5137,7 +5137,7 @@ input[type=number]::-webkit-outer-spin-button {
 cursor:pointer;
 color:white;
 }
-.search_more{
+.search_more,#update_insert{
 	text-align: center!important;
 	padding: 15px!important;
 	cursor: pointer!important;

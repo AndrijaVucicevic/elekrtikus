@@ -221,6 +221,7 @@
                                                     <li><a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=moji_oglasi">Moji oglasi</a></li>
                                                     <li><a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=pratim">Pratim</a></li>
                                                     <li><a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=poruke">Poruke</a></li>
+                                                    <li><a href="http://localhost/elektrikus/public/user?korisnik={{auth()->user()->username}}&category=noviUnos">Novi unos</a></li>
                                                 </ul>
                                             </li>
                                              @endif
