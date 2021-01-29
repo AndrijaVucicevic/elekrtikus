@@ -51,7 +51,6 @@ input[type="file"] {
     width: 21%;
     background: bisque;
     text-align: center;
-
     padding-top: 7px;
    cursor: pointer;
     caret-color: red;
@@ -101,6 +100,27 @@ table tr td input{
     background:#F7941D!important;
     border-color: #F7941D!important;
 }
+form #section_fourthStep div label{
+
+    position: absolute;
+    left: 20px;
+    text-align:center;
+}
+form #section_fourthStep div input{
+    width: 100%;
+    height: 45px;
+    padding-top: 10px;
+    padding-left: 15%;
+}
+form{
+    width: 90%;
+}
+form #section_fourthStep div input[type=checkbox]
+{
+height: auto;
+}
+
+
 
 
 

@@ -212,6 +212,7 @@ $("#btnLogin").on('click',function () {
 
     if (errors.length==0) {
 
+        $("#myModal").css('cursor','progress');
         $.ajax({
             url:base_Url+'login',
             method:'post',

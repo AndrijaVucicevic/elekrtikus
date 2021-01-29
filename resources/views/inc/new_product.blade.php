@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{asset('css/form_new.css')}}" />
 <ul class="clip_list nav nav-pills">
     <li class="active"><a href="#section_firstStep" data-toggle="pill">Kategorija</a></li>
-    <li><a  href="#section_secondStep" data-toggle="pill">Podaci o oglasu</a></li>
+    <li class="wrap"><a href="#section_secondStep" data-toggle="pill">O oglasu</a></li>
     <li><a href="#section_thirdStep" data-toggle="pill">Promocije</a></li>
     <li><a href="#section_fourthStep" data-toggle="pill">Lični podaci</a></li>
 
@@ -55,22 +55,23 @@
 </div>
     <div id="section_secondStep" class="fade section_new tab-pane">
 
- <label>Naziv</label>
-<input type="text" id="text_name"/>
+ <label for="text_name">Naziv:</label>
+<input required type="text" id="text_name" style="width:65%;"/>
 
-        <label>Cena:</label>&nbsp&nbsp<input type="number" id="price_new" name="price_new"/>
-         RSD<input type="radio" name="ch_valuta" class="chValuta" value="1" id="chValuta1" />
-            &euro; <input type="radio" name="ch_valuta" class="chValuta" value="2" id="chValuta2" />
+        <br> <label for="price_new">Cena:</label>&nbsp&nbsp<input required type="number" id="price_new" name="price_new"/>
+        <input type="radio" name="ch_currency" class="chCurrency" value="1" id="chCurrency1" /> <label for="chCurrency1"> RSD</label>
+             <input type="radio" name="ch_currency" class="chCurrency" value="2" id="chCurrency2" /> <label for="chCurrency2"  style="border-right: 1px solid;">&euro; &nbsp;</label>
 
-        <br><div id="fixedPrice">Fiksno<input type="radio" name="ch_Fixed" class="ch_Fixed" value="1" id="ch_Fixed1" />
-            Zamena<input type="checkbox" name="ch_Fixed" class="chFixed" value="2" id="ch_Fixed2" />
-            Dogovor<input type="checkbox" name="ch_Fixed" class="chFixed" value="3" id="ch_Fixed3" />
-        </div>
+       <input type="radio" id="ch_Fixed1" name="ch_Fixed1" class="ch_Fixed" value="1"/><label for="ch_Fixed1">Fiksno</label>
+        <input type="checkbox" name="ch_Fixed" class="chFixed" value="2" id="ch_Fixed2"/> <label for="ch_Fixed2">Dogovor</label>
+       <input type="checkbox" name="ch_Fixed" class="chFixed" value="3" id="ch_Fixed3"/> <label for="ch_Fixed3">Zamena</label>
+
         <br><textarea id="description_new" name="description_new" placeholder="Unesite opis" cols="24" rows="5"></textarea>
 
         <div id="picture_insert_block" class="picture">
             <p style="font-weight: bold">Mozete maksimalno uneti 10 slika, ili minimalno samo jednu, podrzavani formati su jpg/jpeg/png</p>
             <ul id="listPicture" class="listPicture">
+
 
                 <script>
                     var a='';
@@ -90,12 +91,12 @@
     <div id="section_thirdStep" class="fade section_new tab-pane">
         <ul id="modalPromocija">
             <li id="podrazumevano">
-                <input type="checkbox" name="chPromocija" value="0" id="chPromocija" />
+                <input type="checkbox" name="chPromocija" value="0" id="chStandard" />
                 <h3>Standardna vidljivost</h3>
                 <p>Smanjuje broj poseta, Vas oglas ce biti prikazivan prilikom vrsenja pretraga medju svim ostalim oglasima.<h4 class="cenaPromocija" style="float: right;">00,00 RSD</h4></p>
             </li>
             <li class="promotion_new" id="">
-                <input type="checkbox" name="chPromocija1" value="1" id="chPromocija1" />
+                <input type="checkbox" name="chPromocija1" value="1" id="chProm1" />
                 <h3>Vidljivost jedan</h3>
                 <p>Povecava broj poseta, Vas oglas ce biti prikazivan medju preporucenim oglasima za kategoriju kojoj pripada Vas oglas <h4 class="cenaPromocija" style="float: right;">1450,00 RSD</h4></p>
             </li>
@@ -121,69 +122,67 @@
     <div id="section_fourthStep" class="fade section_new tab-pane">
 
 
-      <table>
-          <tr> <td colspan="2" class="cheat">
+
+          <div class="cheat">
               Svi podaci su zasticeni
-              </td>
-          </tr>
+              </div>
+
+          <div>
+              <input required type="text" name="user_name" id="user_name"/>
+              <label for="user_name">Ime:</label>
+          </div>
+
+       <div>
+           <input required type="text" name="user_lastName" id="user_lastName"/>
+           <label for="user_lastName">Prezime:</label>
+       </div>
+
+        <div>
+            <input required type="text" name="user_phone" id="user_phone"/>
+            <label for="user_phone">Telefon:</label>
+        </div>
+         <div>
+             <input required type="text" name="user_place" id="user_place"/>
+             <label for="user_place">Mesto:</label>
+         </div>
+        <div>
+            <input required type="text" name="user_street" id="user_street"/>
+            <label for="user_street">Ulica, broj:</label>
+        </div>
+        <div>
+            <input required type="text" name="user_jmbg" id="user_jmbg"/>
+            <label for="user_jmbg">JMBG:</label>
+        </div>
+        <div>
+            <input required type="text" name="user_IDcard" id="user_IDcard"/>
+            <label for="user_IDcard">Broj licne karte:</label>
+        </div>
+
+              <div class="cheat">PREVARA AAAAAAAA ZABRANJENO ITDD</div>
+
+<div>
+    <input type="checkbox" name="ch_terms" value="1" id="ch_terms" />
+    <label for="chUslovi">Slazem se sa <a href="#">uslovima</a> korišćenja sajta!</label>
+</div>
+<div>
+    <input type="checkbox" name="ch_accuracy" value="1" id="ch_accuracy"/>
+    <label for="chTacnost">Garantujem tacnost unetih podataka</label>
 
 
-       <tr>
-           <td><label for="user_name">Ime:</label><input type="text" name="user_name" id="user_name"/></td>
-           <td><label for="user_lastName">Prezime:</label><input type="text" name="user_lastName" id="user_lastName"/>
 
-           </td></tr>
-        <tr>
-          <td><label for="user_phone">Telefon:</label>
-          <input type="text" name="user_phone" id="user_phone"/>
-          </td>
-            <td></td>
-        </tr>
+
+</div>
 
 
 
-          <tr>
-              <td> <label for="user_place">Mesto:</label>
-              <input type="text" name="user_place" id="user_place"/></td>
-              <td> <label for="user_street">Ulica, broj:</label>
-              <input type="text" name="user_street" id="user_street"/></td>
-
-          </tr>
-
-          <tr>
-
-              <td>  <label for="user_jmbg">JMBG:</label> <input type="text" name="user_jmbg" id="user_jmbg"/></td>
-              <td> <label for="user_IDcard">Broj licne karte:</label>
-                  <input type="text" name="user_IDcard" id="user_IDcard"/>
-              </td>
 
 
-          </tr>
-
-          <tr>
-              <td colspan="2" class="cheat">PREVARA AAAAAAAA ZABRANJENO ITDD</td>
-
-          </tr>
-          <tr>
-              <td>
-                  <label for="chUslovi">Slazem se sa <a href="#">uslovima</a> korišćenja sajta!</label>   <input type="checkbox" name="ch_condition" value="1" id="chUslovi" />
-              </td>
-              <td>
-                  <label for="chTacnost">Garantujem tacnost unetih podataka</label>  <input type="checkbox" name="ch_accuracy" value="1" id="chTacnost" />
-              </td>
 
 
-              <tr>
-
-              <td colspan="2">
                   <div id="update_insert">
-                      <button type="button" name="form_insert" class="btn btn-primary" id="form_insert">Unesi</button>
+                      <button type="button" name="form_insert" class="btn btn-primary btnUpdateInsert" id="form_insert">Unesi</button>
                   </div>
-              </td>
 
-          </tr>
-
-      </table>
 
 
 

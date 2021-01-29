@@ -306,5 +306,423 @@ $(document).on('change','.slikaBlock', function () {
         reader.readAsDataURL(this.files[0]);
 
 
+
     }
 });
+
+$('form div input').on('focus',function () {
+   //console.log(this);
+    $(this).next().css('display','none');
+});
+
+$('form div input').on('blur',function () {
+   $(this).next().css('display','initial');
+
+  // console.log(this.id);
+
+    switch (this.id) {
+        case 'user_name':
+          let user_name=checkName(this);
+          var data='Ime:';
+          var color='black';
+          if(user_name!=201)
+          {
+            data='[Prvo veliko slovo][ostatak imena][razmak][drugo ime ako imate]';
+            color='red';
+          }
+
+            $(this).next().html(data);
+            $(this).next().css('color',color);
+
+            break;
+        case 'user_lastName':
+            let user_lastName=checkLastName(this);
+            var data='Prezime:';
+            var color='black';
+            if(user_lastName!=201)
+            {
+                data='[Prvo veliko slovo][ostatak prezimena][razmak][drugo prezime ako imate]';
+                color='red';
+            }
+
+            $(this).next().html(data);
+            $(this).next().css('color',color);
+
+            break;
+        case 'user_phone':
+            let user_phone=checkPhone(this);
+            var data='Prezime:';
+            var color='black';
+            if(user_phone!=201)
+            {
+                data='[+381 ili 06][ostatak Vašeg broja, 6-7 cifara]';
+                color='red';
+            }
+
+            $(this).next().html(data);
+            $(this).next().css('color',color);
+            break;
+
+        case 'user_place':
+            let user_place=checkPlace(this);
+            var data='Mesto:';
+            var color='black';
+            if(user_place!=201)
+            {
+                data=' Npr: [Gornji Milanovac] %nbsp; [Beograd]';
+                color='red';
+            }
+
+            $(this).next().html(data);
+            $(this).next().css('color',color);
+            break;
+        case 'user_street':
+            let user_street=checkStreet(this);
+            var data='Ulica:';
+            var color='black';
+            if(user_street!=201)
+            {
+                data=' Npr: [kralja Petra 6-6] %nbsp; [Mosorska 6-6]';
+                color='red';
+            }
+
+            $(this).next().html(data);
+            $(this).next().css('color',color);
+            break;
+        case 'user_jmbg':
+            let user_jmbg=checkJMBG(this);
+            var data='JMBG:';
+            var color='black';
+            if(user_jmbg!=201)
+            {
+                data='[Unesite Vaš jedinstveni matični broj gradjanina]';
+                color='red';
+            }
+
+            $(this).next().html(data);
+            $(this).next().css('color',color);
+            break;
+        case 'user_IDcard':
+            let user_IDcard=checkIDcard(this);
+            var data='Lična karta:';
+            var color='black';
+            if(user_IDcard!=201)
+            {
+                data='[Unesite Vaš broj lične karte]';
+                color='red';
+            }
+
+            $(this).next().html(data);
+            $(this).next().css('color',color);
+            break;
+
+
+    }
+
+
+
+
+});
+//update insert
+$(".btnUpdateInsert").on('click',function (e) {
+    e.preventDefault();
+
+    var errors=[];
+
+
+    var ppk=$('#ppk_ddl');
+
+    if(ppk.val()==0)
+    {
+        errors.push('Kategorija proizvoda nije odabrana');
+        ppk.addClass('borderError');
+
+    }
+
+    var nameProduct=$("#text_name");
+    var price=$("#price_new");
+    var desciption=$("#description_new");
+    //reqExp
+    var reNameProduct=/^[\w\s]{1,60}$/;
+    var reDescription=/^[\w\s\d\W]{1,2000}$/;
+    var rePrice=/^[1-9]{1}[0-9]+$/;
+
+//maybe change price, permission first number can be 0
+
+    if (!reNameProduct.test(nameProduct.val()))
+    {
+        errors.push('Naziv proizvoda je neodgovarajući');
+        nameProduct.addClass('borderError');
+    }
+    if (!reDescription.test(desciption.val()))
+    {
+        if(desciption.val().length>2000)
+        {
+            errors.push('Dozvoljena dužina teksta je 2000 karaktera');
+        }
+        else{
+            errors.push('Opis proizvoda je u neodgovarajućem formatu');
+        }
+
+        desciption.addClass('borderError');
+    }
+    if (!rePrice.test(price.val()))
+    {
+        errors.push('Za cenu koristite brojeve');
+        price.addClass('borderError');
+    }
+
+
+    var currency=$('input[name=ch_currency]:checked', '#formInsert_update').val();
+    if (currency==null)
+    {
+        errors.push('Označite uslove vezane za cenu');
+
+        $("ch_currency").addClass('outlineError');
+    }
+    var contribution=null;
+    var fixed=null;
+    var con_replacement=null;
+    var deal=null;
+   if($("#ch_Fixed1").is(':checked')) {
+       fixed = $("#ch_Fixed1").val();
+   }
+   else {
+       if($("#ch_Fixed2").is(':checked')) {
+            deal = $("#ch_Fixed2").val();
+       }
+       if($("#ch_Fixed3").is(':checked')) {
+           con_replacement = $("#ch_Fixed3").val();
+       }
+       if (con_replacement==null && deal==null)
+       {
+           errors.push('Označite uslove vezane za cenu');
+
+          $(".ch_Fixed").addClass('outlineError');
+
+       }
+   }
+
+//PROMOTION
+var promotion=null;
+var promotion_one=null;
+var promotion_two=null;
+var promotion_three=null;
+
+    if($("#chStandard").is(':checked')) {
+      promotion=0;
+    }
+    else {
+        if ($("#chProm1").is(':checked')) {
+            promotion_one = 1;
+        }
+        if ($("#chProm2").is(':checked')) {
+            promotion_two = 1;
+        }
+
+        if(promotion_one==null && promotion_two==null)
+        {
+            promotion=0;
+        }
+        else{
+            promotion = 1;
+        }
+
+    }
+    // personal information
+
+   let personName=checkName($('#user_name'));
+    if (personName!=201)
+    {
+        errors.push("Ime nije u dozvoljenom formatu");
+    }
+    let personLastName=checkLastName($('#user_lastName'));
+    if (personLastName!=201)
+    {
+        errors.push("Prezime nije u dozvoljenom formatu");
+    }
+    let personPhone=checkPhone($('#user_phone'));
+    if (personPhone!=201)
+    {
+        errors.push("Telefon nije u dozvoljenom formatu");
+    }
+    let personPlace=checkPlace($('#user_place'));
+    if (personPlace!=201)
+    {
+        errors.push("Mesto-grad nije u dozvoljenom formatu");
+    }
+    let personStreet=checkStreet($('#user_street'));
+    if (personStreet!=201)
+    {
+        errors.push("Ulica nije u dozvoljenom formatu");
+    }
+    let personJMBG=checkJMBG($('#user_jmbg'));
+    if (personJMBG!=201)
+    {
+        errors.push("JMBG nije u dozvoljenom formatu");
+    }
+    let personIDcard=checkIDcard($('#user_IDcard'));
+    if (personIDcard!=201)
+    {
+        errors.push("Lična karta nije u dozvoljenom formatu");
+    }
+   //accepted terms
+
+    var accuracy=null;
+    var terms=null;
+    if($("#ch_accurcy").is(':checked')) {
+        accuracy=1;
+    }
+
+    if($("#ch_terms").is(':checked')) {
+        terms=1;
+    }
+
+
+if (terms==null)
+{
+    //uslovi
+    errors.push('Niste prihvatili uslove korišćenja')
+}
+if (accuracy==null)
+{
+    //tacnost
+    errors.push('Morate garantovati za tačnost unetih podataka');
+}
+
+
+var counter=0;
+
+
+for(let i=0;i<10;i++) {
+
+  if(document.getElementById("file"+i).files.length === 0)
+  {
+      //nista
+  }
+  else{
+      counter++;
+  }
+
+}
+
+if (counter==0)
+{
+    errors.push('Morate uneti sliku proizvoda');
+}
+
+
+
+
+
+    if (errors.length==0)
+    {
+        //ide ajaks poziv i upis
+
+    }
+
+
+});
+
+
+function checkName(name) {
+    var person_name=name;
+    let reName=/^[A-ZČĆŽĐŠ][a-zčćžđš]+(\s[A-ZČĆŽĐŠ][a-zčćžđš]+)*$/;
+    if(!reName.test($(person_name).val()))
+    {
+
+        $(person_name).addClass('borderError');
+        return 422;
+    }
+    else
+        return 201;
+
+}
+function checkLastName(last_name) {
+
+    var person_lastName=last_name;
+    let reLastName=/^[A-ZČĆĐŽŠ][a-zčćšđž]+(([',. -][a-zčćšđžA-ZČĆĐŽŠ ])?[a-zčćšđžA-ZČĆĐŽŠ]*)*$/;
+    if(!reLastName.test($(person_lastName).val()))
+    {
+
+        $(person_lastName).addClass('borderError');
+        return 422;
+    }
+    else
+        return 201;
+
+
+}
+function checkPhone(phone) {
+
+
+    var person_phone=phone;
+    let rePhone=/^(\+3816|06)[01234569]{1}[0-9]{6,7}$/;
+
+    if(!rePhone.test($(person_phone).val()))
+    {
+        //errors.push("Telefon nije u dozvoljenom formatu");
+        $(person_phone).addClass('borderError');
+        return 422;
+    }
+    else
+        return 201;
+}
+function checkPlace(place) {
+
+    var person_place=place;
+    let rePlace=/^[A-z]+([\s][A-z]+)*$/;
+    if(!rePlace.test($(person_place).val()))
+    {
+        // errors.push("Mesto/grad nije u dozvoljenom formatu");
+        $(person_place).addClass('borderError');
+        return 422;
+    }
+    else
+        return 201;
+
+}
+function checkStreet(street) {
+
+    var person_street=street
+    let reStreet=/^[A-z]*\s([A-z]+\s)*[\d]([\d]{1,2}|[-/\d]{2,4})?$/;
+    if(!reStreet.test($(person_street).val()))
+    {
+        //errors.push("Ulica nije u dozvoljenom formatu");
+        $(person_street).addClass('borderError');
+        return 422;
+    }
+    else
+        return 201;
+
+
+}
+function checkJMBG(jmbg) {
+
+
+    var person_jmbg=jmbg;
+    let reJMBG=/^([0-9][1-9]|([1-9][0-9])){2}(([0]{2}[0-2])|([9][2-9][0-9]))[0-9]{6}$/;
+    if(!reJMBG.test($(person_jmbg).val()))
+    {
+       // errors.push("JMBG nije u dozvoljenom formatu");
+        $(person_jmbg).addClass('borderError');
+        return 422;
+    }
+    else
+        return 201;
+}
+function checkIDcard(idCard) {
+
+    var person_idCard=idCard;
+    let reIDcard=/^[0-9]{9}$/;
+    if(!reIDcard.test($(person_idCard).val()))
+    {
+       // errors.push("Lična karta nije u dozvoljenom formatu");
+        $(person_idCard).addClass('borderError');
+        return 422;
+    }
+    else
+        return 201;
+}
+
+

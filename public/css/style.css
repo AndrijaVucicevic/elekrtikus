@@ -5148,3 +5148,9 @@ color:white;
 .subcategory_list{
 	display:none;
 }
+.outlineError{
+	outline: 1px solid red;
+}
+.borderError{
+	border: 1px solid red;
+}
