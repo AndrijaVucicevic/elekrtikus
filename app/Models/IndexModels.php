@@ -19,26 +19,46 @@ class IndexModels
         //return DB::table('')
 
         return DB::table('category')
-            ->select('id_category','name_category')
-            ->orderBy('id_category','asc')
-            ->get();
+        ->select('id_category','name_category')
+        ->orderBy('id_category','asc')
+        ->get();
+
+
+
+
     }
-    public function subcategory()
+    public function subcategory($cat=null)
     {
         //return DB::table('')
 
-        return DB::table('subcategory')
-            ->select('id_subcategory','subcategory_name','category_id')
-            ->orderBy('category_id','asc')
+        $data= DB::table('subcategory')
+            ->select('id_subcategory','subcategory_name','category_id');
+
+        if($cat!=null)
+        {
+            $data=$data->where(
+                'category_id',$cat
+            );
+        }
+
+        return $data->orderBy('category_id','asc')
             ->get();
     }
-    public function ppk()
+    public function ppk($cat=null)
     {
         //return DB::table('')
 
-        return DB::table('ppk')
-            ->select('id_ppk','name_ppk','subcategory_id')
-            ->orderBy('subcategory_id','asc')
+        $data= DB::table('ppk')
+            ->select('id_ppk','name_ppk','subcategory_id');
+
+           if($cat!=null)
+           {
+               $data=$data->where(
+                   'subcategory_id',$cat
+               );
+           }
+
+        return $data->orderBy('subcategory_id','asc')
             ->get();
     }
     public function trending($cat,$col)

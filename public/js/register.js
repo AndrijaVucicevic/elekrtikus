@@ -269,4 +269,16 @@ function printErrorMsg (msg) {
 
 
 }
+function printError (msg) {
+    /// alert("Aaa");
+    //check the way
+    $("#displayErrors").html('');
 
+    $("#displayBlockError").css('display', 'block');
+
+    $.each(msg, function (key, value) {
+        $("#displayErrors").append('<li>' + value + '</li>');
+    });
+
+
+}

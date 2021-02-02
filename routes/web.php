@@ -67,10 +67,14 @@ Route::post('/more_products',[UserController::class,'more_products'])->name('mor
 
 Route::post('/changeUserCategory',[UserController::class,'changeUserCategory'])->name('category_user');
 
-Route::post('/delete_product_user',[UserController::class,'delete_product'])->name('category_user');
+Route::post('/delete_product_user',[UserController::class,'delete_product']);
 
+Route::post('/insert_product_user',[UserController::class,'insert_product']);
 
-
+//get subcategory and ppk
+Route::post('/get_subcategory',[UserController::class,'get_subcategory']);
+Route::post('/get_ppk',[UserController::class,'get_ppk']);
+//
 
 
 Route::get('/product/{product_id}',[ProductController::class,'index_product'])->name('product');

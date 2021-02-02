@@ -13,6 +13,38 @@ use Illuminate\Support\Facades\Hash;
 class UserModels
 {
 
+   public $nameProduct;
+    public $description;
+    public $price;
+    public $priceStatus;
+    public $ppk;
+    public $city;
+    public $currency;
+    public $condition;
+    public $promotion;
+    public $personName;
+    public $personLastName;
+    public $personPhone;
+    public $personPlace;
+    public $personStreet;
+    public $personJMBG;
+    public $personIDcard;
+
+    public $fileName;
+    public $fileName1;
+    public $fileSrc;
+
+    public $idInsert;
+
+
+
+
+
+
+
+
+
+
     public function getMessages($count)
     {
         return 1;
@@ -122,6 +154,91 @@ class UserModels
         return $code;
 
     }
+
+ public function insert_picture($id)
+ {
+     $code=201;
+    try{
+
+        DB::table('picture')->insert([
+           "src"=>$this->fileSrc,
+            "alt"=>$this->fileName,
+            "title"=>$this->fileName1,
+            "oglas_id"=>$id
+
+        ]);
+
+    }
+    catch(\Throwable $e) {
+        //\Log::critical("Failed to insert youur ad.");
+        $code=$e->getMessage();
+        //  throw new \Exception("Greska pri unosu");
+
+    }
+     return $code;
+
+ }
+
+
+public function insert_product()
+{
+
+
+    try {
+        DB::transaction(function () {
+
+            $time=time();
+            $id=DB::table('oglas')->insertGetId([
+             "city_id"=>$this->city,
+                "ppk_id"=>$this->ppk,
+                "name"=>$this->nameProduct,
+                "price"=>$this->price,
+                "currency"=>$this->currency,
+                "description"=>$this->description,
+                "timestamp"=>$time,
+                "condition_status"=>$this->condition,
+                "price_status"=>$this->priceStatus
+
+
+
+
+            ]);
+
+            $oh=1;
+
+            $this->idInsert=$id;
+           DB::table('korisnik_oglas')->insert([
+               'user_id'=>auth()->user()->id,
+               'oglas_id'=>$id,
+               'JMBG'=>$this->personJMBG,
+               'ID_card'=>$this->personIDcard,
+               'phone_number'=>$this->personPhone,
+               'address'=>$this->personStreet,
+               'name'=>$this->personName,
+               'lastName'=>$this->personLastName,
+               'city_id'=>$oh
+
+           ]);
+
+        });
+
+        $code= $this->idInsert;
+    }
+    catch(\Throwable $e) {
+        //\Log::critical("Failed to insert youur ad.");
+        $code=$e->getMessage();
+        //  throw new \Exception("Greska pri unosu");
+
+    }
+
+    return $code;
+
+
+
+
+}
+
+
 
 
 

@@ -14,6 +14,18 @@
 <div id="section_firstStep" class="active section_new tab-pane">
 
     <span style="margin-bottom: 20px;">
+   <b>Izaberite stanje Vašeg proizvoda:</b>
+ </span>
+    <br>
+    <select id="conditionStatus">
+        <option value="1">Novo</option>
+        <option value="2">Kao novo</option>
+        <option value="3">Polovno</option>
+    </select>
+<br>
+<br>
+
+    <span style="margin-bottom: 20px;">
      Nakon odabira kategorije, ispod odaberite potkategoriju, a nakon toga tacnu kategoriju Vašeg oglasa.
     <br> Na primer: <b>Telefon</b><i class='fas fa-arrow-circle-right'></i> <b>Iphone</b> <i class='fas fa-arrow-circle-right'></i> <b>Iphone X</b>
  </span>
@@ -25,7 +37,7 @@
 <option value="0">Kategorija:</option>
     @foreach($category as $cat)
 
-        <option value="{{$cat->id_category}}">{{$cat->name_category}} </option>
+        <option value="c_{{$cat->name_category}}_{{$cat->id_category}}">{{$cat->name_category}} </option>
 
         @endforeach
     @endif
@@ -55,8 +67,9 @@
 </div>
     <div id="section_secondStep" class="fade section_new tab-pane">
 
- <label for="text_name">Naziv:</label>
-<input required type="text" id="text_name" style="width:65%;"/>
+
+        <label for="text_name">Naziv:</label>
+<input required type="text" id="text_name" style=" width:65%;"/>
 
         <br> <label for="price_new">Cena:</label>&nbsp&nbsp<input required type="number" id="price_new" name="price_new"/>
         <input type="radio" name="ch_currency" class="chCurrency" value="1" id="chCurrency1" /> <label for="chCurrency1"> RSD</label>

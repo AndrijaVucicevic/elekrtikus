@@ -27,11 +27,6 @@ var page=0;
 //show on page
 
 
-
-
-
-
-
 $("#min_price_filter").on('blur',function (e) {
     var min=this.value;
     var reMin=/^[1-9][0-9]+$/;

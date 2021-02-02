@@ -310,12 +310,12 @@ $(document).on('change','.slikaBlock', function () {
     }
 });
 
-$('form div input').on('focus',function () {
+$('form #section_fourthStep input').on('focus',function () {
    //console.log(this);
     $(this).next().css('display','none');
 });
 
-$('form div input').on('blur',function () {
+$('form #section_fourthStep input').on('blur',function () {
    $(this).next().css('display','initial');
 
   // console.log(this.id);
@@ -438,6 +438,8 @@ $(".btnUpdateInsert").on('click',function (e) {
         ppk.addClass('borderError');
 
     }
+    var condition=$("#conditionStatus");
+
 
     var nameProduct=$("#text_name");
     var price=$("#price_new");
@@ -445,7 +447,7 @@ $(".btnUpdateInsert").on('click',function (e) {
     //reqExp
     var reNameProduct=/^[\w\s]{1,60}$/;
     var reDescription=/^[\w\s\d\W]{1,2000}$/;
-    var rePrice=/^[1-9]{1}[0-9]+$/;
+    var rePrice=/^[1-9][0-9]+$/;
 
 //maybe change price, permission first number can be 0
 
@@ -480,12 +482,13 @@ $(".btnUpdateInsert").on('click',function (e) {
 
         $("ch_currency").addClass('outlineError');
     }
-    var contribution=null;
-    var fixed=null;
+    var priceStatus=null;
+
     var con_replacement=null;
     var deal=null;
    if($("#ch_Fixed1").is(':checked')) {
-       fixed = $("#ch_Fixed1").val();
+
+       priceStatus=parseInt($("#ch_Fixed1").val());
    }
    else {
        if($("#ch_Fixed2").is(':checked')) {
@@ -501,13 +504,17 @@ $(".btnUpdateInsert").on('click',function (e) {
           $(".ch_Fixed").addClass('outlineError');
 
        }
+       else
+       {
+           priceStatus=parseInt(con_replacement)+ parseInt(deal);
+       }
    }
 
 //PROMOTION
 var promotion=null;
 var promotion_one=null;
 var promotion_two=null;
-var promotion_three=null;
+
 
     if($("#chStandard").is(':checked')) {
       promotion=0;
@@ -517,7 +524,7 @@ var promotion_three=null;
             promotion_one = 1;
         }
         if ($("#chProm2").is(':checked')) {
-            promotion_two = 1;
+            promotion_two = 2;
         }
 
         if(promotion_one==null && promotion_two==null)
@@ -525,7 +532,7 @@ var promotion_three=null;
             promotion=0;
         }
         else{
-            promotion = 1;
+            promotion = parseInt(promotion_one)+parseInt(promotion_two);
         }
 
     }
@@ -593,6 +600,7 @@ if (accuracy==null)
 
 var counter=0;
 
+var fd=new FormData();
 
 for(let i=0;i<10;i++) {
 
@@ -601,6 +609,9 @@ for(let i=0;i<10;i++) {
       //nista
   }
   else{
+
+      var files = $('#file'+i)[0].files[0];
+      fd.append('file'+counter,files);
       counter++;
   }
 
@@ -618,6 +629,69 @@ if (counter==0)
     if (errors.length==0)
     {
         //ide ajaks poziv i upis
+
+
+
+
+        fd.append('nameProduct',nameProduct.val());
+        fd.append('ppk',ppk.val());
+        fd.append('price',price.val());
+        fd.append('currency',currency);
+        fd.append('condition',condition.val());
+        fd.append('priceStatus',priceStatus);
+        fd.append('description',desciption.val());
+        fd.append('promotion',promotion);
+        fd.append('personName',$('#user_lastName').val());
+        fd.append('personLastName',$('#user_lastName').val());
+        fd.append('personPhone',$('#user_phone').val());
+        fd.append('personPlace',$('#user_place').val());
+        fd.append('personStreet',$('#user_street').val());
+        fd.append('personJMBG',$('#user_jmbg').val());
+        fd.append('personIDcard',$('#user_IDcard').val());
+        fd.append('ch_accurcy',$('#ch_accurcy'));
+        fd.append('ch_terms',$('#ch_terms'));
+        fd.append('counter',counter);
+        $.ajax({
+            url: base_Url + 'insert_product_user',
+            method: 'post',
+            data: {
+                _token: csrf,
+                fd:fd,
+                send: true
+            },
+            success: function (data) {
+
+                if (data == 201) {
+
+                //uspesno
+alert('uspesno');
+
+                }
+                //error
+                if (data !=201) {
+
+                    console.log(data.error);
+                        printError(data.error);
+
+
+                }
+            }
+            ,
+            error: function (xhr, error, status) {
+                // alert(xhr.status);
+
+
+            }
+
+
+
+        });
+
+
+
+
+
+
 
     }
 
@@ -724,5 +798,134 @@ function checkIDcard(idCard) {
     else
         return 201;
 }
+
+$(document).on('click','.nice-select ul li',function(e){
+
+    if (this.getAttribute('data-value')!=0) {
+
+        let string = this.getAttribute('data-value').split('_');
+        //console.log(string[1]);
+
+
+        if (string[0] == 'c') {
+            //category
+
+            $.ajax({
+                url: base_Url + 'get_subcategory',
+                method: 'post',
+                data: {
+                    _token: csrf,
+                    cat: string[2],
+                    send: true
+                },
+                success: function (data) {
+
+                    var html = '';
+                    var html2 = '';
+                    for (let i = 0; i < data.length; i++) {
+
+                        if(i==0)
+                        {
+
+                            html = '<option value="' + data[i].id_subcategory + '">' + data[i].subcategory_name + '</option>';
+
+
+                            html2 = '<li class="option selected" data-value="s_' + data[i].subcategory_name + '_' + data[i].id_subcategory + '">' + data[i].subcategory_name + '</li>';
+
+                            $("#subcategory_ddl").next().find('span').html(data[i].subcategory_name);
+                        }
+
+                        else {
+                            html+= '<option value="' + data[i].id_subcategory + '">' + data[i].subcategory_name + '</option>';
+
+
+                            html2+= '<li class="option" data-value="s_' + data[i].subcategory_name + '_' + data[i].id_subcategory + '">' + data[i].subcategory_name + '</li>';
+                        }
+                    }
+
+                    $("#subcategory_ddl").html(html);
+                    $("#subcategory_ddl").next().find('ul').html(html2);
+
+
+                },
+                error: function (xhr, error, status) {
+                    //
+
+                }
+
+
+            });
+
+
+        }
+        if (string[0] == 's') {
+            //subcategory
+
+            $.ajax({
+                url: base_Url + 'get_ppk',
+                method: 'post',
+                data: {
+                    _token: csrf,
+                    cat: string[2],
+                    send: true
+                },
+                success: function (data) {
+
+
+//ppk_ddl
+                    var html = '';
+                    var html2 = '';
+                    for (let i = 0; i < data.length; i++) {
+
+                        if(i==0)
+                        {
+                            html = '<option value="' + data[i].id_ppk + '">' + data[i].name_ppk + '</option>';
+                            html2 = '<li class="option selected" data-value="p_' + data[i].name_ppk + '_' + data[i].id_ppk + '">' + data[i].name_ppk + '</li>';
+                            $("#ppk_ddl").next().find('span').html(data[i].name_ppk);
+
+                        }
+                        else {
+                            html+= '<option value="' + data[i].id_ppk + '">' + data[i].name_ppk + '</option>';
+
+
+                            html2+= '<li class="option" data-value="p_' + data[i].name_ppk + '_' + data[i].id_ppk + '">' + data[i].name_ppk + '</li>';
+                        }
+                    }
+                    $("#ppk_ddl").html(html);
+                    $("#ppk_ddl").next().find('ul').html(html2);
+
+                },
+                error: function (xhr, error, status) {
+                    //
+
+                }
+
+
+            });
+
+
+        }
+        if (string[0] == 'p') {
+            //ppk nothing
+        }
+
+    }
+
+    else{
+        var html='<option value="0">' +
+            '    Izaberite kategoriju levo...' +
+            '</option>';
+       var html2='<li class="option selected" data-value="0">Izaberite kategoriju levo...</li>';
+        $("#subcategory_ddl").html(html);
+        $("#subcategory_ddl").next().find('ul').html(html2);
+        $("#subcategory_ddl").next().find('span').html('Izaberite kategoriju levo...');
+        $("#ppk_ddl").html(html);
+        $("#ppk_ddl").next().find('ul').html(html2);
+        $("#ppk_ddl").next().find('span').html('Izaberite kategoriju levo...');
+    }
+
+
+
+});
 
 

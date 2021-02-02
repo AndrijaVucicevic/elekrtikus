@@ -194,4 +194,129 @@ public function delete_product(Request $request)
 
 }
 
+public function insert_product(Request $request)
+{
+    //dd($request->);
+    $this->modelUser->nameProduct = $request->nameProduct;
+    $this->modelUser->description = $request->description;
+    $this->modelUser->price = $request->price;
+    $this->modelUser->ppk = $request->ppk;
+    $this->modelUser->currency = $request->currency;
+    $this->modelUser->condition = $request->condition;
+    $this->modelUser->priceStatus = $request->priceStatus;
+    $this->modelUser->promotion = $request->promotion;
+    $this->modelUser->personName = $request->personName;
+    $this->modelUser->personLastName = $request->personLastName;
+    $this->modelUser->personPhone = $request->personPhone;
+    $this->modelUser->personPlace = $request->personPlace;
+    $this->modelUser->personStreet = $request->personStreet;
+    $this->modelUser->personJMBG = $request->personJMBG;
+    $this->modelUser->personIDcard = $request->personIDcard;
+    $counter = intval($request->counter);
+
+    $validator = Validator::make($request->all(), [
+        'nameProduct' => ['required', 'string', 'max:60', 'regex:/^[\w\s]{1,60}$/'],
+        'description' => ['required', 'string', 'max:2000', 'regex:/^[\w\s\d\W]{1,2000}$/'],
+        'price' => ['required', 'numeric'],
+        'ppk' => ['required', 'not_in:0'],
+        'condition' => ['required', 'not_in:0'],
+        'priceStatus' => ['required', 'in:1,2,3'],
+        'ch_accurcy' => 'accepted',
+        'ch_terms' => 'accepted',
+        'currency' => ['required', 'in:1,2'],
+        'personName' => ['required', 'string', 'email', 'max:25', 'regex:/^[A-ZČĆŽĐŠ][a-zčćžđš]+(\s[A-ZČĆŽĐŠ][a-zčćžđš]+)*$/'],
+        'personLastName' => ['required', 'string', 'regex:/^[A-ZČĆĐŽŠ][a-zčćšđž]+(([\',. -][a-zčćšđžA-ZČĆĐŽŠ ])?[a-zčćšđžA-ZČĆĐŽŠ]*)*$/'],
+        'personPhone' => ['required', 'string', 'regex:/^(\+3816|06)[01234569]{1}[0-9]{6,7}$/'],
+        'personPlace' => ['required', 'string', 'regex:/^[A-z]+([\s][A-z]+)*$/'],
+        'personStreet' => ['required', 'string', 'regex/^[A-z]*\s([A-z]+\s)*[\d]([\d]{1,2}|[-/\d]{2,4})?$/'],
+        'personJMBG' => ['required', 'string', 'regex:/^([0-9][1-9]|([1-9][0-9])){2}(([0]{2}[0-2])|([9][2-9][0-9]))[0-9]{6}$/'],
+        'personIDcard' => ['required', 'string', 'regex:/^[0-9]{9}$/'],
+        [
+            'personName.required' => ['Ime je obavezno'],
+            'personLastName.required' => ['Prezime je obavezno'],
+            'personPhone.required' => ['Polje za telefon je obavezno'],
+            'personPlace.required' => ['Polje za grad je je obavezno'],
+            'personStreet.required' => ['Polje za ulicu je obavezno'],
+            'personJMBG.required' => ['Polje za JMBG je obavezno'],
+            'personIDcard.required' => ['Polje za ličnu kartu je obavezno'],
+            //itd itdd, finish this
+
+
+        ]
+    ]);
+
+
+    if ($validator->passes()) {
+
+
+        $idInsert = $this->modelUser->insert_product();
+
+        if (is_int($idInsert)) {
+            $counter_picture = 0;
+
+            $fileName1 = 0;
+            for ($i = 0; $i > $counter; $i++) {
+
+                if ($request->file("file" . $counter) != null && $request->file("file" . $counter) != "") {
+
+
+                    $file = $request->file("file" . $counter);
+                    $this->validate($request, [
+                        'file' . $counter => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                    ]);
+
+                    $fileName = $file->getClientOriginalName();
+                    $fileName1 = time() . "_" . $fileName;
+                    public_path("img");
+
+                    //$public_path="img";
+                    $file->move(public_path('img'), $fileName1);
+
+                    $codePicture = $this->modelUser->insert_picture($idInsert);
+
+                    if ($codePicture == 201) $counter_picture++;
+
+                }
+
+
+            }
+
+            //counter_picture check
+            //promotion
+
+        }
+
+
+        return ($code = 201);
+    } else {
+
+        return response()->json(['error' => $validator->errors()->all()]);
+    }
+
+}
+public function get_subcategory(Request $request)
+{
+
+    $cat=$request->cat;
+
+    $data=$this->modelIndex->subcategory($cat);
+
+    return ($data);
+
+}
+public function get_ppk(Request $request)
+{
+
+    $cat=$request->cat;
+    $data=$this->modelIndex->ppk($cat);
+
+    return ($data);
+
+}
+
+
+
+
+
+
 }
