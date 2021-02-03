@@ -18,7 +18,7 @@ class UserModels
     public $price;
     public $priceStatus;
     public $ppk;
-    public $city;
+    public $city=1;
     public $currency;
     public $condition;
     public $promotion;
@@ -56,7 +56,7 @@ class UserModels
     public function getMyAds($id,$start,$limit,$category)
     {
       $data= DB::table('oglas')
-            ->select('id_oglas','name','price','src','title','alt','korisnik_oglas.user_id as user_follow'
+            ->select('id_oglas','oglas.name','price','src','title','alt','korisnik_oglas.user_id as user_follow'
                 ,DB::raw('case when currency=0 then "rsd" else "€" end as "currency_text"'))
             ->distinct()
             ->join('korisnik_oglas','oglas.id_oglas','=','korisnik_oglas.oglas_id')
@@ -155,15 +155,15 @@ class UserModels
 
     }
 
- public function insert_picture($id)
+ public function insert_picture($id,$fileName,$fileName1)
  {
      $code=201;
     try{
 
         DB::table('picture')->insert([
-           "src"=>$this->fileSrc,
-            "alt"=>$this->fileName,
-            "title"=>$this->fileName1,
+           "src"=>"images/" . $fileName1,
+            "alt"=>$fileName,
+            "title"=>$fileName1,
             "oglas_id"=>$id
 
         ]);

@@ -71,7 +71,7 @@
         <label for="text_name">Naziv:</label>
 <input required type="text" id="text_name" style=" width:65%;"/>
 
-        <br> <label for="price_new">Cena:</label>&nbsp&nbsp<input required type="number" id="price_new" name="price_new"/>
+        <br> <label for="price_new">Cena:</label>&nbsp&nbsp<input required type="text" id="price_new" name="price_new"/>
         <input type="radio" name="ch_currency" class="chCurrency" value="1" id="chCurrency1" /> <label for="chCurrency1"> RSD</label>
              <input type="radio" name="ch_currency" class="chCurrency" value="2" id="chCurrency2" /> <label for="chCurrency2"  style="border-right: 1px solid;">&euro; &nbsp;</label>
 
@@ -104,21 +104,26 @@
     <div id="section_thirdStep" class="fade section_new tab-pane">
         <ul id="modalPromocija">
             <li id="podrazumevano">
-                <input type="checkbox" name="chPromocija" value="0" id="chStandard" />
+                <input type="radio" name="chPromocija" value="0" id="chStandard" checked/>
                 <h3>Standardna vidljivost</h3>
                 <p>Smanjuje broj poseta, Vas oglas ce biti prikazivan prilikom vrsenja pretraga medju svim ostalim oglasima.<h4 class="cenaPromocija" style="float: right;">00,00 RSD</h4></p>
             </li>
-            <li class="promotion_new" id="">
-                <input type="checkbox" name="chPromocija1" value="1" id="chProm1" />
+            <li id="click_sponsored">
+                <input type="radio" name="chPromocija" value="0" id="chSponsored" />
+                <h3>Sponzorisanost</h3>
+                <p>Povećava broj poseta, lakši put do korisnika. Odabirom ove opcije možete da izaberete sponzorisanost Vašeg oglasa koja Vam najviše odgovara.</p>
+            </li>
+            <li class="promotion_new promotion_none" id="">
+                <input type="checkbox" name="chPromocija1" class="chPromCh" value="1" id="chProm1" />
                 <h3>Vidljivost jedan</h3>
                 <p>Povecava broj poseta, Vas oglas ce biti prikazivan medju preporucenim oglasima za kategoriju kojoj pripada Vas oglas <h4 class="cenaPromocija" style="float: right;">1450,00 RSD</h4></p>
             </li>
-            <li class="promotion_new" id="">
-                <input type="checkbox" name="chProm2" value="2" id="chProm2" />
+            <li class="promotion_new promotion_none" id="">
+                <input type="checkbox" name="chProm2" class="chPromCh" value="2" id="chProm2" />
                 <h3>Vidljivost dva</h3>
                 <p>Mogucnost da se Vas oglas nadje na pocetnoj strani, sigurna vidljivost, povecava broj poseta, broj mesta 9. Promocija se placa na nedeljnom nivou.<h4 class="cenaPromocija" style="float: right;">4450,00 RSD</h4></p>
             </li>
-            <li id="user_shop">
+            <li id="user_shop" class="promotion_new promotion_none">
 
                 <h3>Vidljivost tri</h3>
                 <p>Za vecu vidljivost, mozete napraviti svoj izlog. Tu ce se prikazivati svi Vasi oglasi uz razne druge mogucnosti sortiranje i pretrage..Izlog mozete napraviti putem svog korisnickog profila.Cena je na mesecnom nivou<h4 class="cenaPromocija" style="float: right;">3450,00 RSD</h4></p>

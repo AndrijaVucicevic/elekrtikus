@@ -310,12 +310,12 @@ $(document).on('change','.slikaBlock', function () {
     }
 });
 
-$('form #section_fourthStep input').on('focus',function () {
+$('form #section_fourthStep input[type=text]').on('focus',function () {
    //console.log(this);
     $(this).next().css('display','none');
 });
 
-$('form #section_fourthStep input').on('blur',function () {
+$('form #section_fourthStep input[type=text]').on('blur',function () {
    $(this).next().css('display','initial');
 
   // console.log(this.id);
@@ -426,18 +426,25 @@ $('form #section_fourthStep input').on('blur',function () {
 //update insert
 $(".btnUpdateInsert").on('click',function (e) {
     e.preventDefault();
-
+//console.log('aa');
     var errors=[];
 
 
-    var ppk=$('#ppk_ddl');
+    var ppk_first= $("#ppk_ddl").next().find('ul');
 
-    if(ppk.val()==0)
+  /*  if(ppk.==0)
     {
         errors.push('Kategorija proizvoda nije odabrana');
         ppk.addClass('borderError');
 
     }
+*/
+    var ppk_second=ppk_first.find('.selected');
+
+    var ppk=ppk_second.html();
+    //console.log(ppk);
+
+
     var condition=$("#conditionStatus");
 
 
@@ -445,7 +452,7 @@ $(".btnUpdateInsert").on('click',function (e) {
     var price=$("#price_new");
     var desciption=$("#description_new");
     //reqExp
-    var reNameProduct=/^[\w\s]{1,60}$/;
+    var reNameProduct=/^[\w\s./,/]{1,60}$/;
     var reDescription=/^[\w\s\d\W]{1,2000}$/;
     var rePrice=/^[1-9][0-9]+$/;
 
@@ -577,7 +584,7 @@ var promotion_two=null;
 
     var accuracy=null;
     var terms=null;
-    if($("#ch_accurcy").is(':checked')) {
+    if($("#ch_accuracy").is(':checked')) {
         accuracy=1;
     }
 
@@ -623,7 +630,7 @@ if (counter==0)
 }
 
 
-
+console.log(errors);
 
 
     if (errors.length==0)
@@ -632,33 +639,34 @@ if (counter==0)
 
 
 
-
         fd.append('nameProduct',nameProduct.val());
-        fd.append('ppk',ppk.val());
+        fd.append('ppk',ppk);
         fd.append('price',price.val());
         fd.append('currency',currency);
         fd.append('condition',condition.val());
         fd.append('priceStatus',priceStatus);
         fd.append('description',desciption.val());
         fd.append('promotion',promotion);
-        fd.append('personName',$('#user_lastName').val());
+        fd.append('personName',$('#user_name').val());
         fd.append('personLastName',$('#user_lastName').val());
         fd.append('personPhone',$('#user_phone').val());
         fd.append('personPlace',$('#user_place').val());
         fd.append('personStreet',$('#user_street').val());
         fd.append('personJMBG',$('#user_jmbg').val());
         fd.append('personIDcard',$('#user_IDcard').val());
-        fd.append('ch_accurcy',$('#ch_accurcy'));
-        fd.append('ch_terms',$('#ch_terms'));
+        fd.append('ch_accuracy',accuracy);
+        fd.append('ch_terms',terms);
         fd.append('counter',counter);
+        fd.append('token',csrf);
+
+       //console.log(fd);
+
         $.ajax({
             url: base_Url + 'insert_product_user',
             method: 'post',
-            data: {
-                _token: csrf,
-                fd:fd,
-                send: true
-            },
+            data:fd,
+            contentType: false,
+            processData: false,
             success: function (data) {
 
                 if (data == 201) {
@@ -927,5 +935,20 @@ $(document).on('click','.nice-select ul li',function(e){
 
 
 });
+$('#click_sponsored').on('click',function (e) {
+    e.stopPropagation();
 
+$('.promotion_new').removeClass('promotion_none');
+
+});
+$('#chStandard').on('click',function (e) {
+    e.stopPropagation();
+
+    $('.promotion_new').addClass('promotion_none');
+
+
+
+
+
+});
 

@@ -8,6 +8,7 @@ use App\Models\ShopModels;
 use App\Models\UserModels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -197,10 +198,17 @@ public function delete_product(Request $request)
 public function insert_product(Request $request)
 {
     //dd($request->);
+   // dd($request);
     $this->modelUser->nameProduct = $request->nameProduct;
     $this->modelUser->description = $request->description;
     $this->modelUser->price = $request->price;
     $this->modelUser->ppk = $request->ppk;
+     $ppk=$this->modelIndex->ppk($request->ppk);
+
+    // dd($ppk);
+     $this->modelUser->ppk=$ppk[0]->id_ppk;
+
+
     $this->modelUser->currency = $request->currency;
     $this->modelUser->condition = $request->condition;
     $this->modelUser->priceStatus = $request->priceStatus;
@@ -214,21 +222,23 @@ public function insert_product(Request $request)
     $this->modelUser->personIDcard = $request->personIDcard;
     $counter = intval($request->counter);
 
+   //dd($request->ch_accuracy);
+
     $validator = Validator::make($request->all(), [
         'nameProduct' => ['required', 'string', 'max:60', 'regex:/^[\w\s]{1,60}$/'],
         'description' => ['required', 'string', 'max:2000', 'regex:/^[\w\s\d\W]{1,2000}$/'],
         'price' => ['required', 'numeric'],
-        'ppk' => ['required', 'not_in:0'],
+        'ppk' => ['required'],
         'condition' => ['required', 'not_in:0'],
         'priceStatus' => ['required', 'in:1,2,3'],
-        'ch_accurcy' => 'accepted',
-        'ch_terms' => 'accepted',
         'currency' => ['required', 'in:1,2'],
-        'personName' => ['required', 'string', 'email', 'max:25', 'regex:/^[A-ZČĆŽĐŠ][a-zčćžđš]+(\s[A-ZČĆŽĐŠ][a-zčćžđš]+)*$/'],
-        'personLastName' => ['required', 'string', 'regex:/^[A-ZČĆĐŽŠ][a-zčćšđž]+(([\',. -][a-zčćšđžA-ZČĆĐŽŠ ])?[a-zčćšđžA-ZČĆĐŽŠ]*)*$/'],
+        'ch_accuracy' => ['required', 'in:1'],
+        'ch_terms' => ['required', 'in:1'],
+        'personName' => ['required', 'string', 'max:25', 'regex:/^[A-ZČĆŽĐŠ][a-zčćžđš]+(\s[A-ZČĆŽĐŠ][a-zčćžđš]+)*$/'],
+        'personLastName' => ['required', 'string', "regex:/^[A-ZČĆĐŽŠ][a-zčćšđž]+(([',. -][a-zčćšđžA-ZČĆĐŽŠ ])?[a-zčćšđžA-ZČĆĐŽŠ]*)*$/"],
         'personPhone' => ['required', 'string', 'regex:/^(\+3816|06)[01234569]{1}[0-9]{6,7}$/'],
         'personPlace' => ['required', 'string', 'regex:/^[A-z]+([\s][A-z]+)*$/'],
-        'personStreet' => ['required', 'string', 'regex/^[A-z]*\s([A-z]+\s)*[\d]([\d]{1,2}|[-/\d]{2,4})?$/'],
+        'personStreet' => ['required', 'string', 'regex:/^[A-z]*\s([A-z]+\s)*[\d]([\d]{1,2}|[-\d]{2,4})?$/'],
         'personJMBG' => ['required', 'string', 'regex:/^([0-9][1-9]|([1-9][0-9])){2}(([0]{2}[0-2])|([9][2-9][0-9]))[0-9]{6}$/'],
         'personIDcard' => ['required', 'string', 'regex:/^[0-9]{9}$/'],
         [
@@ -249,46 +259,73 @@ public function insert_product(Request $request)
     if ($validator->passes()) {
 
 
-        $idInsert = $this->modelUser->insert_product();
-
-        if (is_int($idInsert)) {
-            $counter_picture = 0;
-
-            $fileName1 = 0;
-            for ($i = 0; $i > $counter; $i++) {
-
-                if ($request->file("file" . $counter) != null && $request->file("file" . $counter) != "") {
 
 
-                    $file = $request->file("file" . $counter);
-                    $this->validate($request, [
-                        'file' . $counter => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                    ]);
+            $idInsert = $this->modelUser->insert_product();
+//dd($idInsert);
+            if (strlen($idInsert)<4) {
+                $counter_picture = 0;
 
-                    $fileName = $file->getClientOriginalName();
-                    $fileName1 = time() . "_" . $fileName;
-                    public_path("img");
+                $fileName1 = 0;
+                for ($i = 0; $i < $counter; $i++) {
 
-                    //$public_path="img";
-                    $file->move(public_path('img'), $fileName1);
+                    if ($request->file("file$i") != null && $request->file("file$i") != "") {
 
-                    $codePicture = $this->modelUser->insert_picture($idInsert);
 
-                    if ($codePicture == 201) $counter_picture++;
+                        $file = $request->file("file$i");
+                        //dd($file);
+                        $this->validate($request, [
+                            'file' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                        ]);
+
+                        $fileName = $file->getClientOriginalName();
+                        $fileName1 = time() . "_" . $fileName;
+                        public_path("images");
+
+                        //$public_path="img";
+                        $file->move(public_path('images'), $fileName1);
+
+
+                        $codePicture = $this->modelUser->insert_picture($idInsert,$fileName,$fileName1);
+//dd($codePicture);
+                        if ($codePicture == 201) $counter_picture++;
+
+                    }
+                    else{
+                      //greska insert slike
+                    }
+
+
+
+                }
+                if($counter_picture>0)
+                {
+                    return ($code = 201);
+
+                    //provera promocija
+                    //unos promocijee..
+
+
+
+                }
+                else{
+                    //brisanje proizvoda
+                    //slike neuspeh
+
+                    $this->modelUser->deleteProduct($idInsert);
 
                 }
 
+                //counter_picture check
+                //promotion
 
             }
 
-            //counter_picture check
-            //promotion
+
 
         }
 
-
-        return ($code = 201);
-    } else {
+        else {
 
         return response()->json(['error' => $validator->errors()->all()]);
     }

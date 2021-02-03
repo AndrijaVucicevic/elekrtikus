@@ -53,9 +53,19 @@ class IndexModels
 
            if($cat!=null)
            {
-               $data=$data->where(
-                   'subcategory_id',$cat
-               );
+               if (strlen($cat)>3)
+               {
+                   $data = $data->where(
+                       'name_ppk', $cat
+                   );
+               }
+               else {
+
+
+                   $data = $data->where(
+                       'subcategory_id', $cat
+                   );
+               }
            }
 
         return $data->orderBy('subcategory_id','asc')
