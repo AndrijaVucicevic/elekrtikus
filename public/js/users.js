@@ -15,6 +15,7 @@ e.preventDefault();
     }
 });
 
+//aa
 $('.more_products').on('click',function (e) {
     e.stopPropagation();
 
