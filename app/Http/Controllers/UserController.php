@@ -19,6 +19,8 @@ class UserController extends Controller
     private $modelIndex;
     private $start=0;
     private $limit=1;
+    private $prom1=1450;
+    private $prom2=3450;
 
     public function __construct()
     {
@@ -300,6 +302,111 @@ public function insert_product(Request $request)
                 }
                 if($counter_picture>0)
                 {
+
+                    if ($request->promotion!=0 && $request->promotion)
+
+                    {
+
+                        //check bank account
+                        $account=$this->modelUser->check_bank_account();
+
+                        if($request->promotion==1)
+                        {
+
+                            if($account->current_state>1450)
+                            {
+                                   $code=$this->modelUser->insert_promotion_one($idInsert);
+                                   if($code==201)
+                                   {
+                                       //uspesno
+                                   }
+                            }
+                            else{
+//money
+                            }
+
+
+                        }
+                        if ($request->promotion==2)
+                        {
+                            if($account->current_state>3450)
+                            {
+                                $code=$this->modelUser->insert_promotion_two($idInsert);
+                                if($code==201)
+                                {
+                                    //uspesno
+                                }
+                                else{
+                                    //neuspeh
+                                }
+                            }
+                            else{
+                                //not have money
+                            }
+                        }
+                        if ($request->promotion==3)
+                        {
+                            if($account->current_state>4900)
+                            {
+                                $code2=$this->modelUser->insert_promotion_two($idInsert);
+                                $code1=$this->modelUser->insert_promotion_one($idInsert);
+
+                                if($code1==201 && $code2==201)
+                                {
+
+                                }
+                                if ($code1!=201)
+                                {
+                                    //
+                                }
+                                if($code2!=201)
+                                {
+                                    //
+                                }
+
+                            }
+                            else{
+                                if($account->current_state>3450)
+                                {
+                                    $code=$this->modelUser->insert_promotion_two($idInsert);
+                                    if($code==201)
+                                    {
+                                        //uspesno
+                                    }
+                                    else{
+                                        //neuspeh
+                                    }
+                                }
+                                else{
+                                    if($account->current_state>1450)
+                                    {
+                                        $code=$this->modelUser->insert_promotion_one($idInsert);
+                                        if($code==201)
+                                        {
+                                            //uspesno
+                                        }
+                                        else{
+                                            //neuspeh
+                                        }
+                                    }
+                                    else{
+
+                                    }
+                                }
+
+
+                            }
+
+
+                        }
+
+
+                    }
+
+
+
+
+
                     return ($code = 201);
 
                     //provera promocija

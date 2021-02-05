@@ -427,6 +427,8 @@ $('form #section_fourthStep input[type=text]').on('blur',function () {
 //update insert
 $(".btnUpdateInsert").on('click',function (e) {
     e.preventDefault();
+
+    $(".btnUpdateInsert").prop('disabled',true);
 //console.log('aa');
     var errors=[];
 
@@ -631,7 +633,7 @@ if (counter==0)
 }
 
 
-console.log(errors);
+//console.log(errors);
 
 
     if (errors.length==0)
@@ -673,15 +675,18 @@ console.log(errors);
                 if (data == 201) {
 
                 //uspesno
-alert('uspesno');
+//alert('uspesno');
+                    modalBody('Vaš oglas je uspešno unet');
 
+                    $("#alertButtonModal").click();
+                    //next videcemo
                 }
                 //error
                 if (data !=201) {
 
-                    console.log(data.error);
-                        printError(data.error);
 
+                        printError(data.error);
+                    $(".btnUpdateInsert").prop('disabled',false);
 
                 }
             }
@@ -697,10 +702,10 @@ alert('uspesno');
         });
 
 
+    }
+    else{
 
-
-
-
+        $(".btnUpdateInsert").prop('disabled',false);
 
     }
 

@@ -238,6 +238,59 @@ public function insert_product()
 
 }
 
+// bank account
+public function check_bank_account()
+{
+    return DB::table('bank_account')
+        ->select('current_state')
+        ->where('user_id',auth()->user()->id)
+        ->first();
+
+}
+public function insert_promotion_one($id){
+
+    $code=201;
+    $time=time();
+    $start_one=date('Y-m-d h:i:s', $time);
+    try {
+        DB::table('sponsored')
+            ->insert([
+                'oglas_id'=>$id,
+                'end_one'=>time(),
+                'start_one'=>$start_one
+            ]);
+    }
+
+        catch(\Throwable $e) {
+            //\Log::critical("Failed to insert youur ad.");
+            $code=$e->getMessage();
+            //  throw new \Exception("Greska pri unosu");
+
+        }
+
+        return $code;
+}
+public function insert_promotion_two($id){
+    $code=201;
+    $time=time();
+    $start_one=date('Y-m-d h:i:s', $time);
+    try {
+        DB::table('sponsored')
+            ->insert([
+               'oglas_id'=>$id,
+                'end_two'=>time(),
+                'start_two'=>$start_one
+            ]);
+    }
+    catch(\Throwable $e) {
+        //\Log::critical("Failed to insert youur ad.");
+        $code=$e->getMessage();
+        //  throw new \Exception("Greska pri unosu");
+
+    }
+
+    return $code;
+}
 
 
 

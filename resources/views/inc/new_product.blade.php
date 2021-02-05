@@ -64,6 +64,18 @@
 
 
     </select>
+
+    <div id="displayBlockError" class="error">
+        <ul id="displayErrors">
+
+        </ul>
+    </div>
+
+
+
+
+
+
 </div>
     <div id="section_secondStep" class="fade section_new tab-pane">
 

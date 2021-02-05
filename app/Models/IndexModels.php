@@ -73,7 +73,7 @@ class IndexModels
     }
     public function trending($cat,$col)
     {
-        $promotion=1;
+        $promotion=0;
         $end=time()+150;
         if($cat=='naziv')
         {
@@ -88,7 +88,7 @@ class IndexModels
                 ->join('category', 'category_id', '=', 'category.id_category')
                 ->where([
                     [
-                        'promotion', $promotion
+                        'end_one','>',$promotion
                     ],
                     [
                         'end_one', '>', $end
@@ -113,7 +113,7 @@ class IndexModels
                     'name_ppk', $cat
                     ],
                     [
-                        'promotion', $promotion
+                        'end_one','>', $promotion
                     ],
                     [
                         'end_one', '>', $end
@@ -139,7 +139,7 @@ class IndexModels
                         'name_category', $cat
                     ],
                     [
-                        'promotion', $promotion
+                        'end_one','>', $promotion
                     ],
                     [
                         'end_one', '>', $end
