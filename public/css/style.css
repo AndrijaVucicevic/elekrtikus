@@ -5149,8 +5149,8 @@ color:white;
 	display:none;
 }
 .outlineError{
-	outline: 1px solid red;
+	outline: 1px solid red!important;
 }
 .borderError{
-	border: 1px solid red;
+	border: 1px solid red!important;
 }

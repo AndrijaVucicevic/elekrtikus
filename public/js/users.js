@@ -310,6 +310,56 @@ $(document).on('change','.slikaBlock', function () {
 
     }
 });
+$('form #section_secondStep textarea').on('focus',function () {
+    $(this).removeClass('borderError');
+});
+$('form #section_secondStep textarea').on('blur',function () {
+
+    var reDescription=/^[\w\s\d\W]{1,2000}$/;
+
+    if(!reDescription.test($(this).val()))
+    {
+        $(this).addClass('borderError');
+    }
+    else{
+        $(this).removeClass('borderError');
+    }
+
+});
+
+
+$('form #section_secondStep input [type=text]').on('focus',function(){
+   $(this).removeClass('borderError');
+
+
+});
+$('form #section_secondStep input [type=text]').on('blur',function(){
+
+    var reNameProduct=/^[\w\s./,/]{1,60}$/;
+
+    var rePrice=/^[1-9][0-9]+$/;
+
+    if(this.id=='price_new')
+    {
+        if(!rePrice.test($(this).val()))
+        {
+            $(this).addClass('borderError');
+        }
+        else{
+            $(this).removeClass('borderError');
+        }
+    }
+    else{
+        if(!reNameProduct.test($(this).val()))
+        {
+            $(this).addClass('borderError');
+        }
+        else{
+            $(this).removeClass('borderError');
+        }
+    }
+
+});
 
 $('form #section_fourthStep input[type=text]').on('focus',function () {
    //console.log(this);
@@ -424,6 +474,59 @@ $('form #section_fourthStep input[type=text]').on('blur',function () {
 
 
 });
+$('.chCurrency').on('click',function (e) {
+
+    //alert('ee');
+
+    $('.chCurrency').removeClass('outlineError')
+
+});
+$('.chFixed').on('click',function (e) {
+
+   // alert('ee');
+
+   if (this.id=='ch_Fixed1')
+   {
+       $('.chFixed').removeClass('outlineError');
+       $('.ch_Fixed').prop('checked',false);
+   }
+   else{
+       $('#ch_Fixed1').prop('checked',false);
+
+       if(!$('#ch_Fixed2').is(':checked'))
+       {
+           if(!$('#ch_Fixed3').is(':checked'))
+           {
+               $('.chFixed').addClass('outlineError');
+           }
+           else{
+               $('.chFixed').removeClass('outlineError');
+           }
+
+       }
+       else{
+           $('.chFixed').removeClass('outlineError');
+       }
+
+   }
+
+});
+$('.ch_accept').on('click',function () {
+    //alert("e2");
+    if (!$(this).is(':checked'))
+    {
+        $(this).addClass('outlineError');
+    //alert("e1");
+    }
+
+    else{
+        $(this).removeClass('outlineError');
+       // alert("e2");
+    }
+
+});
+
+
 //update insert
 $(".btnUpdateInsert").on('click',function (e) {
     e.preventDefault();
@@ -432,20 +535,50 @@ $(".btnUpdateInsert").on('click',function (e) {
 //console.log('aa');
     var errors=[];
 
+    var cat_first= $("#category_ddl").next().find('ul');
+
+    var cat_second=cat_first.find('.selected');
+
+    var cat=cat_second.html();
+
+    if(cat=='Kategorija:')
+    {
+        //nice-select
+
+       $("#category_ddl").next().addClass('borderError');
+        //console.log(catError);
+     //   $(catError).addClass('borderError');
+    }
+
+
+
+
+    var sub_first= $("#subcategory_ddl").next().find('ul');
+
+    var sub_second=sub_first.find('.selected');
+
+    var sub=sub_second.html();
+//console.log(sub);
+    if(sub.includes("kategoriju"))
+    {
+     $("#subcategory_ddl").next().addClass('borderError');
+
+
+    }
+
 
     var ppk_first= $("#ppk_ddl").next().find('ul');
 
-  /*  if(ppk.==0)
-    {
-        errors.push('Kategorija proizvoda nije odabrana');
-        ppk.addClass('borderError');
-
-    }
-*/
     var ppk_second=ppk_first.find('.selected');
 
     var ppk=ppk_second.html();
-    //console.log(ppk);
+
+    if (ppk.includes('kategoriju'))
+    {
+       $("#ppk_ddl").next().addClass('borderError');
+
+
+    }
 
 
     var condition=$("#conditionStatus");
@@ -490,7 +623,7 @@ $(".btnUpdateInsert").on('click',function (e) {
     {
         errors.push('Označite uslove vezane za cenu');
 
-        $("ch_currency").addClass('outlineError');
+        $(".chCurrency").addClass('outlineError');
     }
     var priceStatus=null;
 
@@ -511,7 +644,8 @@ $(".btnUpdateInsert").on('click',function (e) {
        {
            errors.push('Označite uslove vezane za cenu');
 
-          $(".ch_Fixed").addClass('outlineError');
+
+          $(".chFixed").addClass('outlineError');
 
        }
        else
@@ -590,9 +724,15 @@ var promotion_two=null;
     if($("#ch_accuracy").is(':checked')) {
         accuracy=1;
     }
+    else{
+        $('#ch_accuracy').addClass('outlineError');
+    }
 
     if($("#ch_terms").is(':checked')) {
         terms=1;
+    }
+    else{
+        $('#ch_terms').addClass('outlineError');
     }
 
 
@@ -672,23 +812,42 @@ if (counter==0)
             processData: false,
             success: function (data) {
 
-                if (data == 201) {
 
-                //uspesno
-//alert('uspesno');
-                    modalBody('Vaš oglas je uspešno unet');
+                var text='Proverite promovisanost Vašeg oglasa na stranici moji oglasi.';
+                var text1='Na Vasem računu nema dovoljno sredstava za izabranu promociju.';
+                switch (data) {
 
-                    $("#alertButtonModal").click();
-                    //next videcemo
-                }
-                //error
-                if (data !=201) {
-
-
+                    case 201:
+                        modalBody('Vaš oglas je uspešno unet');
+                        $("#alertButtonModal").click();
+                        break;
+                    case 1:
+                        modalBody(text);
+                        $("#alertButtonModal").click();
+                        break;
+                    case 2:
+                        modalBody(text);
+                        $("#alertButtonModal").click();
+                        break;
+                    case 12:
+                        modalBody(text);
+                        $("#alertButtonModal").click();
+                        break;
+                    case 404:
+                        modalBody("Vaš oglas nije unet. Greška prilikom unosa slika");
+                        $("#alertButtonModal").click();
+                        break;
+                    case 422:
+                        modalBody(text1);
+                        $("#alertButtonModal").click();
+                        break;
+                    default:
                         printError(data.error);
-                    $(".btnUpdateInsert").prop('disabled',false);
-
+                        $(".btnUpdateInsert").prop('disabled',false);
+                        break;
                 }
+
+
             }
             ,
             error: function (xhr, error, status) {
@@ -723,6 +882,7 @@ function checkName(name) {
         return 422;
     }
     else
+        $(person_name).removeClass('borderError');
         return 201;
 
 }
@@ -737,6 +897,7 @@ function checkLastName(last_name) {
         return 422;
     }
     else
+        $(person_lastName).removeClass('borderError');
         return 201;
 
 
@@ -754,6 +915,7 @@ function checkPhone(phone) {
         return 422;
     }
     else
+        $(person_phone).removeClass('borderError');
         return 201;
 }
 function checkPlace(place) {
@@ -767,6 +929,7 @@ function checkPlace(place) {
         return 422;
     }
     else
+        $(person_place).removeClass('borderError');
         return 201;
 
 }
@@ -781,6 +944,7 @@ function checkStreet(street) {
         return 422;
     }
     else
+        $(person_street).removeClass('borderError');
         return 201;
 
 
@@ -797,6 +961,7 @@ function checkJMBG(jmbg) {
         return 422;
     }
     else
+        $(person_jmbg).removeClass('borderError');
         return 201;
 }
 function checkIDcard(idCard) {
@@ -810,6 +975,7 @@ function checkIDcard(idCard) {
         return 422;
     }
     else
+        $(person_idCard).removeClass('borderError');
         return 201;
 }
 
@@ -823,6 +989,7 @@ $(document).on('click','.nice-select ul li',function(e){
 
         if (string[0] == 'c') {
             //category
+            $('#category_ddl').next().removeClass('borderError');
 
             $.ajax({
                 url: base_Url + 'get_subcategory',
@@ -875,6 +1042,7 @@ $(document).on('click','.nice-select ul li',function(e){
         if (string[0] == 's') {
             //subcategory
 
+            $('#subcategory_ddl').next().removeClass('borderError');
             $.ajax({
                 url: base_Url + 'get_ppk',
                 method: 'post',
@@ -921,6 +1089,7 @@ $(document).on('click','.nice-select ul li',function(e){
         }
         if (string[0] == 'p') {
             //ppk nothing
+            $('#ppk_ddl').next().removeClass('borderError');
         }
 
     }
@@ -936,6 +1105,11 @@ $(document).on('click','.nice-select ul li',function(e){
         $("#ppk_ddl").html(html);
         $("#ppk_ddl").next().find('ul').html(html2);
         $("#ppk_ddl").next().find('span').html('Izaberite kategoriju levo...');
+        $('#category_ddl').next().addClass('borderError');
+        $('#subcategory_ddl').next().addClass('borderError');
+        $('#ppk_ddl').next().addClass('borderError');
+
+
     }
 
 

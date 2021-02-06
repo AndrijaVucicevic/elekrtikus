@@ -46,8 +46,7 @@
 
     <select id="subcategory_ddl" name="subcategory_ddl">
 
-<option value="0">
-    Izaberite kategoriju levo...
+<option value="0">Izaberite kategoriju levo...
 </option>
 
 
@@ -57,8 +56,7 @@
 
     <select id="ppk_ddl" name="ppk_ddl">
 
-        <option value="0">
-            Izaberite kategoriju levo...
+        <option value="0">Izaberite kategoriju levo...
         </option>
 
 
@@ -87,9 +85,9 @@
         <input type="radio" name="ch_currency" class="chCurrency" value="1" id="chCurrency1" /> <label for="chCurrency1"> RSD</label>
              <input type="radio" name="ch_currency" class="chCurrency" value="2" id="chCurrency2" /> <label for="chCurrency2"  style="border-right: 1px solid;">&euro; &nbsp;</label>
 
-       <input type="radio" id="ch_Fixed1" name="ch_Fixed1" class="ch_Fixed" value="1"/><label for="ch_Fixed1">Fiksno</label>
-        <input type="checkbox" name="ch_Fixed" class="chFixed" value="2" id="ch_Fixed2"/> <label for="ch_Fixed2">Dogovor</label>
-       <input type="checkbox" name="ch_Fixed" class="chFixed" value="3" id="ch_Fixed3"/> <label for="ch_Fixed3">Zamena</label>
+       <input type="radio" id="ch_Fixed1" name="ch_Fixed1" class="chFixed" value="1"/><label for="ch_Fixed1">Fiksno</label>
+        <input type="checkbox" name="ch_Fixed" class="chFixed ch_Fixed" value="2" id="ch_Fixed2"/> <label for="ch_Fixed2">Dogovor</label>
+       <input type="checkbox" name="ch_Fixed" class="chFixed ch_Fixed" value="3" id="ch_Fixed3"/> <label for="ch_Fixed3">Zamena</label>
 
         <br><textarea id="description_new" name="description_new" placeholder="Unesite opis" cols="24" rows="5"></textarea>
 
@@ -191,11 +189,11 @@
               <div class="cheat">PREVARA AAAAAAAA ZABRANJENO ITDD</div>
 
 <div>
-    <input type="checkbox" name="ch_terms" value="1" id="ch_terms" />
+    <input type="checkbox" name="ch_terms" class="ch_accept" value="1" id="ch_terms" />
     <label for="chUslovi">Slazem se sa <a href="#">uslovima</a> korišćenja sajta!</label>
 </div>
 <div>
-    <input type="checkbox" name="ch_accuracy" value="1" id="ch_accuracy"/>
+    <input type="checkbox" name="ch_accuracy" class="ch_accept" value="1" id="ch_accuracy"/>
     <label for="chTacnost">Garantujem tacnost unetih podataka</label>
 
 

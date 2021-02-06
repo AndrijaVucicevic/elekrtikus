@@ -7,6 +7,7 @@ use App\Models\IndexModels;
 use App\Models\ShopModels;
 use App\Models\UserModels;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -294,7 +295,7 @@ public function insert_product(Request $request)
 
                     }
                     else{
-                      //greska insert slike
+                     //error slika nije ubacena
                     }
 
 
@@ -316,14 +317,16 @@ public function insert_product(Request $request)
                             if($account->current_state>1450)
                             {
                                    $code=$this->modelUser->insert_promotion_one($idInsert);
-                                   if($code==201)
+                                   if($code!=201)
                                    {
-                                       //uspesno
+                                     return ($code=1);
                                    }
                             }
                             else{
-//money
+                                return  ($code=422);
                             }
+
+
 
 
                         }
@@ -332,16 +335,14 @@ public function insert_product(Request $request)
                             if($account->current_state>3450)
                             {
                                 $code=$this->modelUser->insert_promotion_two($idInsert);
-                                if($code==201)
+                                if($code!=201)
                                 {
-                                    //uspesno
+                                    return ($code=2);
                                 }
-                                else{
-                                    //neuspeh
-                                }
+
                             }
                             else{
-                                //not have money
+                                return  ($code=422);
                             }
                         }
                         if ($request->promotion==3)
@@ -351,17 +352,17 @@ public function insert_product(Request $request)
                                 $code2=$this->modelUser->insert_promotion_two($idInsert);
                                 $code1=$this->modelUser->insert_promotion_one($idInsert);
 
-                                if($code1==201 && $code2==201)
+                                if($code1!=201 && $code2!=201)
                                 {
-
+                                        return ($code=12);
                                 }
                                 if ($code1!=201)
                                 {
-                                    //
+                                    return ($code=1);
                                 }
                                 if($code2!=201)
                                 {
-                                    //
+                                    return ($code=2);
                                 }
 
                             }
@@ -369,28 +370,24 @@ public function insert_product(Request $request)
                                 if($account->current_state>3450)
                                 {
                                     $code=$this->modelUser->insert_promotion_two($idInsert);
-                                    if($code==201)
+                                    if($code!=201)
                                     {
-                                        //uspesno
+                                        return ($code=2);
                                     }
-                                    else{
-                                        //neuspeh
-                                    }
+
                                 }
                                 else{
                                     if($account->current_state>1450)
                                     {
                                         $code=$this->modelUser->insert_promotion_one($idInsert);
-                                        if($code==201)
+                                        if($code!=201)
                                         {
-                                            //uspesno
+                                            return ($code=1);
                                         }
-                                        else{
-                                            //neuspeh
-                                        }
+
                                     }
                                     else{
-
+                                             return ($code=422);
                                     }
                                 }
 
@@ -400,7 +397,6 @@ public function insert_product(Request $request)
 
                         }
 
-
                     }
 
 
@@ -409,17 +405,20 @@ public function insert_product(Request $request)
 
                     return ($code = 201);
 
-                    //provera promocija
-                    //unos promocijee..
-
-
-
                 }
                 else{
                     //brisanje proizvoda
                     //slike neuspeh
 
-                    $this->modelUser->deleteProduct($idInsert);
+                    $data=$this->modelUser->deleteProduct($idInsert);
+                    if($data==201) {
+                        return ($data=404);
+
+                    }/*if(File::exists($file_path)) {
+                        File::delete($file_path);
+                    }
+                    */
+
 
                 }
 
