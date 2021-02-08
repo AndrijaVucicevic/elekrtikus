@@ -21,8 +21,9 @@
 
         <div class="container">
 <div class="row">
-                <div class="col-lg-3 col-md-4 col-12">
 
+                <div class="col-lg-3 col-md-4 col-12">
+                    @if($code!='novUnos')
                     <div class="single-widget category">
                         <h3 class="title">Categories</h3>
                         <ul class="categor-list" id="categoryShopList">
@@ -55,7 +56,7 @@
                         </ul>
                     </div>
 
-
+                    @endif
             </div>
 
 

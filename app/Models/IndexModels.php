@@ -207,4 +207,17 @@ public function adverts($start,$take)
 
 }
 
+public function sponsored($id)
+{
+
+    return DB::table('sponsored')
+        ->select('end_one','end_two')
+        ->where('oglas_id',$id)
+        ->first();
+
+
+}
+
+
+
 }

@@ -267,14 +267,7 @@ $(".modal-footer .btnUserAction").attr('data-value',this.id);
 
 });
 
-$('#content_user').on('click','.fa-edit',function (e) {
-   //get data about product, put in modall
 
-    //but first how to insert
-
-
-
-});
 
 
 
@@ -1132,3 +1125,49 @@ $('#chStandard').on('click',function (e) {
 
 });
 
+//change add
+//user_change
+$('#content_user').on('click','.fa-edit',function (e) {
+    //get data about product, put in modall
+
+
+//ajax get information
+     $.ajax({
+        url:base_Url+'change_product_user',
+         method:'post',
+         data:{
+            _toke:csrf,
+             id:this.id,
+             send:true
+         },
+         success:function (data) {
+
+         var product=data.product;
+         var category=data.category;
+         var subcategory=data.subcategory;
+         var ppk=data.ppk;
+
+
+            $('#change_title').html('Izmena oglasa- naziv');
+
+
+             $('#user_change').modal('show');
+
+
+         },
+         error:function (xhr,error,status) {
+             //error
+         }
+
+
+
+
+     });
+
+
+
+
+
+
+
+});

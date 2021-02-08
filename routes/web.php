@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/aaa', function () {
-    return view('elektrikus');
+/*Route::get('/happy', function () {
+    return view('email.happy_mail');
 });*/
 
 Route::get('/',[IndexController::class, 'index'])->name('welcome');
@@ -70,6 +70,11 @@ Route::post('/changeUserCategory',[UserController::class,'changeUserCategory'])-
 Route::post('/delete_product_user',[UserController::class,'delete_product']);
 
 Route::post('/insert_product_user',[UserController::class,'insert_product']);
+
+Route::post('/change_product_user',[UserController::class,'change_product']);
+
+
+
 
 //get subcategory and ppk
 Route::post('/get_subcategory',[UserController::class,'get_subcategory']);

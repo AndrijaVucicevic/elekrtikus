@@ -292,6 +292,24 @@ public function insert_promotion_two($id){
     return $code;
 }
 
+public function getUserProduct($id)
+{
+
+
+    return DB::table('oglas')
+        ->select('oglas.datetime','name_ppk','oglas.name','price','currency','description','price_status','condition_status'
+        ,'JMBG','ID_card','phone_number','address','korisnik_oglas.city_id','korisnik_oglas.name','lastName','src','alt','title'
+            ,'subcategory_name','name_category','category.id_category'
+        )
+        ->join('picture','oglas.id_oglas','=','picture.oglas_id')
+        ->join('korisnik_oglas','oglas.id_oglas','=','korisnik_oglas.oglas_id')
+        ->join('ppk','oglas.ppk_id','=','ppk.id_ppk')
+        ->join('subcategory', 'ppk.subcategory_id', '=', 'subcategory.id_subcategory')
+        ->join('category', 'subcategory.category_id', '=', 'category.id_category')
+       ->where('oglas.id_oglas','=',$id)
+        ->get();
+}
+
 
 
 

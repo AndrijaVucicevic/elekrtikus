@@ -18,4 +18,7 @@ class MailController extends Controller
         Mail::to($email)->send(new SignUpMail($data));
     }
 
+
+
+
 }

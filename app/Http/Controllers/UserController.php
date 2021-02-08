@@ -456,6 +456,36 @@ public function get_ppk(Request $request)
     return ($data);
 
 }
+public function change_product(Request $request)
+{
+
+    $product_id=$request->id;
+
+
+    $array=explode('_',$product_id);
+
+    $number=count($array);
+    //dd($number);
+
+
+    $data=$this->modelUser->getUserProduct($array[((int)$number)-1]);
+    dd($data[0]->id_category);
+    $category=$this->modelIndex->category();
+    $subcategory=$this->modelIndex->subcategory($data[0]->id_category);
+    $ppk=$this->modelIndex->ppk();
+    $sponsored=$this->modelIndex->sponsored($array[((int)$number)-1]);
+
+
+    return ([
+        'product'=>$data,
+        '$category'=>$category,
+        'subcategory'=>$subcategory,
+        'ppk'=>$ppk,
+        'sponsored'=>$sponsored
+    ]);
+
+
+}
 
 
 

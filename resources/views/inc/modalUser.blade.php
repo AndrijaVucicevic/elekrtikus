@@ -55,3 +55,29 @@
         </div>
     </div>
 </div>
+
+@if($code!='novUnos')
+<!-- modal izmenaa --->
+<div class="modal fade" id="user_change" tabindex="-1" role="dialog" aria-labelledby="user_change" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" id="user_change">
+              <h5 class="modal-title" id="change_title">Izmena oglasa oglass taj taaaj</h5>
+            </div>
+                <div class="modal-body" id="user_check_body">
+                    @include('inc.new_product')
+                </div>
+
+
+
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btnUserAction btn btn-primary" data-value="change_add" onclick="change()">Save changes</button>
+            </div>
+            </div>
+        </div>
+</div>
+
+@endif

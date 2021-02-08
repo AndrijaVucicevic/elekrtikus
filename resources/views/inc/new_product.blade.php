@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="{{asset('css/form_new.css')}}" />
 <ul class="clip_list nav nav-pills">
     <li class="active"><a href="#section_firstStep" data-toggle="pill">Kategorija</a></li>
-    <li class="wrap"><a href="#section_secondStep" data-toggle="pill">O oglasu</a></li>
-    <li><a href="#section_thirdStep" data-toggle="pill">Promocije</a></li>
-    <li><a href="#section_fourthStep" data-toggle="pill">Lični podaci</a></li>
+    <li class="wrap"><a href="#section_secondStep" data-toggle="pill">Oglas</a></li>
+    <li><a href="#section_thirdStep" data-toggle="pill">Promo</a></li>
+    <li><a href="#section_fourthStep" data-toggle="pill">Korisnik</a></li>
 
 
 </ul>
 
-<form accept-charset="UTF-8" id="formInsert_update" name="formInsert_update"  role="form" action="" method=""  enctype="multipart/form-data">
+<form accept-charset="UTF-8" id="formInsert_update" name="formInsert_update"  role="form" action="" method="" enctype="multipart/form-data">
 @csrf
     <div class="tab-content">
 <div id="section_firstStep" class="active section_new tab-pane">
