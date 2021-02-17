@@ -208,7 +208,7 @@
 
 
                   <div id="update_insert">
-                      <button type="button" name="form_insert" class="btn btn-primary btnUpdateInsert" id="form_insert">Unesi</button>
+                      <button type="button" name="form_insert" data-value="insert_change#1" class="btn btn-primary btnUpdateInsert" id="form_insert">Unesi</button>
                   </div>
 
 

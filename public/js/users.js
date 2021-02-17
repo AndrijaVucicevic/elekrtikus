@@ -359,7 +359,7 @@ $('form #section_fourthStep input[type=text]').on('focus',function () {
     $(this).next().css('display','none');
 });
 
-$('form #section_fourthStep input[type=text]').on('blur',function () {
+$(document).on('blur','form #section_fourthStep input[type=text]',function () {
    $(this).next().css('display','initial');
 
   // console.log(this.id);
@@ -521,10 +521,24 @@ $('.ch_accept').on('click',function () {
 
 
 //update insert
-$(".btnUpdateInsert").on('click',function (e) {
+$(document).on('click','.btnUpdateInsert',function (e) {
     e.preventDefault();
 
-    $(".btnUpdateInsert").prop('disabled',true);
+
+
+    $('.btnUpdateInsert').prop('disabled',true);
+
+    var btnAction=$(this).attr('data-value').split('#');
+    var href='';
+
+    if(btnAction[1]==1)
+    {
+        href='insert_product_user';
+    }
+    if (btnAction[1]==2)
+    {
+        href='update_product_user';
+    }
 //console.log('aa');
     var errors=[];
 
@@ -798,13 +812,13 @@ if (counter==0)
        //console.log(fd);
 
         $.ajax({
-            url: base_Url + 'insert_product_user',
+            url: base_Url + href,
             method: 'post',
             data:fd,
             contentType: false,
             processData: false,
             success: function (data) {
-
+//change or delete
 
                 var text='Proverite promovisanost Vašeg oglasa na stranici moji oglasi.';
                 var text1='Na Vasem računu nema dovoljno sredstava za izabranu promociju.';
@@ -1108,13 +1122,13 @@ $(document).on('click','.nice-select ul li',function(e){
 
 
 });
-$('#click_sponsored').on('click',function (e) {
+$(document).on('click','#click_sponsored',function (e) {
     e.stopPropagation();
 
 $('.promotion_new').removeClass('promotion_none');
 
 });
-$('#chStandard').on('click',function (e) {
+$(document).on('click','#chStandard',function (e) {
     e.stopPropagation();
 
     $('.promotion_new').addClass('promotion_none');
@@ -1142,15 +1156,209 @@ $('#content_user').on('click','.fa-edit',function (e) {
          },
          success:function (data) {
 
-         var product=data.product;
-         var category=data.category;
-         var subcategory=data.subcategory;
-         var ppk=data.ppk;
+
+         var product=[];
+         product=data.products;
+         //console.log(product[0].name);
+         var category=[];
+         category=data.categories;
+         var subcategory=[];
+         subcategory=data.subcategory;
+         var ppk=[];
+         ppk=data.ppk;
+         var sponsored=[];
+         sponsored=data.sponsored;
 
 
-            $('#change_title').html('Izmena oglasa- naziv');
+         var cat_html= '<option value="' + product[0].id_category + '">' + product[0].name_category + '</option>';
+         var cat_html2= '<li class="option selected" data-value="c_' + product[0].name_category + '_' + product[0].id_category + '">' + product[0].name_category + '</li>';
+
+             $("#category_ddl").next().find('span').html(product[0].name_category);
+             for (let i = 0; i < category.length; i++) {
+
+                     if (category[i].category_id != product[0].id_category) {
+
+                         cat_html += '<option value="' + category[i].id_category + '">' + category[i].name_category + '</option>';
 
 
+                         cat_html2 += '<li class="option" data-value="c_' + category[i].name_category + '_' + category[i].id_category + '">' + category[i].name_category + '</li>';
+                     }
+                 }
+
+             $("#category_ddl").html(cat_html);
+             $("#category_ddl").next().find('ul').html(cat_html2);
+
+var html='<option value="' + product[0].id_subcategory + '">' + product[0].subcategory_name + '</option>';
+var html2='<li class="option selected" data-value="s_' + product[0].subcategory_name + '_' + product[0].id_subcategory + '">' + product[0].subcategory_name + '</li>';
+             $("#subcategory_ddl").next().find('span').html(product[0].subcategory_name);
+             for (let i = 0; i < subcategory.length; i++) {
+
+       if (subcategory[i].id_subcategory != product[0].id_subcategory) {
+
+           html += '<option value="' + subcategory[i].id_subcategory + '">' + subcategory[i].subcategory_name + '</option>';
+
+
+           html2 += '<li class="option" data-value="s_' + subcategory[i].subcategory_name + '_' + subcategory[i].id_subcategory + '">' + subcategory[i].subcategory_name + '</li>';
+
+
+                     }
+
+                 }
+
+
+             $("#subcategory_ddl").html(html);
+             $("#subcategory_ddl").next().find('ul').html(html2);
+
+       var html_ppk='<option value="' + product[0].id_ppk + '">' + product[0].name_ppk + '</option>';
+       var html2_ppk='<li class="option selected" data-value="p_' + product[0].name_ppk + '_' + product[0].id_ppk + '">' + product[0].name_ppk + '</li>';
+
+             $("#ppk_ddl").next().find('span').html(product[0].name_ppk);
+             for (let i = 0; i < ppk.length; i++) {
+
+                 if(ppk[i].id_ppk!=product[0].id_ppk)
+                 {
+                     html_ppk += '<option value="' + ppk[i].id_ppk + '">' + ppk[i].name_ppk + '</option>';
+                     html2_ppk += '<li class="option" data-value="p_' + ppk[i].name_ppk + '_' + ppk[i].id_ppk + '">' + ppk[i].name_ppk + '</li>';
+
+
+                 }
+
+             }
+             $("#ppk_ddl").html(html_ppk);
+             $("#ppk_ddl").next().find('ul').html(html2_ppk);
+
+           //conditionStatus
+
+             var html_cs='';
+             var html2_cs='';
+           switch (product[0].condition_status) {
+
+               case 1:
+                   html_cs += '<option value="1">Novo</option>'+
+                       '<option value="2">Kao novo</option>'+
+               '<option value="3">Polovno</option>';
+                   html2_cs += '<li class="option selected" data-value="1">Novo</li>'+
+                    '<li class="option" data-value="2">Kao novo</li>'+
+                   '<li class="option" data-value="3">Polovno</li>';
+                   break;
+                case 2:
+                    html_cs += '<option value="2">Kao novo</option>'+
+                        '<option value="1">Novo</option>'+
+                        '<option value="3">Polovno</option>';
+                    html2_cs += '<li class="option selected" data-value="2">Kao novo</li>'+
+                    '<li class="option" data-value="1">Novo</li>'+
+                    '<li class="option" data-value="3">Polovno</li>';
+                       break;
+               case 3:
+                   html_cs += '<option value="3">Polovno</option>'+
+                       '<option value="1">Novo</option>'+
+                       '<option value="2">Kao novo</option>';
+                   html2_cs += '<li class="option selected" data-value="3">Polovno</li>'+
+                       '<li class="option" data-value="1">Novo</li>'+
+                       '<li class="option" data-value="2">Kao novo</li>';
+                   break;
+
+           }
+             $("#conditionStatus").html(html_cs);
+             $("#conditionStatus").next().find('ul').html(html2_cs);
+
+             $('#text_name').val(product[0].name);
+             $('#price_new').val(product[0].price);
+             $('#description_new').val(product[0].description);
+             $('#user_name').val(product[0].firstName);
+             $('#user_lastName').val(product[0].lastName);
+             $('#user_phone').val(product[0].phone_number);
+             $('#user_place').val(product[0].city);
+             $('#user_street').val(product[0].address);
+             $('#user_jmbg').val(product[0].JMBG);
+             $('#user_IDcard').val(product[0].ID_card);
+
+
+if(product[0].currency==1)
+{
+    $('#chCurrency1').prop('checked',true);
+}
+else{
+    $('#chCurrency2').prop('checked',true);
+}
+
+if(product[0].price_status==1)
+{
+    $('#ch_Fixed1').prop('checked',true);
+}
+else if (product[0].price_status==2)
+{
+    $('#ch_Fixed2').prop('checked',true);
+}
+else if (product[0].price_status==3)
+{
+    $('#ch_Fixed3').prop('checked',true);
+}
+else{
+    $('#ch_Fixed2').prop('checked',true);
+    $('#ch_Fixed3').prop('checked',true);
+
+}
+
+//img picture
+var picture='';
+  for (let i=0;i<product.length;i++)
+  {
+      picture+='<li><label class="pictureLabel changePictureLabel">Izmeni sliku<input type="file" id="file'+i+'" class="slikaBlock" name="file'+i+'"/></label>' +
+
+          '<img src="'+product[i].src+'" id="imgshow'+i+'" class="imgShowModal" align="left" style="width:140px!important; height:130px!important;" alt="'+product[i].name+'" title="'+product[i].name+'"/></li>';
+
+  }
+if (product.length<10)
+{
+    for (let i=10;i>product.length;i--)
+    {
+        picture+='<li><label class="pictureLabel">Unesi sliku<input type="file" id="file'+i+'" class="slikaBlock" name="file'+i+'"/></label>' +
+
+            '<img src="#" id="imgshow'+i+'" class="imgShowModal" align="left" style="width:140px!important; height:130px!important;" alt="#" title="#"/></li>';
+
+    }
+
+
+
+}
+
+
+if(sponsored!=[] && sponsored!=null)
+{
+    //
+    $('.promotion_new').addClass('promotion_none');
+    if(sponsored[0].end_one>0)
+{
+    $('#chProm1').prop('checked',true);
+
+}
+    if(sponsored[0].end_two>0)
+    {
+       $('#chProm2').prop('checked',true);
+    }
+
+
+
+
+
+
+}
+
+
+$('#listPicture').html(picture);
+
+            $('#change_title').html('Izmena oglasa-'+product[0].name);
+
+
+
+          //  $('form #section_fourthStep div label').css('position','initial');
+            $('form .clip_list').css('margin-left','15px');
+            $('form #section_fourthStep div label').css('left','35px');
+            $('#update_insert').remove();
+            $('form').css('width','auto');
+            $('form .nice-select').css('clear','unset');
+            //F7941D
              $('#user_change').modal('show');
 
 
@@ -1171,3 +1379,59 @@ $('#content_user').on('click','.fa-edit',function (e) {
 
 
 });
+// recovery picture delete change
+
+$(document).on('click','.changePictureLabel',function(e){
+
+    e.stopPropagation();
+   e.preventDefault();
+
+ var input=$(this).find('input');
+ input.prop('disabled',true);
+ var string_id=input.attr('id');
+ //console.log(string_id);
+var res=string_id.substring(4);
+
+    var src=$('#imgshow'+res).attr('src');
+$('#imgshow'+res).attr('src',base_Url+'images/refresh.png');
+$('#imgshow'+res).attr('title','Vrati sliku');
+$('#imgshow'+res).addClass('backupPicture');
+$('#imgshow'+res).attr('alt',src);
+    $(this).html('Unesi sliku <input type="file" id="file'+res+'" class="slikaBlock" name="file'+res+'"/>');
+
+$(this).removeClass('changePictureLabel');
+
+    //input.prop('disabled',false);
+    setTimeout(reloadFile(input),3000);
+
+});
+$(document).on('click','.backupPicture',function (e) {
+    e.stopPropagation();
+
+    //alert('ooo');
+
+    var src=$(this).attr('alt');
+    $(this).attr('src',src);
+   var string_id=$(this).attr('id');
+    var resImg=string_id.substring(7);
+    $(this).removeClass('backupPicture');
+    var label=$(this).closest('li').find('label');
+    //console.log(a);
+    label.html('Izmeni sliku <input type="file" id="file'+resImg+'" class="slikaBlock" name="file'+resImg+'"/>');
+    label.addClass('changePictureLabel');
+
+    var res=$('#change_title').text().split('Izmena oglasa-');
+    $(this).attr('title',res[1]);
+
+
+});
+
+
+function reloadFile(input)
+{
+
+    //input.preventDefault();
+    input.prop('disabled',false);
+
+
+}

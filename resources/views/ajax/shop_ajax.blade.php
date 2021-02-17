@@ -4,8 +4,14 @@
     <div class="single-product">
         <div class="product-img">
             <a href="{{ route("product", ["product_id" => $product->name.'_el_'.$product->id_oglas])}}">
-                <img class="default-img" src="{{$product->src}}" alt="#">
-                <img class="hover-img" src="{{$product->src}}" alt="#">
+                @if($product->src=='images/.png')
+                    <img class="default-img" src="https://via.placeholder.com/550x750" alt="#">
+                    <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#">
+                @elseif($product->src!=null)
+                    <img class="default-img" src="{{asset($product->src)}}" alt="{{$product->alt}}">
+                    <img class="hover-img" src="{{asset($product->src)}}" alt="{{$product->alt}}">
+
+                @endif
                 <span class="new">New</span>
             </a>
             <div class="button-head">

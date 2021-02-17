@@ -273,7 +273,7 @@ location.reload();
     }
     else{
         //greske
-        console.log(errors);
+       // console.log(errors);
     }
 
 });
@@ -324,7 +324,7 @@ $(".sinlge-bar i").on('mouseover',function () {
 
 
 
-    console.log(i_class);
+    //console.log(i_class);
     $.ajax({
        url:base_Url+'user',
        method:'post',

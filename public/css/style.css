@@ -1756,6 +1756,7 @@ body{
   position: relative;
   overflow: hidden;
   cursor:pointer;
+	height: 300px; /*izmenaa*/
 }
 .single-product .product-img a {
   display: block;

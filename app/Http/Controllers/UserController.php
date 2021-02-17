@@ -123,7 +123,7 @@ class UserController extends Controller
       if($code=='moji_oglasi')
       {
           $data=$this->modelUser->getMyAds(auth()->user()->id,$this->start,$this->limit,$category);
-
+//dd($data);
       }
       else{
           $data=$this->modelUser->getFollowAds(auth()->user()->id,$this->start,$this->limit,$category);
@@ -469,7 +469,7 @@ public function change_product(Request $request)
 
 
     $data=$this->modelUser->getUserProduct($array[((int)$number)-1]);
-    dd($data[0]->id_category);
+    //dd($data[0]->id_category);
     $category=$this->modelIndex->category();
     $subcategory=$this->modelIndex->subcategory($data[0]->id_category);
     $ppk=$this->modelIndex->ppk();
@@ -477,8 +477,8 @@ public function change_product(Request $request)
 
 
     return ([
-        'product'=>$data,
-        '$category'=>$category,
+        'products'=>$data,
+        'categories'=>$category,
         'subcategory'=>$subcategory,
         'ppk'=>$ppk,
         'sponsored'=>$sponsored

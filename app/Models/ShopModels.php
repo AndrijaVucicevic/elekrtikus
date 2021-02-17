@@ -31,7 +31,9 @@ public function oglasi($start,$take,$cat,$min,$max,$search,$sort,$condition,$pri
         ->distinct()
         ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
         ->join('picture','oglas.id_oglas','=','picture.oglas_id')
-        ->join('ppk','ppk_id','=','ppk.id_ppk');
+        ->join('ppk','ppk_id','=','ppk.id_ppk')
+         ->where( ['picture_cat',$this->one
+         ]);
 
     if($max!=null && $min!=null && $search!=null)
     {
@@ -280,6 +282,7 @@ public function countAds($min,$max,$cat,$search)
 {
     $data= DB::table('oglas')
     ->select('id_oglas')
+        ->distinct()
     ->join('picture','oglas.id_oglas','=','picture.oglas_id')
         ->join('ppk','ppk_id','=','ppk.id_ppk')
         ->where([

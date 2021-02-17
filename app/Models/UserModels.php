@@ -35,6 +35,7 @@ class UserModels
     public $fileSrc;
 
     public $idInsert;
+    public $one=1;
 
 
 
@@ -55,16 +56,21 @@ class UserModels
     }
     public function getMyAds($id,$start,$limit,$category)
     {
+
+        //dd($start);
       $data= DB::table('oglas')
+
             ->select('id_oglas','oglas.name','price','src','title','alt','korisnik_oglas.user_id as user_follow'
                 ,DB::raw('case when currency=0 then "rsd" else "€" end as "currency_text"'))
-            ->distinct()
+
             ->join('korisnik_oglas','oglas.id_oglas','=','korisnik_oglas.oglas_id')
-            ->join('picture','oglas.id_oglas','=','picture.oglas_id')
+            ->leftJoin('picture','oglas.id_oglas','=','picture.oglas_id')
             ->join('ppk','ppk_id','=','ppk.id_ppk')
             ->where([
                [ 'korisnik_oglas.user_id',$id
-               ]
+               ],
+                ['picture_cat',$this->one
+                ]
             ]);
 
       if($category!=null)
@@ -73,9 +79,11 @@ class UserModels
       }
 
 
-            return $data->offset($start)
-            ->limit($limit)
-            ->get();
+            return
+                $data->offset($start)
+                ->limit($limit)
+                ->distinct()
+                ->get();
 
 
     }
@@ -92,7 +100,9 @@ class UserModels
            ->where([
                [
                 'follow.user_id',$id
-               ]
+               ],
+               ['picture_cat',$this->one
+                ]
            ]);
 
         if($category!=null)
@@ -189,7 +199,6 @@ public function insert_product()
 
             $time=time();
             $id=DB::table('oglas')->insertGetId([
-             "city_id"=>$this->city,
                 "ppk_id"=>$this->ppk,
                 "name"=>$this->nameProduct,
                 "price"=>$this->price,
@@ -204,7 +213,7 @@ public function insert_product()
 
             ]);
 
-            $oh=1;
+
 
             $this->idInsert=$id;
            DB::table('korisnik_oglas')->insert([
@@ -216,7 +225,7 @@ public function insert_product()
                'address'=>$this->personStreet,
                'name'=>$this->personName,
                'lastName'=>$this->personLastName,
-               'city_id'=>$oh
+               'city_id'=>$this->city
 
            ]);
 
@@ -297,9 +306,9 @@ public function getUserProduct($id)
 
 
     return DB::table('oglas')
-        ->select('oglas.datetime','name_ppk','oglas.name','price','currency','description','price_status','condition_status'
-        ,'JMBG','ID_card','phone_number','address','korisnik_oglas.city_id','korisnik_oglas.name','lastName','src','alt','title'
-            ,'subcategory_name','name_category','category.id_category'
+        ->select('oglas.datetime','id_ppk','name_ppk','oglas.name','price','currency','description','price_status','condition_status'
+        ,'JMBG','ID_card','phone_number','address','korisnik_oglas.name as firstName','lastName','src','alt','title'
+            ,'subcategory_name','subcategory.id_subcategory','name_category','category.id_category','city'
         )
         ->join('picture','oglas.id_oglas','=','picture.oglas_id')
         ->join('korisnik_oglas','oglas.id_oglas','=','korisnik_oglas.oglas_id')

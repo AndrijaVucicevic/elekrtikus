@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class IndexModels
 {
+    public $one=1;
 
     public function category()
     {
@@ -75,18 +76,22 @@ class IndexModels
     {
         $promotion=0;
         $end=time()+150;
+        $data= DB::table('oglas')
+            ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt'
+                ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
+            ->distinct()
+            ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
+            ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
+            ->join('ppk', 'ppk_id', '=', 'ppk.id_ppk')
+            ->join('subcategory', 'subcategory_id', '=', 'subcategory.id_subcategory')
+            ->join('category', 'category_id', '=', 'category.id_category')
+            ->where([
+               'picture_cat',$this->one
+            ]);
         if($cat=='naziv')
         {
-            $data= DB::table('oglas')
-                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt'
-                    ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
-                ->distinct()
-                ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
-                ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
-                ->join('ppk', 'ppk_id', '=', 'ppk.id_ppk')
-                ->join('subcategory', 'subcategory_id', '=', 'subcategory.id_subcategory')
-                ->join('category', 'category_id', '=', 'category.id_category')
-                ->where([
+
+             $data=$data->where([
                     [
                         'end_one','>',$promotion
                     ],
@@ -99,16 +104,7 @@ class IndexModels
         }
         if($cat!='naziv' && $col=='shop') {
 
-            $data= DB::table('oglas')
-                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt'
-                    ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
-                ->distinct()
-                ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
-                ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
-                ->join('ppk', 'ppk_id', '=', 'ppk.id_ppk')
-                ->join('subcategory', 'subcategory_id', '=', 'subcategory.id_subcategory')
-                ->join('category', 'category_id', '=', 'category.id_category')
-                ->where([
+            $data=$data->where([
                     [
                     'name_ppk', $cat
                     ],
@@ -125,16 +121,7 @@ class IndexModels
         }
         if($cat!='naziv' && $col!='shop')
         {
-            $data= DB::table('oglas')
-                ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt'
-                    ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
-                ->distinct()
-                ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
-                ->join('picture', 'oglas.id_oglas', '=', 'picture.oglas_id')
-                ->join('ppk', 'ppk_id', '=', 'ppk.id_ppk')
-                ->join('subcategory', 'subcategory_id', '=', 'subcategory.id_subcategory')
-                ->join('category', 'category_id', '=', 'category.id_category')
-                ->where([
+       $data=$data->where([
                     [
                         'name_category', $cat
                     ],
@@ -158,6 +145,7 @@ class IndexModels
             ->select('id_oglas','name','price','alt','title','src'  ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
             ->distinct()
             ->join('picture','id_oglas','=','oglas_id')
+            ->where('picture_cat',$this->one)
             ->orderBy('id_oglas','desc')
             ->limit(8)
             ->get();

@@ -14,10 +14,10 @@
 }
 .pictureLabel{
     padding: 10px;
-    background: #F9D9BE;
+    background: #F7941D;
     display: table;
-    color: black;
-    border:1px solid #F9D9BE;
+    color: white;
+    border:1px solid #F7941D;
 
 }
 .pictureLabel :focus
@@ -48,7 +48,8 @@ input[type="file"] {
     clip-path: polygon(85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%, 0% 0%);
     height: 40px;
     width: 21%;
-    background: bisque;
+    color:white;
+    background: #F7941D;
     text-align: center;
     padding-top: 7px;
    cursor: pointer;
@@ -124,7 +125,8 @@ height: auto;
 .promotion_new{
     background-color: #F7941D;
 }
-
-
+.backupPicture{
+    cursor: pointer;
+}
 
 
