@@ -69,7 +69,7 @@ Route::post('/changeUserCategory',[UserController::class,'changeUserCategory'])-
 
 Route::post('/delete_product_user',[UserController::class,'delete_product']);
 
-Route::post('/insert_product_user',[UserController::class,'insert_product']);
+Route::post('/insert_update_product_user',[UserController::class,'insert_product']);
 
 Route::post('/change_product_user',[UserController::class,'change_product']);
 

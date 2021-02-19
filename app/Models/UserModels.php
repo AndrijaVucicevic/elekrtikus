@@ -319,7 +319,81 @@ public function getUserProduct($id)
         ->get();
 }
 
+    public $idUpdate;
 
+public function update_product($idUpdate)
+{
+
+    $this->idUpdate=$idUpdate;
+    try {
+        DB::transaction(function () {
+
+            $time=time();
+            DB::table('oglas')
+                ->where('id_oglas',$this->idUpdate)
+                ->update([
+                "ppk_id"=>$this->ppk,
+                "name"=>$this->nameProduct,
+                "price"=>$this->price,
+                "currency"=>$this->currency,
+                "description"=>$this->description,
+                "update_at"=>$time,
+                "condition_status"=>$this->condition,
+                "price_status"=>$this->priceStatus
+
+            ]);
+
+
+
+
+
+            DB::table('korisnik_oglas')
+                ->where('oglas_id',$this->idUpdate)
+                ->update([
+                'ID_card'=>$this->personIDcard,
+                'phone_number'=>$this->personPhone,
+                'address'=>$this->personStreet,
+                'name'=>$this->personName,
+                'lastName'=>$this->personLastName,
+                'city_id'=>$this->city
+
+            ]);
+
+        });
+
+        $code= 201;
+    }
+    catch(\Throwable $e) {
+        //\Log::critical("Failed to insert youur ad.");
+        $code=$e->getMessage();
+        //  throw new \Exception("Greska pri unosu");
+
+    }
+
+    return $code;
+
+
+
+
+}
+
+public function getPicture($idUpdate)
+{
+
+    return DB::table('picture')
+        ->select('id_picture')
+        ->where('oglas_id',$idUpdate)
+        ->get();
+
+
+}
+
+public function deletePicture($id)
+{
+    DB::table('picture')
+        ->where('id_picture', '=',$id)
+        ->delete();
+}
 
 
 

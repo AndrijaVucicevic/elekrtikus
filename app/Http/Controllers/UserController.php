@@ -224,6 +224,7 @@ public function insert_product(Request $request)
     $this->modelUser->personJMBG = $request->personJMBG;
     $this->modelUser->personIDcard = $request->personIDcard;
     $counter = intval($request->counter);
+    $idUpdate=$request->idUpdate;
 
    //dd($request->ch_accuracy);
 
@@ -260,48 +261,158 @@ public function insert_product(Request $request)
 
 
     if ($validator->passes()) {
+        $counter_picture = 0;
+
+          if ($idUpdate!=null)
+          {
+             $code= $this->modelUser->update_product($idUpdate);
+          if($code==201)
+          {
+              //picture change
+              $number_picture=$this->modelUser->getPicture($idUpdate);
 
 
+              $fileName1 = 0;
+
+              for ($i = 0; $i < 10; $i++) {
 
 
-            $idInsert = $this->modelUser->insert_product();
-//dd($idInsert);
-            if (strlen($idInsert)<4) {
-                $counter_picture = 0;
-
-                $fileName1 = 0;
-                for ($i = 0; $i < $counter; $i++) {
-
-                    if ($request->file("file$i") != null && $request->file("file$i") != "") {
+//insert new picture
+                      if ($request->file("file$i") != null && $request->file("file$i") != "") {
 
 
-                        $file = $request->file("file$i");
-                        //dd($file);
-                        $this->validate($request, [
-                            'file' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-                        ]);
+                          $file = $request->file("file$i");
+                          //dd($file);
+                          $this->validate($request, [
+                              'file' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                          ]);
 
-                        $fileName = $file->getClientOriginalName();
-                        $fileName1 = time() . "_" . $fileName;
-                        public_path("images");
+                          $fileName = $file->getClientOriginalName();
+                          $fileName1 = time() . "_" . $fileName;
+                          public_path("images");
 
-                        //$public_path="img";
-                        $file->move(public_path('images'), $fileName1);
+                          //$public_path="img";
+                          $file->move(public_path('images'), $fileName1);
 
 
-                        $codePicture = $this->modelUser->insert_picture($idInsert,$fileName,$fileName1);
+                          $codePicture = $this->modelUser->insert_picture($idUpdate, $fileName, $fileName1);
 //dd($codePicture);
-                        if ($codePicture == 201) $counter_picture++;
+                          if ($codePicture == 201) {
+                              $counter_picture++;
+                          //delete picture
+                              for ($n=0;$n<count($number_picture);$n++)
+                              {
+                                  //check if the old image has been replaced
+                                  if($i==$n)
+                                  {
+                                         //delete picture
+                                         $this->modelUser->deleteProduct($number_picture[$n]->id_picture);
 
+                                  }
+
+
+                              }
+
+                      } else {
+                          //error slika nije ubacena
+                      }
+
+                  }
+
+              }
+//check
+              $updated_picture=$this->modelUser->getPicture($idUpdate);
+              if(count($updated_picture)>0)
+              {
+                  //delete other picture that are deleted from js
+                  $delete_picture=explode('#',$request->changePicture);
+
+                  for ($i=0;$i<count($delete_picture);$i++)
+                  {
+
+                      $count_tag=substr($delete_picture[$i],4);
+                      for($x=0;$x<count($number_picture);$x++)
+                      {
+                          if($count_tag[1]==$x)
+                          {
+                              $this->modelUser->deletePicture($number_picture[$i]->id_picture);
+                          }
+                      }
+
+
+
+                  }
+
+
+              }
+
+          }
+//promotion check
+
+
+          }
+          else {
+
+              $idInsert = $this->modelUser->insert_product();
+              if (strlen($idInsert)<5) {
+
+                  $fileName1 = 0;
+                  for ($i = 0; $i < $counter; $i++) {
+
+                      if ($request->file("file$i") != null && $request->file("file$i") != "") {
+
+
+                          $file = $request->file("file$i");
+                          //dd($file);
+                          $this->validate($request, [
+                              'file' . $i => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                          ]);
+
+                          $fileName = $file->getClientOriginalName();
+                          $fileName1 = time() . "_" . $fileName;
+                          public_path("images");
+
+                          //$public_path="img";
+                          $file->move(public_path('images'), $fileName1);
+
+
+                          $codePicture = $this->modelUser->insert_picture($idInsert, $fileName, $fileName1);
+//dd($codePicture);
+                          if ($codePicture == 201) $counter_picture++;
+
+                      } else {
+                          //error slika nije ubacena
+                      }
+
+
+                  }
+              }
+              else{
+                  //brisanje proizvoda
+                  //slike neuspeh
+
+                  $data=$this->modelUser->deleteProduct($idInsert);
+                  if($data==201) {
+                      return ($data=404);
+
+                  }/*if(File::exists($file_path)) {
+                        File::delete($file_path);
                     }
-                    else{
-                     //error slika nije ubacena
-                    }
+                    */
 
 
+              }
 
-                }
-                if($counter_picture>0)
+
+          }
+
+//dd($idInsert);
+
+
+//counter
+
+        $check_promotion=$this->modelIndex->sponsored($idUpdate);
+                if($check_promotion==null || $check_promotion==[] || $check_promotion->end_one==0 || $check_promotion->end_two==0)
                 {
 
                     if ($request->promotion!=0 && $request->promotion)
@@ -406,21 +517,7 @@ public function insert_product(Request $request)
                     return ($code = 201);
 
                 }
-                else{
-                    //brisanje proizvoda
-                    //slike neuspeh
 
-                    $data=$this->modelUser->deleteProduct($idInsert);
-                    if($data==201) {
-                        return ($data=404);
-
-                    }/*if(File::exists($file_path)) {
-                        File::delete($file_path);
-                    }
-                    */
-
-
-                }
 
                 //counter_picture check
                 //promotion
@@ -429,7 +526,7 @@ public function insert_product(Request $request)
 
 
 
-        }
+
 
         else {
 
@@ -486,6 +583,7 @@ public function change_product(Request $request)
 
 
 }
+
 
 
 

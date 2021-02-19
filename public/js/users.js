@@ -296,6 +296,10 @@ $(document).on('change','.slikaBlock', function () {
         reader.onload = function (e) {
             $('#imgshow'+res).attr('src', e.target.result);
 
+            if(('#imgshow'+res).hasClass('deletePicture'))
+            {
+                $('#imgshow'+res).removeClass('deletePicture');
+            }
         }
         reader.readAsDataURL(this.files[0]);
 
@@ -529,15 +533,29 @@ $(document).on('click','.btnUpdateInsert',function (e) {
     $('.btnUpdateInsert').prop('disabled',true);
 
     var btnAction=$(this).attr('data-value').split('#');
-    var href='';
 
-    if(btnAction[1]==1)
-    {
-        href='insert_product_user';
-    }
+
+
+     var   idUpdate=null;
+     var   changePicture='';
+
     if (btnAction[1]==2)
     {
-        href='update_product_user';
+        idUpdate='update_product_user';
+         var classList=$('.deletePicture');
+       if(classList.length>0)
+       {
+           for (let i=0;i<classList.length;i++) {
+               if ((i + 1) == classList.length) {
+                   changePicture += $(classList[i].attr('id'));
+               } else {
+                   changePicture += $(classList[i].attr('id')) + '#';
+               }
+
+           }
+       }
+
+
     }
 //console.log('aa');
     var errors=[];
@@ -759,22 +777,29 @@ var counter=0;
 
 var fd=new FormData();
 
+
 for(let i=0;i<10;i++) {
 
-  if(document.getElementById("file"+i).files.length === 0)
-  {
-      //nista
-  }
-  else{
+    if(idUpdate!=null)
+    {
+        var files = $('#file' + i)[0].files[0];
+        fd.append('file' + i, files);
 
-      var files = $('#file'+i)[0].files[0];
-      fd.append('file'+counter,files);
-      counter++;
-  }
+    }
+    else {
+        if (document.getElementById("file" + i).files.length === 0) {
+            //nista
+        } else {
+
+            var files = $('#file' + i)[0].files[0];
+            fd.append('file' + counter, files);
+            counter++;
+        }
+    }
 
 }
 
-if (counter==0)
+if (counter==0 && idUpdate==null)
 {
     errors.push('Morate uneti sliku proizvoda');
 }
@@ -808,11 +833,15 @@ if (counter==0)
         fd.append('ch_terms',terms);
         fd.append('counter',counter);
         fd.append('token',csrf);
+        fd.append('idUpdate',idUpdate);
+        if (changePicture != '') {
+            fd.append('changePicture',changePicture);
+        }
 
        //console.log(fd);
 
         $.ajax({
-            url: base_Url + href,
+            url: base_Url + 'insert_update_product_user',
             method: 'post',
             data:fd,
             contentType: false,
@@ -1396,6 +1425,12 @@ var res=string_id.substring(4);
 $('#imgshow'+res).attr('src',base_Url+'images/refresh.png');
 $('#imgshow'+res).attr('title','Vrati sliku');
 $('#imgshow'+res).addClass('backupPicture');
+
+$('#imgshow'+res).addClass('deletePicture');
+
+
+
+
 $('#imgshow'+res).attr('alt',src);
     $(this).html('Unesi sliku <input type="file" id="file'+res+'" class="slikaBlock" name="file'+res+'"/>');
 
@@ -1420,6 +1455,9 @@ $(document).on('click','.backupPicture',function (e) {
     label.html('Izmeni sliku <input type="file" id="file'+resImg+'" class="slikaBlock" name="file'+resImg+'"/>');
     label.addClass('changePictureLabel');
 
+    if($('#imgshow'+resImg).hasClass('deletePicture')) {
+        $('#imgshow' + resImg).removeClass('deletePicture');
+    }
     var res=$('#change_title').text().split('Izmena oglasa-');
     $(this).attr('title',res[1]);
 

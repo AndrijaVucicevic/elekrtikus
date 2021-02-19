@@ -85,9 +85,9 @@ class IndexModels
             ->join('ppk', 'ppk_id', '=', 'ppk.id_ppk')
             ->join('subcategory', 'subcategory_id', '=', 'subcategory.id_subcategory')
             ->join('category', 'category_id', '=', 'category.id_category')
-            ->where([
-               'picture_cat',$this->one
-            ]);
+            ->where(
+               'picture_cat','=',$this->one
+            );
         if($cat=='naziv')
         {
 
