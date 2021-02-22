@@ -47,6 +47,7 @@ class IndexModels
     }
     public function ppk($cat=null)
     {
+        //dd($cat);
         //return DB::table('')
 
         $data= DB::table('ppk')
@@ -54,18 +55,19 @@ class IndexModels
 
            if($cat!=null)
            {
-               if (strlen($cat)>3)
+               if (strlen($cat)<2)
                {
-                   $data = $data->where(
-                       'name_ppk', $cat
-                   );
-               }
-               else {
-
-
                    $data = $data->where(
                        'subcategory_id', $cat
                    );
+                   //dd($cat);
+               }
+               else {
+
+                   $data = $data->where(
+                       'name_ppk', $cat
+                   );
+
                }
            }
 

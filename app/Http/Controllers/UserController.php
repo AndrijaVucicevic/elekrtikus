@@ -208,7 +208,7 @@ public function insert_product(Request $request)
     $this->modelUser->ppk = $request->ppk;
      $ppk=$this->modelIndex->ppk($request->ppk);
 
-    // dd($ppk);
+   // dd($request->ppk);
      $this->modelUser->ppk=$ppk[0]->id_ppk;
 
 
@@ -234,7 +234,7 @@ public function insert_product(Request $request)
         'price' => ['required', 'numeric'],
         'ppk' => ['required'],
         'condition' => ['required', 'not_in:0'],
-        'priceStatus' => ['required', 'in:1,2,3'],
+        'priceStatus' => ['required', 'in:1,2,3,5'],
         'currency' => ['required', 'in:1,2'],
         'ch_accuracy' => ['required', 'in:1'],
         'ch_terms' => ['required', 'in:1'],
@@ -266,6 +266,7 @@ public function insert_product(Request $request)
           if ($idUpdate!=null)
           {
              $code= $this->modelUser->update_product($idUpdate);
+            // dd($code);
           if($code==201)
           {
               //picture change
@@ -294,9 +295,15 @@ public function insert_product(Request $request)
                           //$public_path="img";
                           $file->move(public_path('images'), $fileName1);
 
-
-                          $codePicture = $this->modelUser->insert_picture($idUpdate, $fileName, $fileName1);
+                             if($i==0) {
+                                 $codePicture = $this->modelUser->insert_picture($idUpdate, $fileName, $fileName1,$cat=1);
 //dd($codePicture);
+                             }
+                             else{
+                                 $codePicture = $this->modelUser->insert_picture($idUpdate, $fileName, $fileName1);
+
+                             }
+
                           if ($codePicture == 201) {
                               $counter_picture++;
                           //delete picture
@@ -306,9 +313,11 @@ public function insert_product(Request $request)
                                   if($i==$n)
                                   {
                                          //delete picture
-                                         $this->modelUser->deleteProduct($number_picture[$n]->id_picture);
-
+                                         $fileDeleteName=$this->modelUser->deleteProduct($number_picture[$n]->id_picture);
+                                          File::delete($fileDeleteName);
                                   }
+
+
 
 
                               }
@@ -335,7 +344,15 @@ public function insert_product(Request $request)
                       {
                           if($count_tag[1]==$x)
                           {
-                              $this->modelUser->deletePicture($number_picture[$i]->id_picture);
+                              $fileDeleteName=$this->modelUser->deletePicture($number_picture[$i]->id_picture);
+                             //delete filee
+                              File::delete($fileDeleteName);
+                              if ($count_tag[1]=0)
+                              {
+                                  //izmena picture_cat
+                                  $this->modelUser->pictureUpdateCat($idUpdate);
+
+                              }
                           }
                       }
 
@@ -390,7 +407,8 @@ public function insert_product(Request $request)
               else{
                   //brisanje proizvoda
                   //slike neuspeh
-
+                  //nije unet doslo do greske nema sta da se brise
+               /*
                   $data=$this->modelUser->deleteProduct($idInsert);
                   if($data==201) {
                       return ($data=404);

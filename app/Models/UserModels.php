@@ -165,7 +165,7 @@ class UserModels
 
     }
 
- public function insert_picture($id,$fileName,$fileName1)
+ public function insert_picture($id,$fileName,$fileName1,$cat=0)
  {
      $code=201;
     try{
@@ -174,7 +174,8 @@ class UserModels
            "src"=>"images/" . $fileName1,
             "alt"=>$fileName,
             "title"=>$fileName1,
-            "oglas_id"=>$id
+            "oglas_id"=>$id,
+            "picture_cat"=>$cat
 
         ]);
 
@@ -188,7 +189,19 @@ class UserModels
      return $code;
 
  }
+public function pictureUpdateCat($id)
+{
+    $cat=1;
+    DB::table('picture')->where('oglas_id',$id)
+        ->limit($cat)
+        ->update([
+        "picture_cat"=> $cat
 
+    ]);
+
+
+
+}
 
 public function insert_product()
 {
@@ -306,7 +319,7 @@ public function getUserProduct($id)
 
 
     return DB::table('oglas')
-        ->select('oglas.datetime','id_ppk','name_ppk','oglas.name','price','currency','description','price_status','condition_status'
+        ->select('oglas.id_oglas','oglas.datetime','id_ppk','name_ppk','oglas.name','price','currency','description','price_status','condition_status'
         ,'JMBG','ID_card','phone_number','address','korisnik_oglas.name as firstName','lastName','src','alt','title'
             ,'subcategory_name','subcategory.id_subcategory','name_category','category.id_category','city'
         )
@@ -355,7 +368,7 @@ public function update_product($idUpdate)
                 'address'=>$this->personStreet,
                 'name'=>$this->personName,
                 'lastName'=>$this->personLastName,
-                'city_id'=>$this->city
+                'city'=>$this->city
 
             ]);
 
@@ -390,9 +403,16 @@ public function getPicture($idUpdate)
 
 public function deletePicture($id)
 {
+    $file=DB::table('picture')
+        ->select('title')
+        ->where('id_picture',$id)
+        ->first();
+
     DB::table('picture')
         ->where('id_picture', '=',$id)
         ->delete();
+
+    return $file;
 }
 
 

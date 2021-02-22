@@ -161,7 +161,7 @@
           </div>
 
        <div>
-           <input required type="text" name="user_lastName" id="user_lastName"/>
+           <input required type="text" name="user_lastName" id="user_lastName" data-bind=""/>
            <label for="user_lastName">Prezime:</label>
        </div>
 

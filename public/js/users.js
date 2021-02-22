@@ -296,7 +296,7 @@ $(document).on('change','.slikaBlock', function () {
         reader.onload = function (e) {
             $('#imgshow'+res).attr('src', e.target.result);
 
-            if(('#imgshow'+res).hasClass('deletePicture'))
+            if($('#imgshow'+res).hasClass('deletePicture'))
             {
                 $('#imgshow'+res).removeClass('deletePicture');
             }
@@ -478,7 +478,7 @@ $('.chCurrency').on('click',function (e) {
     $('.chCurrency').removeClass('outlineError')
 
 });
-$('.chFixed').on('click',function (e) {
+$(document).on('click','.chFixed',function (e) {
 
    // alert('ee');
 
@@ -541,15 +541,15 @@ $(document).on('click','.btnUpdateInsert',function (e) {
 
     if (btnAction[1]==2)
     {
-        idUpdate='update_product_user';
+        idUpdate=$('#user_lastName').attr('data-bind');
          var classList=$('.deletePicture');
        if(classList.length>0)
        {
            for (let i=0;i<classList.length;i++) {
                if ((i + 1) == classList.length) {
-                   changePicture += $(classList[i].attr('id'));
+                   changePicture += $(classList[i]).attr('id');
                } else {
-                   changePicture += $(classList[i].attr('id')) + '#';
+                   changePicture += $(classList[i]).attr('id') + '#';
                }
 
            }
@@ -806,8 +806,7 @@ if (counter==0 && idUpdate==null)
 
 
 //console.log(errors);
-
-
+    
     if (errors.length==0)
     {
         //ide ajaks poziv i upis
@@ -854,7 +853,7 @@ if (counter==0 && idUpdate==null)
                 switch (data) {
 
                     case 201:
-                        modalBody('Vaš oglas je uspešno unet');
+                        modalBody('Uspešno!!');
                         $("#alertButtonModal").click();
                         break;
                     case 1:
@@ -879,11 +878,13 @@ if (counter==0 && idUpdate==null)
                         break;
                     default:
                         printError(data.error);
-                        $(".btnUpdateInsert").prop('disabled',false);
+                        modalBody("Došlo je do greške proverite uspešnost izmene Vašeg oglasa!");
+                        $("#alertButtonModal").click();
+                      //  $(".btnUpdateInsert").prop('disabled',false);
                         break;
                 }
 
-
+                $('.btnUpdateInsert').prop('disabled',false);
             }
             ,
             error: function (xhr, error, status) {
@@ -1062,8 +1063,10 @@ $(document).on('click','.nice-select ul li',function(e){
 
                     $("#subcategory_ddl").html(html);
                     $("#subcategory_ddl").next().find('ul').html(html2);
+                    html2='<li class="option selected" data-value="0">Izaberite kategoriju levo...</li>';
 
-
+                    $("#ppk_ddl").next().find('ul').html(html2);
+                    $("#ppk_ddl").next().find('span').html('Izaberite kategoriju levo...');
                 },
                 error: function (xhr, error, status) {
                     //
@@ -1205,7 +1208,7 @@ $('#content_user').on('click','.fa-edit',function (e) {
              $("#category_ddl").next().find('span').html(product[0].name_category);
              for (let i = 0; i < category.length; i++) {
 
-                     if (category[i].category_id != product[0].id_category) {
+                     if (category[i].id_category != product[0].id_category) {
 
                          cat_html += '<option value="' + category[i].id_category + '">' + category[i].name_category + '</option>';
 
@@ -1296,6 +1299,7 @@ var html2='<li class="option selected" data-value="s_' + product[0].subcategory_
              $('#description_new').val(product[0].description);
              $('#user_name').val(product[0].firstName);
              $('#user_lastName').val(product[0].lastName);
+             $('#user_lastName').attr('data-bind',product[0].id_oglas);
              $('#user_phone').val(product[0].phone_number);
              $('#user_place').val(product[0].city);
              $('#user_street').val(product[0].address);
@@ -1340,7 +1344,7 @@ var picture='';
   }
 if (product.length<10)
 {
-    for (let i=10;i>product.length;i--)
+    for (let i=product.length;i<10;i++)
     {
         picture+='<li><label class="pictureLabel">Unesi sliku<input type="file" id="file'+i+'" class="slikaBlock" name="file'+i+'"/></label>' +
 
@@ -1356,15 +1360,24 @@ if (product.length<10)
 if(sponsored!=[] && sponsored!=null)
 {
     //
-    $('.promotion_new').addClass('promotion_none');
+    $('#podrazumevano').remove();
+    $('.promotion_new').removeClass('promotion_none');
     if(sponsored[0].end_one>0)
 {
     $('#chProm1').prop('checked',true);
 
+    var d=Date(sponsored[0].end_one);
+
+    $('#chProm1').find('p').html('Promocija ističe <b>'+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+'.</b> U <b>'+d.getHours()+':'+d.getMinutes()+'</b>');
 }
     if(sponsored[0].end_two>0)
     {
        $('#chProm2').prop('checked',true);
+
+        d=Date(sponsored[0].end_two);
+
+        $('#chProm2').find('p').html('Promocija ističe <b>'+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+'.</b><br>' +
+            'U <b>'+d.getHours()+':'+d.getMinutes()+'</b>');
     }
 
 

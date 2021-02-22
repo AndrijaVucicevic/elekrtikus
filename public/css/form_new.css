@@ -128,5 +128,15 @@ height: auto;
 .backupPicture{
     cursor: pointer;
 }
+@media only screen and (max-width: 886px){
+    #listPicture li {
+        width: 45%;
+    }
+}
+@media only screen and (max-width: 625px){
+    #listPicture li {
+        width: 100%;
+    }
+}
 
 
