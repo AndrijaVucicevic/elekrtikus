@@ -1539,8 +1539,9 @@ $('.fa-pencil').on('click',function () {
 
     $('#first_name').val($(user[0]).text());
     $('#last_name').val($(user[1]).text());
-    $('#username').val($(user[2]).text());
-    $('#email').val($(user[3]).text());
+    $('#email').val($(user[2]).text());
+    $('#username').val($(user[3]).text());
+
 
     $('.btnUpdateInsert').attr('data-value','insert_change#user');
 
@@ -1552,26 +1553,90 @@ function changeUser() {
     //alert('aaa');
 
 
-    $.ajax({
-       url:base_Url+'user_change_pi',
-        method:'post',
-        data:{
-           _token:csrf,
-           name:$('#first_name').val(),
-            lastName:$('#last_name').val(),
-            username:$('#username').val(),
-            email:$('#email').val(),
-            old_pass:$('#old_password').val(),
-            password_confirmation:$('#password_confirmation').val(),
-            password_change:$('#password_change').val(),
-            send:true
+
+
+
+    if($('#password').val()=='')
+    {
+        if($('#toggle_password').next().is('label'))
+        {
+            $('#toggle_password').next().remove();
         }
 
+    }
+    if($('#password_confirmation').val()=='')
+    {
+        if($('#toggleRePassword').next().is('label'))
+        {
+            $('#toggleRePassword').next().remove();
+        }
+    }
+
+    var countErrors=$('.errors');
+    console.log(countErrors.length);
+    var rePassword=new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\.!@#\$%\^&\*])(?=.{8,})");
+   var code=201;
+    if(!rePassword.test($('#password_change').val()))
+    {
+        //console.log(this.id);
+        //after prikaz
+        if(!$('#toggle_password').next().is('label')) {
+            $("#toggle_password_change").after('<label class="errors">Obavezno[A-Z][. ili _][0-9]6-17 karaktera</label>');
+
+        }
+        code = 422;
+    }
+
+   //console.log(countErrors);
+
+    if (countErrors.length==0 && code==201) {
 
 
-    });
+
+        $.ajax({
+            url: base_Url + 'user_change_pi',
+            method: 'post',
+            data: {
+                _token: csrf,
+                name: $('#first_name').val(),
+                lastName: $('#last_name').val(),
+                username: $('#username').val(),
+                email: $('#email').val(),
+                old_pass: $('#old_password').val(),
+                password_confirmation: $('#password_confirmation').val(),
+                password_change: $('#password_change').val(),
+                send: true
+            },
+            success: function (data) {
+
+                console.log(data);
+                if(data==201)
+                {
+                    //uspesnoo
+                }
+                if(data==419)
+                {
+                    //sifra i user se ne poklapa
+                }
+                if(data==422)
+                {
+                    //doslo je do greske
+                }
+                else{
+                    //print msg error greske i too
+                }
+
+            },
+            error: function (xhr, status, erros) {
+                //error
+            }
 
 
+        });
+
+    }
+
+    $('.btnUserAction').prop('disabled',false);
 
     return 201;
 }

@@ -5,7 +5,7 @@ $("#signup-form .form-row .form-group input").on('focus',function()
      //console.log(input.value);
         $(this).removeClass('errors');
         var re=$(this).attr('id');
-        if(re=='password'||re=='password_confirmation' || re=='old_password' || re=='password_change')
+        if(re=='password'||re=='password_confirmation' || re=='password_change')
         {
             if(re=='password')
             {
@@ -14,10 +14,7 @@ $("#signup-form .form-row .form-group input").on('focus',function()
             if(re=='password_confirmation'){
                 $("#toggleRePassword").next().remove();
             }
-            if(re=='old_password')
-        {
-            $("#toggle_old_password").next().remove();
-        }
+
             if(re=='password_change')
             {//
 
@@ -43,10 +40,7 @@ $(document).on('click','.fa-eye',function (e) {
     if(reId=='toggleRePassword'){
         $('#password_confirmation').attr('type', 'text');
     }
-    if(reId=='toggle_old_password')
-    {
-        $('#old_password').attr('type', 'text');
-    }
+
     if(reId=='toggle_password_change')
     {
         $('#password_change').attr('type', 'text');
@@ -66,10 +60,6 @@ $(document).on('click','.fa-eye-slash',function (e) {
     if(reId=='toggleRePassword'){
         $('#password_confirmation').attr('type', 'password');
     }
-    if(reId=='toggle_old_password')
-    {
-        $('#old_password').attr('type', 'password');
-    }
     if(reId=='toggle_password_change')
     {
         $('#password_change').attr('type', 'password');
@@ -82,52 +72,54 @@ $(document).on('click','.fa-eye-slash',function (e) {
 $("#first_name").focusout(function () {
 
     var reName=/^[A-ZČĆŠŽĐ][a-zčćšđž]{2,12}(\s[A-ZČĆŠŽĐ][a-zčćšđž]{2,12})*$/;
+    var code=201;
     if(!reName.test($(this).val()))
     {
        //after prikaz
         $(this).after('<label class="errors">Ime nije u redu</label>');
-
+    code=422;
     }
 
-
+     return code;
 });
 $("#last_name").blur(function () {
 
-
+    var code=201;
     var reName=/^[A-ZČĆŠŽĐ][a-zčćšđž]{2,12}(\s[A-ZČĆŠŽĐ][a-zčćšđž]{2,12})*$/;
     if(!reName.test($(this).val()))
     {
         //after prikaz
         $(this).after('<label class="errors">Prezime nije u redu</label>');
-
+     code=422;
     }
 
-
+return code;
 });
 $("#email").blur(function () {
 
-
+    var code=201;
     var reEmail=/^[\w]+[\.\_\-\w]*\@[\w]+([\.][\w]+)+$/;
     if(!reEmail.test($(this).val()))
     {
         //after prikaz
         $(this).after('<label class="errors">Email</label>');
-
+     code=422;
     }
 
-
+return code;
 });
 $("#username").focusout(function () {
 //alert('aa');
+    var code=201;
     var reUsername=/^[\w\.\_\d]{6,17}$/;
     if(!reUsername.test($(this).val()))
     {
         //after prikaz
         $(this).after('<label class="errors">Username</label>');
-
+      code=422;
     }
 
-
+return code;
 });
 $('.pass').blur(function () {
 
@@ -140,7 +132,6 @@ $('.pass').blur(function () {
         $("#toggle_"+this.id).after('<label class="errors">Obavezno[A-Z][. ili _][0-9]6-17 karaktera</label>');
 
     }
-
 
 });
 

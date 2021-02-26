@@ -20,22 +20,23 @@
 
                         </div>
                     </div>
+
+                    <div class="form-row">
+                    <div class="form-group form-email">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-input" name="email" id="email" />
+
+                    </div>
+
+                    </div>
                     <div class="form-row">
                         <div class="form-group form-email">
-                            <label for="birth_date">Korisničko ime</label>
+                            <label for="username">Korisničko ime</label>
                             <input type="text" class="form-input" name="username" id="username"/>
 
                         </div>
 
                     </div>
-                    <div class="form-row">
-                    <div class="form-group form-email">
-                        <label for="phone_number">Email</label>
-                        <input type="email" class="form-input" name="email" id="email" />
-
-                    </div>
-                    </div>
-
                     <div class="form-row borderPassword">
                         @if(Route::current()->getName() != 'register')
 
@@ -48,18 +49,10 @@
 
                             </style>
 
-                            <h3>Izmena šifre</h3>
-
-                            <div class="form-group form-email">
-                                <label for="old_password">Stara šifra</label>
-                                <input type="password" class="form-input pass" name="old_password" id="old_password"/>
-                                <i class="far fa-eye" id="toggle_old_password"></i>
-
-                            </div>
-
+                            <h3 style="width: 100%;">Izmena šifre</h3><br>
 
                         @endif
-                        <div class="form-group ">
+                        <div class="form-group">
                             <label for="password">Šifra</label>
                             <input type="password" class="form-input pass" name="password" id="password"/>
                             <i class="far fa-eye" id="toggle_password"></i>

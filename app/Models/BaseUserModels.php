@@ -92,7 +92,7 @@ return $user;
       $code=201;
       try{
 
-          DB::table('user')
+          DB::table('users')
               ->where('id',$id)
               ->update([
                  'name'=>$this->name,
@@ -117,7 +117,7 @@ public function changePasswordUser($id,$password)
     $code=201;
     try{
 
-        DB::table('user')
+        DB::table('users')
             ->where('id',$id)
             ->update([
                 'password'=>Hash::make($password),

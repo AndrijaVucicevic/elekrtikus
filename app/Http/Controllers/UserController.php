@@ -550,7 +550,7 @@ public function insert_product(Request $request)
 
 
         else {
-                 dd($validator->errors()->all());
+                // dd($validator->errors()->all());
         return response()->json(['error' => $validator->errors()->all()]);
     }
 
@@ -617,15 +617,40 @@ public function user_change_pi(Request $request)
     if($check==201)
     {
         //change user
-
-        $data=$this->modelBase->changeUser($id);
-
-         if($data==201 && isset($request->password_confirmation))
-         {
-             $data=$this->modelBase->changePasswordUser($id,$request->password_confirmation);
-         }
+        $this->modelBase->name = $request->name;
+        $this->modelBase->lastName = $request->lastName;
+        $this->modelBase->email = $request->email;
+        $this->modelBase->username = $request->username;
 
 
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.auth()->user()->id .',id'],
+            'username' => ['required', 'string', 'min:8','unique:users,username,'.auth()->user()->id . ',id'],
+            [
+                'name.required'=>['Ime je obavezno'],
+                'lastName.required'=>['Prezime je obavezno'],
+                'email.unique'=>['Ova email adresa je zauzeta'],
+                'username.unique'=>['Korisnicko ime je zauzeto'],
+
+            ]
+        ]);
+
+        if ($validator->passes()) {
+
+            $data = $this->modelBase->changeUser($id);
+
+            if ($data == 201 && isset($request->password_confirmation)) {
+                $data = $this->modelBase->changePasswordUser($id, $request->password_confirmation);
+            }
+
+
+        }
+        else {
+            // dd($validator->errors()->all());
+            return response()->json(['error' => $validator->errors()->all()]);
+        }
     }
 
     return ($data);

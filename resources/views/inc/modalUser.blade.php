@@ -80,8 +80,11 @@
 
 
                     @if($code=='moji_podaci')
+<form>
+
 
 @include('inc.sign_up')
+</form>
 <script src="{{asset('js/register.js')}}"></script>
 
                @else
