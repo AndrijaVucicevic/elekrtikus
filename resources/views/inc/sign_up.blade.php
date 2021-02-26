@@ -1,32 +1,9 @@
-<div class="logo_left" style="float: left;">
-    <img src="" alt="logo" title="logo"/>
 
-</div>
-<div class="logo_right" style="float: right;">
-    <script>
-        document.write('<a href="' + document.referrer + '">Go Back</a>');
-    </script>
-</div>
-<div class="clear"></div>
-<div class="main" style="margin:10px auto; margin-left: 10%;">
-
-    <div style="margin-top:40px;margin-bottom:130px">
-    <div class="alert alert-success alert-block" id="sign_up" style="display: none;">
-
-
-    </div>
-    <div class="alert alert-danger print-error-msg" style="display:none">
-        <ul></ul>
-
-
-    </div>
-    </div>
 
     <section class="signup" id="signup-form-section">
         <!-- <img src="images/signup-bg.jpg" alt=""> -->
         <div class="container">
             <div class="signup-content">
-
 
 
                 <div id="signup-form" class="signup-form">
@@ -58,28 +35,61 @@
 
                     </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-input" name="password" id="password"/>
-                            <i class="far fa-eye" id="togglePassword"></i>
+
+                    <div class="form-row borderPassword">
+                        @if(Route::current()->getName() != 'register')
+
+                            <style>
+                                .borderPassword{
+                                    border:1px solid;
+                                    border-left:none;
+                                    border-right:none;
+                                }
+
+                            </style>
+
+                            <h3>Izmena šifre</h3>
+
+                            <div class="form-group form-email">
+                                <label for="old_password">Stara šifra</label>
+                                <input type="password" class="form-input pass" name="old_password" id="old_password"/>
+                                <i class="far fa-eye" id="toggle_old_password"></i>
+
+                            </div>
+
+
+                        @endif
+                        <div class="form-group ">
+                            <label for="password">Šifra</label>
+                            <input type="password" class="form-input pass" name="password" id="password"/>
+                            <i class="far fa-eye" id="toggle_password"></i>
 
                         </div>
                         <div class="form-group">
-                            <label for="re_password">Repeat your password</label>
-                            <input type="password" class="form-input" name="password_confirmation" id="password_confirmation"/> <i class="far fa-eye" id="toggleRePassword"></i>
+                            <label for="password_confirmation">Ponovite šifru</label>
+                            <input type="password" class="form-input" name="password_confirmation" id="password_confirmation"/>
+                            <i class="far fa-eye" id="toggleRePassword"></i>
 
                         </div>
                     </div>
+                    @if(Route::current()->getName() == 'register')
 <div class="form-row">
                     <div class="form-group form-email">
                         <input type="button" name="submit" id="submitForm" class="form-submit" value="Submit"/>
                     </div>
 </div>
+                        @else
+<div class="form-row form-confirm">
+                        <div class="form-group form-email">
+                            <label for="password_change">Potvrdite izmene</label>
+                            <input type="password" class="form-input pass" name="password_change" id="password_change"/>
+                            <i class="far fa-eye" id="toggle_password_change"></i>
+
+                        </div>
+</div>
+                        @endif
                 </div>
             </div>
         </div>
     </section>
 
-</div>
-<div class="clear"></div>

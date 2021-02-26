@@ -74,7 +74,20 @@
               <h5 class="modal-title" id="change_title">Izmena oglasa oglass taj taaaj</h5>
             </div>
                 <div class="modal-body-change" id="user_check_body">
-                    @include('inc.new_product')
+
+
+
+
+
+                    @if($code=='moji_podaci')
+
+@include('inc.sign_up')
+<script src="{{asset('js/register.js')}}"></script>
+
+               @else
+                        @include('inc.new_product')
+
+                    @endif
                 </div>
 
 

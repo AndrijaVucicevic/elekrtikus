@@ -73,6 +73,10 @@ Route::post('/insert_update_product_user',[UserController::class,'insert_product
 
 Route::post('/change_product_user',[UserController::class,'change_product']);
 
+Route::post('/get_user',[UserController::class,'get_user']);
+
+Route::post('/user_change_pi',[UserController::class,'user_change_pi']);
+
 
 
 

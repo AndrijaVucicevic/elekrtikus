@@ -238,7 +238,7 @@ public function insert_product()
                'address'=>$this->personStreet,
                'name'=>$this->personName,
                'lastName'=>$this->personLastName,
-               'city_id'=>$this->city
+               'city'=>$this->city
 
            ]);
 
@@ -252,7 +252,7 @@ public function insert_product()
         //  throw new \Exception("Greska pri unosu");
 
     }
-
+//dd($code);
     return $code;
 
 

@@ -123,12 +123,12 @@
                 <h3>Sponzorisanost</h3>
                 <p>Povećava broj poseta, lakši put do korisnika. Odabirom ove opcije možete da izaberete sponzorisanost Vašeg oglasa koja Vam najviše odgovara.</p>
             </li>
-            <li class="promotion_new promotion_none" id="">
+            <li class="promotion_new promotion_none" id="promotion_one">
                 <input type="checkbox" name="chPromocija1" class="chPromCh" value="1" id="chProm1" />
                 <h3>Vidljivost jedan</h3>
                 <p>Povecava broj poseta, Vas oglas ce biti prikazivan medju preporucenim oglasima za kategoriju kojoj pripada Vas oglas <h4 class="cenaPromocija" style="float: right;">1450,00 RSD</h4></p>
             </li>
-            <li class="promotion_new promotion_none" id="">
+            <li class="promotion_new promotion_none" id="promotion_two">
                 <input type="checkbox" name="chProm2" class="chPromCh" value="2" id="chProm2" />
                 <h3>Vidljivost dva</h3>
                 <p>Mogucnost da se Vas oglas nadje na pocetnoj strani, sigurna vidljivost, povecava broj poseta, broj mesta 9. Promocija se placa na nedeljnom nivou.<h4 class="cenaPromocija" style="float: right;">4450,00 RSD</h4></p>

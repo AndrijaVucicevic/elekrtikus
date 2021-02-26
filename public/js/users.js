@@ -535,9 +535,18 @@ $(document).on('click','.btnUpdateInsert',function (e) {
     var btnAction=$(this).attr('data-value').split('#');
 
 
-
+    console.log(btnAction[1]);
      var   idUpdate=null;
      var   changePicture='';
+
+     if(btnAction[1]=='user')
+     {
+         //console.log('aa');
+         let result=changeUser();
+
+         if(result==201)
+             return;
+     }
 
     if (btnAction[1]==2)
     {
@@ -557,6 +566,7 @@ $(document).on('click','.btnUpdateInsert',function (e) {
 
 
     }
+
 //console.log('aa');
     var errors=[];
 
@@ -701,7 +711,20 @@ var promotion_two=null;
             promotion=0;
         }
         else{
-            promotion = parseInt(promotion_one)+parseInt(promotion_two);
+            if(promotion_one==null && promotion_two!=null)
+            {
+                promotion=parseInt(promotion_two);
+            }
+            if(promotion_one!=null && promotion_two==null)
+            {
+                promotion=parseInt(promotion_one);
+            }
+            if(promotion_one!=null && promotion_two!=null)
+            {
+                promotion = parseInt(promotion_one)+parseInt(promotion_two);
+            }
+
+
         }
 
     }
@@ -847,16 +870,22 @@ if (counter==0 && idUpdate==null)
             processData: false,
             success: function (data) {
 //change or delete
-
+//console.log(data);
                 var text='Proverite promovisanost Vašeg oglasa na stranici moji oglasi.';
                 var text1='Na Vasem računu nema dovoljno sredstava za izabranu promociju.';
+
+                if(idUpdate!=null)
+                {
+                    //nacin za ispis gresaka kad je update u pitanju...
+                }
+
                 switch (data) {
 
-                    case 201:
+                    case '201':
                         modalBody('Uspešno!!');
                         $("#alertButtonModal").click();
                         break;
-                    case 1:
+                    case '1':
                         modalBody(text);
                         $("#alertButtonModal").click();
                         break;
@@ -876,8 +905,12 @@ if (counter==0 && idUpdate==null)
                         modalBody(text1);
                         $("#alertButtonModal").click();
                         break;
+                    case 500:
+                        modalBody("Došlo je do greške proverite uspešnost unosa Vašeg oglasa!");
+                        $("#alertButtonModal").click();
+                        break;
                     default:
-                        printError(data.error);
+                        console.log(data.error);
                         modalBody("Došlo je do greške proverite uspešnost izmene Vašeg oglasa!");
                         $("#alertButtonModal").click();
                       //  $(".btnUpdateInsert").prop('disabled',false);
@@ -1356,28 +1389,26 @@ if (product.length<10)
 
 }
 
-
+//console.log(sponsored);
 if(sponsored!=[] && sponsored!=null)
 {
+    //alert('aa');
     //
-    $('#podrazumevano').remove();
+    //console.log(sponsored.end_one);
+    $('ul #podrazumevano').remove();
+    $('ul #click_sponsored').remove();
     $('.promotion_new').removeClass('promotion_none');
-    if(sponsored[0].end_one>0)
+
+    if(sponsored.end_one>0)
 {
-    $('#chProm1').prop('checked',true);
 
-    var d=Date(sponsored[0].end_one);
+    changePromotion('chProm1',sponsored.end_one*1000);
 
-    $('#chProm1').find('p').html('Promocija ističe <b>'+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+'.</b> U <b>'+d.getHours()+':'+d.getMinutes()+'</b>');
 }
-    if(sponsored[0].end_two>0)
+    if(sponsored.end_two>0)
     {
-       $('#chProm2').prop('checked',true);
+        changePromotion('chProm2',sponsored.end_two*1000);
 
-        d=Date(sponsored[0].end_two);
-
-        $('#chProm2').find('p').html('Promocija ističe <b>'+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+'.</b><br>' +
-            'U <b>'+d.getHours()+':'+d.getMinutes()+'</b>');
     }
 
 
@@ -1485,4 +1516,62 @@ function reloadFile(input)
     input.prop('disabled',false);
 
 
+}
+function changePromotion(id,data)
+{
+    $('#'+id).prop('checked',true);
+    $('#'+id).attr('type','radio');
+    $('#'+id).parent().removeClass('promotion_new');
+    var promotion='';
+    id=='chProm1' ?  promotion='promotion_one':promotion='promotion_two';
+
+    var d=new Date(data);
+    $('#'+promotion+' p:first').html('Promocija ističe <b>'+d.getDate()+'.'+(d.getMonth()+1)+'.'+d.getFullYear()+'.</b> U <b>'+d.getHours()+':'+d.getMinutes()+'</b>');
+
+}
+$('.fa-pencil').on('click',function () {
+
+
+    var user=$('.user');
+
+   // console.log();
+    $('#change_title').html('Izmena podataka korisnik');
+
+    $('#first_name').val($(user[0]).text());
+    $('#last_name').val($(user[1]).text());
+    $('#username').val($(user[2]).text());
+    $('#email').val($(user[3]).text());
+
+    $('.btnUpdateInsert').attr('data-value','insert_change#user');
+
+    $("#user_change").modal('show');
+
+
+});
+function changeUser() {
+    //alert('aaa');
+
+
+    $.ajax({
+       url:base_Url+'user_change_pi',
+        method:'post',
+        data:{
+           _token:csrf,
+           name:$('#first_name').val(),
+            lastName:$('#last_name').val(),
+            username:$('#username').val(),
+            email:$('#email').val(),
+            old_pass:$('#old_password').val(),
+            password_confirmation:$('#password_confirmation').val(),
+            password_change:$('#password_change').val(),
+            send:true
+        }
+
+
+
+    });
+
+
+
+    return 201;
 }

@@ -5,14 +5,23 @@ $("#signup-form .form-row .form-group input").on('focus',function()
      //console.log(input.value);
         $(this).removeClass('errors');
         var re=$(this).attr('id');
-        if(re=='password'||re=='password_confirmation')
+        if(re=='password'||re=='password_confirmation' || re=='old_password' || re=='password_change')
         {
             if(re=='password')
             {
-                $("#togglePassword").next().remove();
+                $("#toggle_password").next().remove();
             }
-            else{
+            if(re=='password_confirmation'){
                 $("#toggleRePassword").next().remove();
+            }
+            if(re=='old_password')
+        {
+            $("#toggle_old_password").next().remove();
+        }
+            if(re=='password_change')
+            {//
+
+                $("#toggle_password_change").next().remove();
             }
 
         }
@@ -26,13 +35,21 @@ $(document).on('click','.fa-eye',function (e) {
 
     var reId=this.id;
 
-    if(reId=='togglePassword')
+    if(reId=='toggle_password')
     {
         $('#password').attr('type', 'text');
 
     }
-    else{
+    if(reId=='toggleRePassword'){
         $('#password_confirmation').attr('type', 'text');
+    }
+    if(reId=='toggle_old_password')
+    {
+        $('#old_password').attr('type', 'text');
+    }
+    if(reId=='toggle_password_change')
+    {
+        $('#password_change').attr('type', 'text');
     }
     $(this).toggleClass('fa-eye fa-eye-slash');
 
@@ -41,13 +58,21 @@ $(document).on('click','.fa-eye-slash',function (e) {
 
     var reId=this.id;
 
-    if(reId=='togglePassword')
+    if(reId=='toggle_password')
     {
         $('#password').attr('type', 'password');
 
     }
-    else{
+    if(reId=='toggleRePassword'){
         $('#password_confirmation').attr('type', 'password');
+    }
+    if(reId=='toggle_old_password')
+    {
+        $('#old_password').attr('type', 'password');
+    }
+    if(reId=='toggle_password_change')
+    {
+        $('#password_change').attr('type', 'password');
     }
     $(this).toggleClass('fa-eye-slash fa-eye');
 
@@ -104,19 +129,21 @@ $("#username").focusout(function () {
 
 
 });
-$("#password").blur(function () {
+$('.pass').blur(function () {
 
     var rePassword=new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\.!@#\$%\^&\*])(?=.{8,})");
 
     if(!rePassword.test($(this).val()))
     {
+        //console.log(this.id);
         //after prikaz
-        $("#togglePassword").after('<label class="errors">Obavezno[A-Z][. ili _][0-9]6-17 karaktera</label>');
+        $("#toggle_"+this.id).after('<label class="errors">Obavezno[A-Z][. ili _][0-9]6-17 karaktera</label>');
 
     }
 
 
 });
+
 
 $("#password_confirmation").blur(function () {
 

@@ -10,6 +10,7 @@
                         <ul class="bread-list">
                             <li><a href="{{route('welcome')}}">Home<i class="ti-arrow-right"></i></a></li>
                             <li class="active"><a href="blog-single.html">Korisnik</a></li>
+                            {{--ime stranice koja je da l oglasi ili koja vec--}}
                         </ul>
                     </div>
                 </div>
@@ -23,7 +24,7 @@
 <div class="row">
 
                 <div class="col-lg-3 col-md-4 col-12">
-                    @if($code!='novUnos')
+                    @if($code!='novUnos' && $code!='moji_podaci')
                     <div class="single-widget category">
                         <h3 class="title">Categories</h3>
                         <ul class="categor-list" id="categoryShopList">
@@ -109,9 +110,33 @@
                             OBAVESTENJA
 
                         </div>
-         @else
+         @elseif($code=='moji_podaci')
                         <div class="" id="user_data">
 
+                            <label class="label_data">Clan od:
+
+                          {{$data->created_at}}</label>
+
+                            <i class="fa fa-pencil" title="izmeni"></i><br>
+                            <div class="my_data">
+                                <label class="label_data">Ime:</label><label class="label_data user">{{$data->name}}</label>
+                            </div>
+
+                            <div class="my_data">
+                                <label class="label_data">Prezime:</label><label class="label_data user">{{$data->lastName}}</label>
+                            </div>
+                            <div class="my_data">
+                                <label class="label_data">Email:</label><label class="label_data user">{{$data->email}}</label>
+                            </div>
+                            <div class="my_data">
+                                <label class="label_data">Username:</label><label class="label_data user">{{$data->username}}</label>
+                            </div>
+                          {{--  <label>Broj oglasa:</label><br>{{$data->broj_oglasa}}--}}
+
+
+
+
+                            {{-- @include('inc.user_data', ['user' => $data])--}}
 
                         </div>
 

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
 class UserController extends Controller
 {
     //
@@ -81,6 +82,13 @@ class UserController extends Controller
               $code='novUnos';
               $data=null;
               $categoryList=$this->modelIndex->category();
+              break;
+          case 'moji_podaci':
+              $code='moji_podaci';
+               $data=$this->modelBase->getUser(auth()->user()->id);
+
+           //   Javascript::put([ 'user.name' => $data->name, 'user.email' => $data->email ,'user.lastName'=> $data->lastName ,'user.username'=>$data->username,'user.role_name'=>$data->role_name]);
+
               break;
 
       }
@@ -153,6 +161,7 @@ public function changeUserCategory(Request $request)
     if ($code=='moji_oglasi')
     {
         $data=$this->modelUser->getMyAds(auth()->user()->id,$this->start,$this->limit,$category);
+        //dd($data);
     }
     if($code=='pratim')
     {
@@ -172,18 +181,15 @@ public function delete_product(Request $request)
         $string=explode('#',$product_id);
         $product_id=$string[1];
 
-       $user=$this->modelBase->userPassword(auth()->user()->id);
+      $check=$this->checkAuthUser($password);
 
-
-        $check=Hash::check($password, $user->password);
-
-     if($check==false)
+     if($check==419)
      {
          $data=419;
      }
-     if($check==true)
+     if($check==201)
      {
-         //brisanje
+
 
          $data=$this->modelUser->deleteProduct($product_id);
 
@@ -261,9 +267,10 @@ public function insert_product(Request $request)
 
 
     if ($validator->passes()) {
+       // dd($counter);
         $counter_picture = 0;
 
-          if ($idUpdate!=null)
+          if ($idUpdate!='null')
           {
              $code= $this->modelUser->update_product($idUpdate);
             // dd($code);
@@ -331,34 +338,30 @@ public function insert_product(Request $request)
               }
 //check
               $updated_picture=$this->modelUser->getPicture($idUpdate);
-              if(count($updated_picture)>0)
-              {
+              if(count($updated_picture)>0) {
                   //delete other picture that are deleted from js
-                  $delete_picture=explode('#',$request->changePicture);
-
-                  for ($i=0;$i<count($delete_picture);$i++)
+                  $delete_picture = explode('#', $request->changePicture);
+                  if (isset($request->changePicture))
                   {
+                      for ($i = 0; $i < count($delete_picture); $i++) {
 
-                      $count_tag=substr($delete_picture[$i],4);
-                      for($x=0;$x<count($number_picture);$x++)
-                      {
-                          if($count_tag[1]==$x)
-                          {
-                              $fileDeleteName=$this->modelUser->deletePicture($number_picture[$i]->id_picture);
-                             //delete filee
-                              File::delete($fileDeleteName);
-                              if ($count_tag[1]=0)
-                              {
-                                  //izmena picture_cat
-                                  $this->modelUser->pictureUpdateCat($idUpdate);
+                          $count_tag = substr($delete_picture[$i], 4);
+                          for ($x = 0; $x < count($number_picture); $x++) {
+                              if ($count_tag[1] == $x) {
+                                  $fileDeleteName = $this->modelUser->deletePicture($number_picture[$i]->id_picture);
+                                  //delete filee
+                                  File::delete($fileDeleteName);
+                                  if ($count_tag[1] = 0) {
+                                      //izmena picture_cat
+                                      $this->modelUser->pictureUpdateCat($idUpdate);
 
+                                  }
                               }
                           }
+
+
                       }
-
-
-
-                  }
+              }
 
 
               }
@@ -366,13 +369,13 @@ public function insert_product(Request $request)
           }
 //promotion check
 
-
+//dd($idUpdate);
           }
-          else {
-
+          if ($idUpdate=='null') {
+//dd($idUpdate);
               $idInsert = $this->modelUser->insert_product();
               if (strlen($idInsert)<5) {
-
+//dd($idInsert);
                   $fileName1 = 0;
                   for ($i = 0; $i < $counter; $i++) {
 
@@ -392,32 +395,30 @@ public function insert_product(Request $request)
                           //$public_path="img";
                           $file->move(public_path('images'), $fileName1);
 
-
-                          $codePicture = $this->modelUser->insert_picture($idInsert, $fileName, $fileName1);
+                               if($counter_picture==0)
+                               {
+                                   $codePicture = $this->modelUser->insert_picture($idInsert, $fileName, $fileName1,$cat=1);
+                               }
+                               else {
+                                   $codePicture = $this->modelUser->insert_picture($idInsert, $fileName, $fileName1);
 //dd($codePicture);
-                          if ($codePicture == 201) $counter_picture++;
+                               }
+                          if ($codePicture == 201) {
+                              $counter_picture++;
+                          }
+                          else {
+                              //error slika nije ubacena
+                          }
 
-                      } else {
-                          //error slika nije ubacena
                       }
 
 
                   }
               }
               else{
-                  //brisanje proizvoda
-                  //slike neuspeh
-                  //nije unet doslo do greske nema sta da se brise
-               /*
-                  $data=$this->modelUser->deleteProduct($idInsert);
-                  if($data==201) {
-                      return ($data=404);
 
-                  }/*if(File::exists($file_path)) {
-                        File::delete($file_path);
-                    }
-                    */
 
+                  return ($data=500);
 
               }
 
@@ -430,10 +431,11 @@ public function insert_product(Request $request)
 //counter
 
         $check_promotion=$this->modelIndex->sponsored($idUpdate);
+          if(!isset($idInsert)) $idInsert=$idUpdate;
                 if($check_promotion==null || $check_promotion==[] || $check_promotion->end_one==0 || $check_promotion->end_two==0)
                 {
 
-                    if ($request->promotion!=0 && $request->promotion)
+                    if ($request->promotion!=0 && $request->promotion>0)
 
                     {
 
@@ -448,6 +450,7 @@ public function insert_product(Request $request)
                                    $code=$this->modelUser->insert_promotion_one($idInsert);
                                    if($code!=201)
                                    {
+                                       //dd($code);
                                      return ($code=1);
                                    }
                             }
@@ -547,7 +550,7 @@ public function insert_product(Request $request)
 
 
         else {
-
+                 dd($validator->errors()->all());
         return response()->json(['error' => $validator->errors()->all()]);
     }
 
@@ -601,9 +604,56 @@ public function change_product(Request $request)
 
 
 }
+public function user_change_pi(Request $request)
+{
+    $id=auth()->user()->id;
+    $check=$this->checkAuthUser($request->password_change);
 
 
+    if($check==419)
+    {
+        $data=419;
+    }
+    if($check==201)
+    {
+        //change user
 
+        $data=$this->modelBase->changeUser($id);
+
+         if($data==201 && isset($request->password_confirmation))
+         {
+             $data=$this->modelBase->changePasswordUser($id,$request->password_confirmation);
+         }
+
+
+    }
+
+    return ($data);
+
+}
+
+public function checkAuthUser($password)
+{
+
+
+    $user=$this->modelBase->userPassword(auth()->user()->id);
+
+
+    $check=Hash::check($password, $user->password);
+
+    if($check==false)
+    {
+        $data=419;
+    }
+    if($check==true)
+    {
+        //brisanje
+        $data=201;
+
+    }
+    return $data;
+
+}
 
 
 
