@@ -5134,11 +5134,11 @@ input[type=number]::-webkit-outer-spin-button {
 	color: #f7941d;
 	font-family: cursive;
 }
-.more_products{
+.more_products, .user_picture{
 cursor:pointer;
 color:white;
 }
-.search_more,#update_insert{
+.search_more,#update_insert,.user_P_change{
 	text-align: center!important;
 	padding: 15px!important;
 	cursor: pointer!important;
@@ -5178,3 +5178,30 @@ color:white;
 .fa-pencil{
 	cursor: pointer;
 }
+.data-img {
+	float:left;
+	margin-right:20px;
+	width: 300px;
+}
+.data{
+	float:right;
+	width: 48%;
+}
+.user_P_change .pictureLabel{
+
+	background: #F7941D;
+	color: white;
+}
+.user_P_change .pictureLabel :focus,
+.user_P_change .pictureLabel:hover {
+	background-color: red;
+}
+.user_P_change .pictureLabel {
+	cursor: pointer; /* "hand" cursor */
+}
+
+.user_P_change input[type="file"] {
+	display: none;
+}
+.flex-direction-nav .flex-next {right: -200px!important; display: block;}
+.flex-direction-nav .flex-prev {}

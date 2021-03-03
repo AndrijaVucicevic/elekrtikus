@@ -285,7 +285,7 @@ function modalBody(value)
 }
 // PICTURE FORM INSERT UPDATE PRODUCT
 
-$(document).on('change','.slikaBlock', function () {
+$(document).on('change','.pictureBlock', function () {
 
     var id=this.id;
     //alert(id);
@@ -879,6 +879,11 @@ if (counter==0 && idUpdate==null)
                     //nacin za ispis gresaka kad je update u pitanju...
                 }
 
+                if(idUpdate!=null && idUpdate!='')
+                {
+                    $("#user_change").modal('hide');
+
+                }
                 switch (data) {
 
                     case '201':
@@ -910,7 +915,7 @@ if (counter==0 && idUpdate==null)
                         $("#alertButtonModal").click();
                         break;
                     default:
-                        console.log(data.error);
+                        //console.log(data.error);
                         modalBody("Došlo je do greške proverite uspešnost izmene Vašeg oglasa!");
                         $("#alertButtonModal").click();
                       //  $(".btnUpdateInsert").prop('disabled',false);
@@ -1370,7 +1375,7 @@ else{
 var picture='';
   for (let i=0;i<product.length;i++)
   {
-      picture+='<li><label class="pictureLabel changePictureLabel">Izmeni sliku<input type="file" id="file'+i+'" class="slikaBlock" name="file'+i+'"/></label>' +
+      picture+='<li><label class="pictureLabel changePictureLabel">Izmeni sliku<input type="file" id="file'+i+'" class="pictureBlock" name="file'+i+'"/></label>' +
 
           '<img src="'+product[i].src+'" id="imgshow'+i+'" class="imgShowModal" align="left" style="width:140px!important; height:130px!important;" alt="'+product[i].name+'" title="'+product[i].name+'"/></li>';
 
@@ -1379,7 +1384,7 @@ if (product.length<10)
 {
     for (let i=product.length;i<10;i++)
     {
-        picture+='<li><label class="pictureLabel">Unesi sliku<input type="file" id="file'+i+'" class="slikaBlock" name="file'+i+'"/></label>' +
+        picture+='<li><label class="pictureLabel">Unesi sliku<input type="file" id="file'+i+'" class="pictureBlock" name="file'+i+'"/></label>' +
 
             '<img src="#" id="imgshow'+i+'" class="imgShowModal" align="left" style="width:140px!important; height:130px!important;" alt="#" title="#"/></li>';
 
@@ -1476,7 +1481,7 @@ $('#imgshow'+res).addClass('deletePicture');
 
 
 $('#imgshow'+res).attr('alt',src);
-    $(this).html('Unesi sliku <input type="file" id="file'+res+'" class="slikaBlock" name="file'+res+'"/>');
+    $(this).html('Unesi sliku <input type="file" id="file'+res+'" class="pictureBlock" name="file'+res+'"/>');
 
 $(this).removeClass('changePictureLabel');
 
@@ -1496,7 +1501,7 @@ $(document).on('click','.backupPicture',function (e) {
     $(this).removeClass('backupPicture');
     var label=$(this).closest('li').find('label');
     //console.log(a);
-    label.html('Izmeni sliku <input type="file" id="file'+resImg+'" class="slikaBlock" name="file'+resImg+'"/>');
+    label.html('Izmeni sliku <input type="file" id="file'+resImg+'" class="pictureBlock" name="file'+resImg+'"/>');
     label.addClass('changePictureLabel');
 
     if($('#imgshow'+resImg).hasClass('deletePicture')) {
@@ -1613,17 +1618,34 @@ function changeUser() {
                 if(data==201)
                 {
                     //uspesnoo
+
+                    $("#user_change").modal('hide');
+                    modalBody('Uspešno!!');
+                    $("#alertButtonModal").click();
+
+                    setTimeout(function () {
+                            location.reload();
+                        }
+                        , 5000);
+
+
                 }
                 if(data==419)
                 {
-                    //sifra i user se ne poklapa
+                    $('.print-error-msg').html('<ul></ul><li>Korisničko ime i šifra se ne poklapaju</li></ul>');
+                   // $('.print-error-msg').append('<li>Korisničko ime i šifra se ne poklapaju</li>');
+                    $(".print-error-msg").css('display', 'block');
+
+
                 }
                 if(data==422)
                 {
-                    //doslo je do greske
+                    $('.print-error-msg').html('<ul></ul><li>Došlo je do greške proverite da li su podaci izmenjeni</li></ul>');
+                    $(".print-error-msg").css('display', 'block');
+
                 }
                 else{
-                    //print msg error greske i too
+                    printErrorMsg(data.error);
                 }
 
             },
@@ -1640,3 +1662,115 @@ function changeUser() {
 
     return 201;
 }
+
+$(document).on('click','.closeModal',function (e) {
+//alert('aa');
+//seti se sta hoces
+
+
+});
+$(document).on('click','.user_picture_change',function(e)
+{
+
+    $.ajax({
+       url:base_Url+'user_picture',
+        method:'post',
+        data:{
+           _token:csrf,
+            picture:null,
+            send:true
+        },
+        success:function (data) {
+
+            if (data == 201) {
+
+                var img = $('.data-img img');
+
+                $('.user_P_change').html('<form><label class="pictureLabel">Unesi sliku<input type="file" id="fileUser" class="" name="fileUser"/></label></form>');
+                img.attr('alt', img.attr('src'));
+                img.attr('title', 'Vrati sliku');
+                img.attr('src', base_Url + 'images/refresh.png');
+                img.addClass('returnPicture');
+            }
+            if(data!=201)
+            {
+                modalBody('Došlo je do greške, proverite da li je slika promenjena');
+
+                $("#alertButtonModal").click();
+            }
+
+
+        },
+        error:function (xhr,error,status) {
+            //error
+        }
+
+    });
+
+});
+
+$(document).on('change','#fileUser',function (e) {
+    e.stopPropagation();
+
+//alert('aa');
+    var fd = new FormData();
+    //nista
+    var files = $('#fileUser')[0].files[0];
+    fd.append('fileUser', files);
+    fd.append('picture', 'update');
+    $.ajax({
+        url: base_Url + 'user_picture',
+        method: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+
+
+            if (data.code == 201) {
+
+
+                var img = $('.data-img img');
+                $('.user_P_change').html('<label class="pictureLabel user_picture_change">Izmeni sliku</label>');
+                img.attr('alt','Korisnik');
+                img.attr('title', 'Korisnik');
+                img.attr('src',base_Url+'images/'+data.src);
+
+                $('.data-img img').removeClass('returnPicture');
+            }
+            if (data.code != 201) {
+
+
+
+                modalBody('Došlo je do greške, proverite da li je slika promenjena');
+
+                $("#alertButtonModal").click();
+
+
+            }
+
+
+        },
+        error: function (xhr, error, status) {
+            //error
+        }
+
+    });
+
+
+});
+
+$(document).on('click','.data-img img',function (){
+
+
+    if($(this).hasClass('returnPicture')) {
+        var img = $('.data-img img');
+        $('.user_P_change').html('<label class="pictureLabel">Izmeni sliku</label>');
+        img.attr('src', img.attr('alt'));
+        img.attr('alt', 'Korisnik');
+        img.attr('title', 'Korisnik');
+
+    }
+
+});
+

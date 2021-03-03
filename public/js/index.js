@@ -7,39 +7,61 @@ $.ajaxSetup({
 });
 
 
-window.onload=function(){
+window.onload=function() {
     // alert("aaa");
 
 
+    if (window.location.href.includes('proizvod'))
+    {
+
+        $('#carousel').flexslider({
+            animation: "slide",
+            controlNav: false,
+            animationLoop: false,
+            slideshow: false,
+            itemWidth: 210,
+            itemMargin: 5,
+            asNavFor: '#slider'
+        });
+
+        $('#slider').flexslider({
+            animation: "slide",
+            controlNav: false,
+            animationLoop: false,
+            slideshow: false,
+            sync: "#carousel"
+        });
+
+
+    }
+    
+
     $.ajax({
-        url:base_Url+"subcategory",
-        method:'POST',
-        data:{
-            _token:csrf,
-            send:true
+        url: base_Url + "subcategory",
+        method: 'POST',
+        data: {
+            _token: csrf,
+            send: true
         },
-        success:function (data) {
+        success: function (data) {
 
             //alert(data);
 
-            var option=' <select id="category_search>';
+            var option = ' <select id="category_search>';
 
-            for (var i=0;i<data.length;i++)
-            {
-                if(i==0)
-                {
-                    option+='<option value="all">Sve kategorije</option>'
+            for (var i = 0; i < data.length; i++) {
+                if (i == 0) {
+                    option += '<option value="all">Sve kategorije</option>'
 
                 }
-                option+='<option value="'+data[i].subcategory_name+'">'+data[i].subcategory_name+'</option>'
+                option += '<option value="' + data[i].subcategory_name + '">' + data[i].subcategory_name + '</option>'
 
 
             }
-            option+='</select>';
+            option += '</select>';
             $("#category_search_bar").append(option);
 
         }
-
 
 
     });

@@ -98,7 +98,7 @@
 
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Close</button>
                 <button type="button" class="btnUserAction btnUpdateInsert btn btn-primary" data-value="change_insert#2" >Save changes</button>
             </div>
             </div>

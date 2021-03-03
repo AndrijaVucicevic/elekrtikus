@@ -1685,3 +1685,14 @@ Version:1.0
 	margin: 10px 0 10px;
 }
 }
+@media only screen and (max-width: 658px) {
+
+	.data-img {
+     margin-left: 20px;
+	}
+	.data{
+		width: 100%;
+		margin-left: 20px;
+	}
+
+}

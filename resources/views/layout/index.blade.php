@@ -307,7 +307,13 @@
 <!-- Nice Select JS -->
 <script src="{{asset('js/nicesellect.js')}}"></script>
 <!-- Flex Slider JS -->
-<script src="{{asset('js/flex-slider.js')}}"></script>
+<script  defer src="{{asset('js/jquery.flexslider.js')}}" type="text/javascript"></script>
+
+@if(Route::current()->getName() == 'single')
+<link rel="stylesheet" href="{{asset("css/flexslider.css")}}" type="text/css" media="screen" />
+
+<link rel="stylesheet" href="{{asset("css/flexslider.css")}}" type="text/css" media="screen" />
+@endif
 <!-- ScrollUp JS -->
 <script src="{{asset('js/scrollup.js')}}"></script>
 <!-- Onepage Nav JS -->

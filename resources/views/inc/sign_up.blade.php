@@ -8,6 +8,12 @@
 
                 <div id="signup-form" class="signup-form">
 
+                    <div class="alert alert-danger print-error-msg" style="display:none">
+
+
+
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="first_name">Ime</label>

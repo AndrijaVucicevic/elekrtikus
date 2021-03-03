@@ -20,7 +20,7 @@
     border:1px solid #F7941D;
 
 }
-.pictureLabel :focus
+.pictureLabel :focus,
 .pictureLabel:hover {
     background-color: red;
 }

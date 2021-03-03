@@ -31,7 +31,7 @@
     <!-- Animate CSS -->
     <link rel="stylesheet" href="{{asset('css/animate.css')}}"/>
     <!-- Flex Slider CSS -->
-    <link rel="stylesheet" href="{{asset('css/flex-slider.min.css')}}"/>
+
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="{{asset('css/owl-carousel.css')}}"/>
     <!-- Slicknav -->

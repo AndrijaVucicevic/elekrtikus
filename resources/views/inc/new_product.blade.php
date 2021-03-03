@@ -99,7 +99,7 @@
                 <script>
                     var a='';
                     for(var i=0; i<10;i++){
-                        a+='<li><label class="pictureLabel">Unesi sliku<input type="file" id="file'+i+'" class="slikaBlock" name="file'+i+'"/></label>' +
+                        a+='<li><label class="pictureLabel">Unesi sliku<input type="file" id="file'+i+'" class="pictureBlock" name="file'+i+'"/></label>' +
 
                             '<img src="#" id="imgshow'+i+'" class="imgShowModal" align="left" style="width:140px!important; height:130px!important;" alt="" title=""/></li>';
 

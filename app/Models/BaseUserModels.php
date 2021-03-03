@@ -78,7 +78,7 @@ return $user;
   public function getUser($id)
   {
       return DB::table('users')
-          ->select('name','username','lastName','email','role_name',
+          ->select('name','username','lastName','email','role_name','img',
               DB::raw("date_format(from_unixtime(created_at),'%b %d, %Y %l:%i %p') as created_at")
           )
           ->join('roles','users.role_id','=','roles.id_role')
@@ -110,6 +110,7 @@ return $user;
           //  throw new \Exception("Greska pri unosu");
 
       }
+      //dd($code);
       return $code;
   }
 public function changePasswordUser($id,$password)
@@ -135,6 +136,32 @@ public function changePasswordUser($id,$password)
     return $code;
 
 
+}
+
+public function changePicture($picture)
+{
+    $code=201;
+
+        try {
+            DB::table('users')
+                ->where('id', auth()->user()->id)
+                  ->update([
+                    'img' => 'images/'. $picture,
+                    'updated_at' => time()
+                ]);
+
+
+        }
+        catch (\Throwable $e) {
+            //\Log::critical("Failed to insert youur ad.");
+            $code = $e->getMessage();
+            //  throw new \Exception("Greska pri unosu");
+
+        }
+
+
+
+    return $code;
 }
 
 

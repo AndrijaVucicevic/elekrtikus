@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/happy', function () {
-    return view('email.happy_mail');
-});*/
+Route::get('/proizvod', function () {
+    return view('single');
+})->name('single');
 
 Route::get('/',[IndexController::class, 'index'])->name('welcome');
 
@@ -75,7 +75,9 @@ Route::post('/change_product_user',[UserController::class,'change_product']);
 
 Route::post('/get_user',[UserController::class,'get_user']);
 
-Route::post('/user_change_pi',[UserController::class,'user_change_pi']);
+Route::post('/user_change_pi',[UserController::class,'user_change_info']);
+
+Route::post('/user_picture',[UserController::class,'user_picture']);
 
 
 

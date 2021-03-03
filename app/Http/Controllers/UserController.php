@@ -604,7 +604,7 @@ public function change_product(Request $request)
 
 
 }
-public function user_change_pi(Request $request)
+public function user_change_info(Request $request)
 {
     $id=auth()->user()->id;
     $check=$this->checkAuthUser($request->password_change);
@@ -652,7 +652,7 @@ public function user_change_pi(Request $request)
             return response()->json(['error' => $validator->errors()->all()]);
         }
     }
-
+//dd($data);
     return ($data);
 
 }
@@ -680,7 +680,66 @@ public function checkAuthUser($password)
 
 }
 
+public function user_picture(Request $request)
+{
 
+    if($request->picture==null)
+    {
+
+        $data=$this->modelBase->changePicture($picture='refresh.png');
+        //dd($request->picture);
+
+    }
+    else{
+
+
+            if ($request->file('fileUser') != null && $request->file('fileUser') != "") {
+
+
+                $file = $request->file('fileUser');
+                //dd($file);
+                $validator = Validator::make($request->all(), [
+                    'fileUser' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    [
+                        'fileUser.required' => ['Slika je obavezna'],
+
+                        //itd itdd, finish this
+
+                    ]
+                ]);
+
+                if ($validator->passes()) {
+                    $fileName = $file->getClientOriginalName();
+                    $picture = time() . "_" . $fileName;
+                    public_path("images");
+
+                    //$public_path="img";
+                    $file->move(public_path('images'), $picture);
+
+                    $data = $this->modelBase->changePicture($picture);
+              //dd($data);
+
+                    if($data==201)
+                    {
+                      return  ([
+                          'src'=>$picture,
+                           'code'=>$data]);
+                    }
+
+                }
+                else{
+                    return response()->json(['error' => $validator->errors()->all()]);
+                }
+            }
+
+        }
+
+
+
+
+    return ($data);
+
+}
 
 
 }

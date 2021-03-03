@@ -113,7 +113,19 @@
          @elseif($code=='moji_podaci')
                         <div class="" id="user_data">
 
-                            <label class="label_data">Clan od:
+                            <div class="data-img">
+
+                            <img src="{{asset($data->img)}}" alt="{{$data->name}}" title="{{$data->name}}_{{$data->lastName}}" id="imgUser"/>
+
+                                <div class="shop-top user_P_change">
+
+<label class="pictureLabel user_picture_change">Izmeni sliku</label>
+
+                                </div>
+                            </div>
+
+
+                           <div class="data" style="float:right;"> <label class="label_data">Clan od:
 
                           {{$data->created_at}}</label>
 
@@ -131,11 +143,12 @@
                             <div class="my_data">
                                 <label class="label_data">Username:</label><label class="label_data user">{{$data->username}}</label>
                             </div>
+                           </div>
                           {{--  <label>Broj oglasa:</label><br>{{$data->broj_oglasa}}--}}
 
 
 
-
+<div class="clear"></div>
                             {{-- @include('inc.user_data', ['user' => $data])--}}
 
                         </div>
