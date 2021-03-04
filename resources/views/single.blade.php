@@ -38,30 +38,12 @@
 
                 <div class="col-lg-9 col-md-8 col-12" style="float:right;">
 
-                    <div class="flexslider">
-                        <ul class="slides">
-
-                            <li data-thumb="{{asset('img/thumb/slide1.jpg')}}">
-                                <img src="{{asset('img/slide1.jpg')}}"/>
-                            </li>
-                            <li data-thumb="{{asset('img/thumb/slide2.jpg')}}">
-                                <img src="{{asset('img/slide2.jpg')}}"/>
-                            </li>
-                            <li data-thumb="{{asset('img/thumb/slide3.jpg')}}">
-                                <img src="{{asset('img/slide3.jpg')}}"/>
-                            </li>
-                            <li data-thumb="{{asset('img/thumb/slide4.jpg')}}">
-                                <img src="{{asset('img/slide4.jpg')}}"/>
-                            </li>
-                            <li data-thumb="{{asset('img/thumb/slide2.jpg')}}">
-                                <img src="{{asset('img/slide2.jpg')}}"/>
-                            </li>
 
 
-                        </ul>
+                    <div id='el'>
+
+
                     </div>
-
-
 
 
 
@@ -116,12 +98,37 @@
 
         </div>
 
+
+        <script src="{{asset('js/zoomy.js')}}"></script>
 <script>
-    $(function() {
-        $('.flexslider').flexslider({
-            animation: 'slide'
-        });
+
+   /* $(".albery-container").albery({
+        speed: 500, // default: 200
+        imgWidth: 600, // default: 600
     });
+*/
+
+   var urls = [
+       'img/slide1.jpg',
+       'img/slide3.jpg',
+       'img/slide2.jpg',
+       'img/slide4.jpg',
+       'img/slide3.jpg',
+       'img/slide1.jpg',
+       'img/slide3.jpg',
+       'img/slide2.jpg',
+       'img/slide4.jpg',
+       'img/slide3.jpg',
+   ];
+   var options = {
+       //thumbLeft:true,
+       //thumbRight:true,
+       //thumbHide:true,
+       //width:300,
+       //height:500,
+   };
+   $('#el').zoomy(urls,options);
+
 
 </script>
 
