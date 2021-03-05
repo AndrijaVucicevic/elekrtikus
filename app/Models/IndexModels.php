@@ -79,7 +79,7 @@ class IndexModels
         $promotion=0;
         $end=time()+150;
         $data= DB::table('oglas')
-            ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt'
+            ->select('id_oglas', 'name', 'price', 'src', 'title', 'alt','name_ppk'
                 ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
             ->distinct()
             ->join('sponsored', 'oglas.id_oglas', '=', 'sponsored.oglas_id')
@@ -144,9 +144,11 @@ class IndexModels
     public function hot()
     {
         return DB::table('oglas')
-            ->select('id_oglas','name','price','alt','title','src'  ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
+            ->select('id_oglas','name','price','alt','title','src' ,'name_ppk' 
+                ,DB::raw('case when currency=0 then "rsd" else "euro" end as "currency_text"'))
             ->distinct()
             ->join('picture','id_oglas','=','oglas_id')
+            ->join('ppk','ppk.id_ppk','=','oglas.ppk_id')
             ->where('picture_cat',$this->one)
             ->orderBy('id_oglas','desc')
             ->limit(8)

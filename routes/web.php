@@ -21,10 +21,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/proizvod', function () {
+/*Route::get('/proizvod', function () {
     return view('single');
 })->name('single');
-
+*/
 Route::get('/',[IndexController::class, 'index'])->name('welcome');
 
 Route::post('/change_trending',[IndexController::class, 'change_trending']);
@@ -87,7 +87,10 @@ Route::post('/get_subcategory',[UserController::class,'get_subcategory']);
 Route::post('/get_ppk',[UserController::class,'get_ppk']);
 //
 
+//single
+Route::get('/oglas',[ProductController::class,'index'])->name('single');
 
-Route::get('/product/{product_id}',[ProductController::class,'index_product'])->name('product');
+
+
 
 Route::get('/blog/{blog_name}',[BlogController::class,'index_blog'])->name('blog');

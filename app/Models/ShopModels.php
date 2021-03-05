@@ -26,7 +26,7 @@ public function oglasi($start,$take,$cat,$min,$max,$search,$sort,$condition,$pri
 
 
      $data= DB::table('oglas')
-        ->select('id_oglas','name','price','src','title','alt'
+        ->select('id_oglas','name','price','src','title','alt','name_ppk'
             ,DB::raw('case when currency=0 then "rsd" else "€" end as "currency_text"'))
         ->distinct()
         ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')

@@ -30,6 +30,24 @@
                     <div class="single-widget category">
                         <h3 class="title">Informacije o korisniku</h3>
 
+                        @if(isset($data))
+                          <h3> O oglasu</h3>
+                            <label>{{$data->o_name}}</label>
+                            <label>{{$data->price}}{{$data->currency_text}}</label>
+                            <label>{{$data->price_status}}</label>
+                            <label>{{$data->condition_status}}</label>
+                            <label>{{$data->condition_status}}</label>
+
+                            <h3>O korisniku</h3>
+                        <label>{{$data->name}}</label>
+                        <label>{{$data->created_at}}</label>
+                        <label>{{$data->city}}</label>
+                        <label>{{$data->phone_number}}</label>
+                        <label>{{$data->number_of}}</label>
+
+
+@endif
+
                     </div>
 
 

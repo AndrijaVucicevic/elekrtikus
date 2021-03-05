@@ -3,7 +3,7 @@
 <div class="col-xl-3 col-lg-4 col-md-4 col-12">
     <div class="single-product">
         <div class="product-img">
-            <a href="{{ route("product", ["product_id" => $product->name.'_el_'.$product->id_oglas])}}">
+            <a href="http://localhost/elektrikus/public/oglas?category={{$product->name_ppk}}}}&proizvod={{$product->name}}el_{{$product->id_oglas}}">
                 <!--  img provera -->
                 <img class="default-img" src="{{$product->src}}" alt="{{$product->alt}}">
                 <img class="hover-img" src="{{$product->src}}" alt="{{$product->alt}}">
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="product-content">
-            <h3><a href="{{ route("product", ["product_id" => $product->name.'_el_'.$product->id_oglas])}}">{{$product->name}}</a></h3>
+            <h3> <a href="http://localhost/elektrikus/public/oglas?category={{$product->name_ppk}}}}&proizvod={{$product->name}}el_{{$product->id_oglas}}">{{$product->name}}</a></h3>
             <div class="product-price">
                 <span>{{$product->price}} {{$product->currency_text}}</span>
             </div>
