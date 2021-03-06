@@ -4,6 +4,7 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
+    <link rel="stylesheet" href="{{asset('css/flexslider.css')}}" type="text/css" media="screen" />
 
     <div class="breadcrumbs">
         <div class="container">
@@ -32,18 +33,19 @@
 
                         @if(isset($data))
                           <h3> O oglasu</h3>
-                            <label>{{$data->o_name}}</label>
-                            <label>{{$data->price}}{{$data->currency_text}}</label>
-                            <label>{{$data->price_status}}</label>
-                            <label>{{$data->condition_status}}</label>
-                            <label>{{$data->condition_status}}</label>
+                            <label>{{$data[0]->o_name}}</label>
+                            <label>Oglas postavljen: {{$data[0]->timestamp}}</label>
+                            <label>Cena: {{$data[0]->price}}{{$data[0]->currency_text}}</label>
+
+                            <label>{{$data[0]->price_status}}</label>
+                            <label>{{$data[0]->condition_status}}</label>
 
                             <h3>O korisniku</h3>
-                        <label>{{$data->name}}</label>
-                        <label>{{$data->created_at}}</label>
-                        <label>{{$data->city}}</label>
-                        <label>{{$data->phone_number}}</label>
-                        <label>{{$data->number_of}}</label>
+                        <label>{{$data[0]->name}}</label>
+                        <label>Korisnik od: {{$data[0]->created_at}}</label>
+                        <label>{{$data[0]->city}}</label>
+                        <label>{{$data[0]->phone_number}}</label>
+                        <label>Broj oglasa korisnika : {{$data[0]->number_of}}</label>
 
 
 @endif
@@ -58,14 +60,51 @@
 
 
 
-                    <div id='el'>
+                    <section class="slider">
+                        <div id="slider" class="flexslider">
+                            <ul class="slides">
+                               @if(isset($picture))
+
+                                    @foreach($picture as $pic)
+                                        <li>
+                                        <img src="{{asset($pic->src)}}" alt="{{$pic->alt}}" title="{{$pic->title}}" />
+                                       </li>
+
+                                    @endforeach
+                                   @endif
+
+                            </ul>
+
+                        </div>
+                        <div id="carousel" class="flexslider">
+                            <ul class="slides">
+                                @if(isset($picture))
+                                    @foreach($picture as $pic)
+                                        <li>
+                                            <img src="{{asset($pic->src)}}" alt="{{$pic->alt}}" title="{{$pic->title}}" />
+                                        </li>
+                                        @endforeach
+                                        @endif
+                            </ul>
+                        </div>
+                    </section>
 
 
-                    </div>
 
 
 
 
+
+<div class="description">
+
+    @if(isset($data))
+
+        {{$data[0]->description}}
+
+
+
+        @endif
+</div>
 
 
                     {{--
@@ -116,9 +155,37 @@
 
         </div>
 
+        <script defer src="{{asset('js/flexslider.js')}}"></script>
+        <script type="text/javascript">
 
-        <script src="{{asset('js/zoomy.js')}}"></script>
-<script>
+
+            $(window).load(function(){
+                $('#carousel').flexslider({
+                    animation: "slide",
+                    controlNav: false,
+                    animationLoop: false,
+                    slideshow: false,
+                    itemWidth: 210,
+                    itemMargin: 5,
+                    asNavFor: '#slider'
+                });
+
+                $('#slider').flexslider({
+                    animation: "slide",
+                    controlNav: false,
+                    animationLoop: false,
+                    slideshow: false,
+                    sync: "#carousel",
+                    start: function(slider){
+                        //$('body').removeClass('loading');
+                    }
+                });
+            });
+
+        </script>
+
+    <!--    <script src="{{asset('js/zoomy.js')}}"></script>
+<script type="text/javascript">
 
    /* $(".albery-container").albery({
         speed: 500, // default: 200
@@ -126,18 +193,14 @@
     });
 */
 
-   var urls = [
-       'img/slide1.jpg',
-       'img/slide3.jpg',
-       'img/slide2.jpg',
-       'img/slide4.jpg',
-       'img/slide3.jpg',
-       'img/slide1.jpg',
-       'img/slide3.jpg',
-       'img/slide2.jpg',
-       'img/slide4.jpg',
-       'img/slide3.jpg',
-   ];
+
+
+   var urls = [];
+
+
+
+console.log(urls);
+console.log('aa');
    var options = {
        //thumbLeft:true,
        //thumbRight:true,
@@ -149,7 +212,7 @@
 
 
 </script>
-
+-->
     </section>
 
 @endsection

@@ -19,7 +19,7 @@ class ProductModels
     {
 
         return DB::select('SELECT name_ppk, oglas.name as o_name, price, description, likes, unlike, timestamp
-        ,username,created_at,korisnik_oglas.name,price_status,condition_status, address,city,
+        ,username,created_at,korisnik_oglas.name,price_status,condition_status, address,city,phone_number,
         CASE WHEN currency=0 then "rsd" else "€" END as currency_text, (SELECT COUNT(user_id) FROM korisnik_oglas WHERE user_id IN (SELECT user_id FROM korisnik_oglas WHERE oglas_id=?)) as number_of
         FROM oglas INNER JOIN korisnik_oglas ON oglas.id_oglas=korisnik_oglas.oglas_id 
         INNER JOIN users ON users.id=korisnik_oglas.user_id 

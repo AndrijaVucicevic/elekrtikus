@@ -394,7 +394,7 @@ public function getPicture($idUpdate)
 {
 
     return DB::table('picture')
-        ->select('id_picture')
+        ->select('id_picture','src','title','alt')
         ->where('oglas_id',$idUpdate)
         ->get();
 

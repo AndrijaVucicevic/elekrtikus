@@ -815,7 +815,7 @@ body{
 	background: #fff;
 	width: 220px;
 	position: absolute;
-	left: 238px;
+	left: 210px;
 	top: 0;
 	z-index: 999999;
 	opacity: 0;
@@ -5203,5 +5203,4 @@ color:white;
 .user_P_change input[type="file"] {
 	display: none;
 }
-.flex-direction-nav .flex-next {right: -200px!important; display: block;}
-.flex-direction-nav .flex-prev {}
+
