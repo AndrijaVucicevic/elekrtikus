@@ -350,6 +350,197 @@ $(".sinlge-bar i").on('mouseover',function () {
 
 
 });
+
+$("#categoryShopList li").on('click',function (e) {
+    e.stopPropagation();
+    var content = $(this).find('ul')[0];
+
+
+
+     window.location.href.includes('user') ? user_categories(content,this.id) :  other_categories(content,this.id);
+
+    });
+//category a href link
+function other_categories(contentt,id)
+{
+    var content = contentt;
+    var categoryId=id;
+    if(content) {
+        //console.log(content);
+        if (content.style.display == 'block') {
+            content.style.display = 'none';
+        } else {
+            content.style.display = 'block';
+        }
+    }
+    else{
+        //console.log(this);
+        var category=categoryId.split("_");
+        if(location.href!=category[1]) {
+
+            //ispitivanje da li ima, da li da ucitava stranicu
+            window.location.href = category[1];
+        }
+
+
+
+    }
+
+
+
+
+}
+
+
+//category user page sort filt
+function user_categories(contentt,id)
+{
+
+        var content = contentt;
+        var categoryId=id;
+        if(content) {
+
+            if (content.style.display == 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
+        }
+        else {
+
+            // console.log(active);
+            var cat= categoryId.split("_");
+            var active=categoryId;
+            var code=location.href.split('=');
+            $.ajax({
+                url: base_Url + "changeUserCategory",
+                method: 'post',
+                data: {
+                    _token:csrf,
+                    category:cat[2],
+                    code:code[2],
+                    send: true
+                },
+                success: function (data) {
+
+                    if (data != 404) {
+
+                        $("#content_user").html(data);
+                        $(".subcategory_list li").removeClass('activeCategory');
+                        $("#"+active).addClass('activeCategory');
+                        $(".shop-top .more_products").attr('data-value','more-products_1')
+                        // this.id.addClass('activeCategory');
+                        // console.log(active);
+                    }
+                    //error
+                    if (data == 404) {
+                        modalBody('Trenutno nemamo oglas iz trazene kategorije');
+
+                        $("#alertButtonModal").click();
+                    }
+                }
+                ,
+                error: function (xhr, error, status) {
+                    // alert(xhr.status);
+
+
+                }
+
+
+            });
+        }
+
+
+
+
+
+
+
+
+}
+
+
+$('#sendMessageUser').on('click',function (e) {
+   //open modal and send
+  modalAlert('Posalji poruku');
+  modalBody('<textarea id="modalPor" name="modalPor" placeholder="Unesite poruku"></textarea>');
+  $('#exampleModal1 .btn-secondary').css('display','none');
+  $('#exampleModal1 .modal-body').css('width','auto');
+    $('#exampleModal1 .modal-body textarea').css('height', '150px');
+
+
+    $('#exampleModal1 .modal-dialog .modal-content .modal-footer').append('<button type="button" id="alertModalSendMessage" class="btn btn-primary">Pošalji poruku</button>');
+
+    $("#alertButtonModal").click();
+
+
+
+
+
+});
+
+$(document).on('click','#alertModalSendMessage',function (e) {
+
+
+    var text=$('#exampleModal1 .modal-body textarea');
+    var reDescription=/^[\w\s\d\W]{1,1000}$/;
+
+    if(!reDescription.test(text.val()))
+    {
+        text.addClass('borderError');
+        $('#exampleModal1 .modal-body').append('Tekst poruke nije u dozvoljenom formatu');
+    }
+    else{
+
+        $.ajax({
+           url:base_Url+'sendMessage',
+           method:'post',
+           data:{
+               _token:csrf,
+               text:text.val(),
+               href:window.location.href,
+               send:true
+           },
+            success:function (data) {
+
+               //OK PORUKA POSLATA
+
+
+            },
+            error:function (xhr,error,status) {
+
+            }
+
+
+
+
+        });
+
+
+
+
+
+
+    }
+
+
+});
+
+
+
+
+function modalAlert(value)
+{
+    $("#exampleModalLabel").html(value);
+    //alert("alert");
+}
+function modalBody(value)
+{
+    $("#modalBody-alert").html(value);
+    $("#alertModalSendMessage").remove();
+}
+
+
 //
 function buttonDisabled(id){
     document.getElementById(id).disabled = true;

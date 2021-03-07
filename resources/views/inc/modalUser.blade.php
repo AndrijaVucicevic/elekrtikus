@@ -2,7 +2,7 @@
 <style>
     .modal-dialog .modal-content .modal-body {
 
-        height: 250px!important;
+        height: 300px!important;
        margin-top: 20px!important;
         padding: 50px!important;
     }

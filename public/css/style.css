@@ -5126,7 +5126,7 @@ input[type=number]::-webkit-outer-spin-button {
 	border-bottom: 1px solid;
 	padding-bottom: 10px;
 }
-#filt-btn{
+.cat-btn{
 	margin-top: 10px;
 	width: 100%;
 	font-size: 18px;
@@ -5203,4 +5203,11 @@ color:white;
 .user_P_change input[type="file"] {
 	display: none;
 }
-
+.label_info{
+	width:100%;
+}
+.description{
+	background: #F6F7FB;
+	box-shadow: 12px 12px 2px 1px #eee;
+	padding:10px;
+}

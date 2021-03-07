@@ -111,67 +111,6 @@ function loadMoreProducts(htm) {
 
 }
 
-$("#categoryShopList li").on('click',function (e) {
-    e.stopPropagation();
-    var content = $(this).find('ul')[0];
-
-    if(content) {
-
-        if (content.style.display == 'block') {
-            content.style.display = 'none';
-        } else {
-            content.style.display = 'block';
-        }
-    }
-    else {
-
-       // console.log(active);
-        var cat= this.id.split("_");
-        var active=this.id;
-        var code=location.href.split('=');
-        $.ajax({
-            url: base_Url + "changeUserCategory",
-            method: 'post',
-            data: {
-                _token:csrf,
-                category:cat[2],
-                code:code[2],
-                send: true
-            },
-            success: function (data) {
-
-                if (data != 404) {
-
-                    $("#content_user").html(data);
-                    $(".subcategory_list li").removeClass('activeCategory');
-                    $("#"+active).addClass('activeCategory');
-                    $(".shop-top .more_products").attr('data-value','more-products_1')
-                   // this.id.addClass('activeCategory');
-                   // console.log(active);
-                }
-                //error
-                if (data == 404) {
-                    modalBody('Trenutno nemamo oglas iz trazene kategorije');
-
-                    $("#alertButtonModal").click();
-                }
-            }
-            ,
-            error: function (xhr, error, status) {
-                // alert(xhr.status);
-
-
-            }
-
-
-        });
-    }
-
-
-
-
-
-});
 
 function oop() {
 
@@ -274,15 +213,9 @@ $(".modal-footer .btnUserAction").attr('data-value',this.id);
 
 
 
-function modalAlert(value)
-{
-    $("#exampleModalLabel").html(value);
-    //alert("alert");
-}
-function modalBody(value)
-{
-    $("#modalBody-alert").html(value);
-}
+
+
+
 // PICTURE FORM INSERT UPDATE PRODUCT
 
 $(document).on('change','.pictureBlock', function () {

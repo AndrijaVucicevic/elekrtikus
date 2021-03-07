@@ -47,66 +47,6 @@ $("#max_price_filter").on('blur',function (e) {
 });
 
 //category
-$("#categoryShopList li").on('click',function (e) {
-    e.stopPropagation();
-    var content = $(this).find('ul')[0];
-
-    if(content) {
-        //console.log(content);
-        if (content.style.display == 'block') {
-            content.style.display = 'none';
-        } else {
-            content.style.display = 'block';
-        }
-    }
-    else{
-        //console.log(this);
-        var category=this.id.split("_");
-        if(location.href!=category[1]) {
-            window.location.href = category[1];
-        }
-/*       $.ajax({
-            url:base_Url+"shop/"+category[1],
-            method:'post',
-            data:{
-                change:"change",
-                send:true
-            },
-            success:function (data) {
-
-                if (data!=404) {
-
-                    $("#products_rowShop").html(data);
-                    $(".subcategory_list li").removeClass('activeCategory');
-                    $("#"+this.id).addClass('activeCategory');
-                }
-//error
-                if(data==404) {
-                    $("#modalBody-alert").html('Trenutno nemamo oglas iz trazene kategorije');
-
-                    $("#alertButtonModal").click();
-                }
-            }
-            ,
-            error:function(xhr,error,status)
-            {
-                // alert(xhr.status);
-
-
-            }
-
-
-
-
-
-        });
-*/
-
-
-
-    }
-
-});
 
 
 

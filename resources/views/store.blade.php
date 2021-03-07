@@ -80,27 +80,8 @@
                             <h3 class="title">Categories</h3>
                             <ul class="categor-list" id="categoryShopList">
 
-                                @if(isset($categoryList))
-                                @for($i=0;$i<count($categoryList);$i++)
 
-                                        <li class="category_list_shop collapsible" data-target="{{$categoryList[$i]->subcategory_name}}">{{$categoryList[$i]->subcategory_name}}
-                                            <ul class="subcategory_list">
-                                      @for($a=0;$a<count($ppk);$a++)
-
-@if($ppk[$a]->subcategory_id==$categoryList[$i]->id_subcategory)
-
-                                                        <li id="list_http://localhost/elektrikus/public/shop?{{$categoryList[$i]->subcategory_name}}&category={{$ppk[$a]->name_ppk}}">{{$ppk[$a]->name_ppk}}</li>
-
-                                                    @endif
-
-
-
-                                       @endfor
-                                            </ul>
-                                        </li>
-                                    @endfor
-
-                                 @endif
+                                @include('inc.categories', ['categoryList' => $categoryList,'ppk'=>$ppk,'data'=>$data])
 
 
 
@@ -159,7 +140,7 @@
                                 </li>
 
                             </ul>
-<button id="filt-btn">Primeni filtere</button>
+<button id="filt-btn" class="cat-btn">Primeni filtere</button>
 @endif
                         </div>
                         <!--/ End Shop By Price -->

@@ -32,8 +32,7 @@ public function oglasi($start,$take,$cat,$min,$max,$search,$sort,$condition,$pri
         ->join('sponsored','oglas.id_oglas','=','sponsored.oglas_id')
         ->join('picture','oglas.id_oglas','=','picture.oglas_id')
         ->join('ppk','ppk_id','=','ppk.id_ppk')
-         ->where( ['picture_cat',$this->one
-         ]);
+         ->where( 'picture_cat',$this->one);
 
     if($max!=null && $min!=null && $search!=null)
     {

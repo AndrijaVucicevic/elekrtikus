@@ -29,29 +29,49 @@
                 <div class="col-lg-3 col-md-4 col-12">
 
                     <div class="single-widget category">
-                        <h3 class="title">Informacije o korisniku</h3>
+                        <h3 class="title">Informacije</h3>
 
                         @if(isset($data))
-                          <h3> O oglasu</h3>
-                            <label>{{$data[0]->o_name}}</label>
-                            <label>Oglas postavljen: {{$data[0]->timestamp}}</label>
-                            <label>Cena: {{$data[0]->price}}{{$data[0]->currency_text}}</label>
+                          <h4> O oglasu</h4>
+                        <br>
+                            <label class="label_info">Naziv: {{$data[0]->o_name}}</label>
+                            <label class="label_info">Oglas postavljen: {{$data[0]->timestamp}}</label>
+                            <label class="label_info">Cena: {{$data[0]->price}}{{$data[0]->currency_text}}</label>
 
-                            <label>{{$data[0]->price_status}}</label>
-                            <label>{{$data[0]->condition_status}}</label>
+                            <label class="label_info">{{$data[0]->price_status}}</label>
+                            <label class="label_info">Stanje: {{$data[0]->condition_status}}</label>
+                            <hr>
 
-                            <h3>O korisniku</h3>
-                        <label>{{$data[0]->name}}</label>
-                        <label>Korisnik od: {{$data[0]->created_at}}</label>
-                        <label>{{$data[0]->city}}</label>
-                        <label>{{$data[0]->phone_number}}</label>
-                        <label>Broj oglasa korisnika : {{$data[0]->number_of}}</label>
+                            <h4>O korisniku</h4>
+                        <br>
+                        <label class="label_info">Korisnik: {{$data[0]->username}}</label>
+                        <label class="label_info">Korisnik od: {{$data[0]->created_at}}</label>
+                        <label class="label_info">Grad: {{$data[0]->city}}</label>
+                        <label class="label_info">Telefon: {{$data[0]->phone_number}}</label>
+                        <label class="label_info">Broj oglasa korisnika: {{$data[0]->number_of}}</label>
 
-
+                            @if(\Illuminate\Support\Facades\Auth::check())
+                            <button id="sendMessageUser" class="cat-btn">Posalji poruku</button>
+                            @else
+                                <button class="cat-btn" disabled><a data-toggle="modal" href="#myModal">Posalji poruku</a></button>
+                                @endif
 @endif
 
                     </div>
 
+                    <div class="single-widget category">
+                        <h3 class="title"> Categories</h3>
+
+                        <ul class="categor-list" id="categoryShopList">
+
+
+
+                            @include('inc.categories', ['categoryList' => $categoryList,'ppk'=>$ppk,'data'=>$data])
+
+
+                        </ul>
+
+                    </div>
 
                 </div>
 
@@ -117,6 +137,7 @@
                                                     @endif
                                                    --}}
 
+                   <!--komentari -->
                     <div class="shop-top search_more" data-max="0">
 
                         <!--comment-->
@@ -127,27 +148,7 @@
                     </div>
 
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                
             </div>
 
 
@@ -184,35 +185,8 @@
 
         </script>
 
-    <!--    <script src="{{asset('js/zoomy.js')}}"></script>
-<script type="text/javascript">
-
-   /* $(".albery-container").albery({
-        speed: 500, // default: 200
-        imgWidth: 600, // default: 600
-    });
-*/
 
 
-
-   var urls = [];
-
-
-
-console.log(urls);
-console.log('aa');
-   var options = {
-       //thumbLeft:true,
-       //thumbRight:true,
-       //thumbHide:true,
-       //width:300,
-       //height:500,
-   };
-   $('#el').zoomy(urls,options);
-
-
-</script>
--->
     </section>
 
 @endsection

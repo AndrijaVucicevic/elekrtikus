@@ -60,7 +60,7 @@ class UserModels
         //dd($start);
       $data= DB::table('oglas')
 
-            ->select('id_oglas','oglas.name','price','src','title','alt','korisnik_oglas.user_id as user_follow'
+            ->select('id_oglas','oglas.name','price','src','title','alt','korisnik_oglas.user_id as user_follow','name_ppk'
                 ,DB::raw('case when currency=0 then "rsd" else "€" end as "currency_text"'))
 
             ->join('korisnik_oglas','oglas.id_oglas','=','korisnik_oglas.oglas_id')
@@ -91,7 +91,7 @@ class UserModels
     public function getFollowAds($id,$start,$limit,$category)
     {
        $data=DB::table('oglas')
-            ->select('id_oglas','name','price','src','title','alt'
+            ->select('id_oglas','name','price','src','title','alt','name_ppk'
                 ,DB::raw('case when currency=0 then "rsd" else "€" end as "currency_text"'))
             ->distinct()
             ->join('follow','oglas.id_oglas','=','follow.oglas_id')
