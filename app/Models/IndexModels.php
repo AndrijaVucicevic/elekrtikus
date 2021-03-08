@@ -210,6 +210,35 @@ public function sponsored($id)
 
 }
 
+public function commentYes($idUser,$idProduct)
+{
+
+    $idUser_second=DB::table('korisnik_oglas')
+        ->select('user_id')
+        ->where('oglas_id',$idProduct)
+        ->get();
+
+//dd($idUser_second[0]->user_id);
+    return DB::table('messages')
+        ->select('id_message')
+        ->where([
+            ['id_from',$idUser],
+            ['id_for',$idUser_second[0]->user_id]
+        ])
+        ->orWhere([
+            ['id_from',$idUser_second[0]->user_id],
+            ['id_from',$idUser]
+        ])
+        ->count();
+
+
+
+
+
+
+
+}
+
 
 
 }

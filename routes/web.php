@@ -91,6 +91,7 @@ Route::post('/get_ppk',[UserController::class,'get_ppk']);
 Route::get('/oglas',[ProductController::class,'index'])->name('single');
 
 Route::post('/sendMessage',[ProductController::class,'firstMessage']);
+Route::post('/sendComment',[ProductController::class,'sendComment']);
 
 
 

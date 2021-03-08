@@ -69,11 +69,21 @@ class ProductController extends Controller
 
         $categoryList = $this->modelIndex->subcategory();
         $ppk = $this->modelIndex->ppk();
+        $messYes=0;
+        if (isset(auth()->user()->id))
+        {
+
+            $messYes=$this->modelIndex->commentYes(auth()->user()->id,$prodcut_id[1]);
+
+
+        }
+
        return view('single',[
           'data'=>$data,
            'picture'=>$picture,
            'categoryList'=>$categoryList,
-           'ppk'=>$ppk
+           'ppk'=>$ppk,
+           'messYes'=>$messYes
 
        ]);
 
@@ -89,10 +99,25 @@ class ProductController extends Controller
 //$product_id[1];
         //dd($prodcut_id);
 
+    }
+    public function sendComment(Request $request)
+    {
+        $id=auth()->user()->id;
+        $text=$request->text;
+        $string=$request->href;
+        $replies=$request->replies;
 
+        if(count($replies)>0)
+        {
 
+        }
+        else{
+            //only one replay
+        }
+        //dd($replies);
+        $prodcut_id=explode('el_',$string);
 
-
+        //dd($product_id[1])
     }
 
 

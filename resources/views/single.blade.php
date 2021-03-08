@@ -127,25 +127,11 @@
 </div>
 
 
-                    {{--
-                                                    @if(isset($data))
-                                                        @foreach($data as $pr)
-
-                                                            @shop(['product'=>$pr])@endshop
-
-                                                        @endforeach
-                                                    @endif
-                                                   --}}
-
-                   <!--komentari -->
-                    <div class="shop-top search_more" data-max="0">
-
-                        <!--comment-->
-                        <span class="more_products" data-value="more-comment" data-max="0">UČITAJ VIŠE</span>
 
 
+                    @include('inc.comment', ['data'=>$data])
 
-                    </div>
+
 
                 </div>
                 

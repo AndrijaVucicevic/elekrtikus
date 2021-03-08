@@ -479,6 +479,7 @@ $('#sendMessageUser').on('click',function (e) {
 
 });
 
+
 $(document).on('click','#alertModalSendMessage',function (e) {
 
 

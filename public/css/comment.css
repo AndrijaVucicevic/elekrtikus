@@ -1,0 +1,75 @@
+
+.reviews {
+    color: #555;
+    font-weight: bold;
+    margin: 10px auto 20px;
+}
+.notes {
+    color: #999;
+    font-size: 12px;
+}
+.media{
+    margin-bottom: 30px;
+    display:block!important;
+}
+.media .media-object {
+    max-width: 120px;
+    height: 120px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+.media-body { position: relative; }
+.media-date {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+}
+.media-date li { padding: 0; }
+.media-date li:first-child:before { content: ''; }
+.media-date li:before {
+    content: '.';
+    margin-left: -2px;
+    margin-right: 2px;
+}
+.media-comment { margin-bottom: 20px; }
+.media-replied { margin: 0 0 20px 50px; }
+.media-replied .media-heading { padding-left: 6px; }
+
+.btn-circle {
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 20px;
+    border:none;
+    float: right;
+}
+.btn-circle span { padding-right: 6px; }
+
+.tab-content {
+    padding: 50px 15px;
+    border: 1px solid #ddd;
+    border-top: 0;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.list-inline li{
+    display: inline-block;
+}
+
+.well-lg {
+    padding: 24px;
+    border-radius: 6px;
+}
+.well{
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 5%);
+}
+
+.media-replied {
+    margin: 0 0 20px 50px;
+}
+
+
+
